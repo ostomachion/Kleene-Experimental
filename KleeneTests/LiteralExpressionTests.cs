@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace KleeneTests
 {
-    public class CharExpressionTests
+    public class LiteralExpressionTests
     {
         [Theory]
         [InlineData('c')]
@@ -19,7 +19,7 @@ namespace KleeneTests
         public void RunOnSameChar_ReturnsSameChar(char c)
         {
             // Given
-            var expression = new CharExpression(c);
+            var expression = new LiteralExpression<char>(c);
             var input = new [] { c };
             
             // When
@@ -43,7 +43,7 @@ namespace KleeneTests
         public void RunOnStartsWithSameChar_ReturnsSameChar(char c)
         {
             // Given
-            var expression = new CharExpression(c);
+            var expression = new LiteralExpression<char>(c);
             var input = new [] { c, 'T', 'e', 's', 't', '.' };
             
             // When
@@ -67,7 +67,7 @@ namespace KleeneTests
         public void RunOnEmpty_ReturnsNothing(char c)
         {
             // Given
-            var expression = new CharExpression(c);
+            var expression = new LiteralExpression<char>(c);
             var input = Enumerable.Empty<char>();
             
             // When
@@ -92,7 +92,7 @@ namespace KleeneTests
             // Given
             Assert.NotEmpty(input);
             Assert.NotEqual(c, input.First());
-            var expression = new CharExpression(c);
+            var expression = new LiteralExpression<char>(c);
             
             // When
             var result = expression.Run(input);
