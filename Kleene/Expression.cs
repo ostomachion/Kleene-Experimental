@@ -15,6 +15,11 @@ namespace Kleene
 
         internal static bool Consume(IEnumerable<TIn> input, int offset, TIn item)
         {
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             Debug.Assert(offset >= 0 && offset <= input.Count());
 
             // At end of stream.

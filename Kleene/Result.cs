@@ -10,17 +10,18 @@ namespace Kleene
         public int Length { get; }
         public IEnumerable<TOut> Output { get; }
 
-        public Result(int offset, int length = 0) {
+        public Result(int offset, int length = 0)
+        {
             this.Offset = offset;
-            this.Length = length;
+            this.Length = length >= 0 ? length : throw new ArgumentOutOfRangeException(nameof(length));
             this.Output = Enumerable.Empty<TOut>();
         }
 
         public Result(int offset, int length, IEnumerable<TOut> output)
         {
             this.Offset = offset;
-            this.Length = length;
-            this.Output = output;
+            this.Length = length >= 0 ? length : throw new ArgumentOutOfRangeException(nameof(length));
+            this.Output = output ?? throw new ArgumentNullException(nameof(output));
         }
     }
 }
