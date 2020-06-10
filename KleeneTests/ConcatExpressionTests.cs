@@ -9,15 +9,19 @@ namespace KleeneTests
     public class ConcatExpressionTests
     {
         [Fact]
-        public void NullExpressions_Throws() {
-            Assert.Throws(typeof(ArgumentNullException), () => {
+        public void NullExpressions_Throws()
+        {
+            Assert.Throws(typeof(ArgumentNullException), () =>
+            {
                 new ConcatExpression<char, char>(null!);
             });
         }
 
         [Fact]
-        public void NullExpression_Throws() {
-            Assert.Throws(typeof(ArgumentException), () => {
+        public void NullExpression_Throws()
+        {
+            Assert.Throws(typeof(ArgumentException), () =>
+            {
                 new ConcatExpression<char, char>(new Expression<char, char>[] {
                     null!
                 });
@@ -25,8 +29,10 @@ namespace KleeneTests
         }
 
         [Fact]
-        public void NullAndNotNullExpression_Throws() {
-            Assert.Throws(typeof(ArgumentException), () => {
+        public void NullAndNotNullExpression_Throws()
+        {
+            Assert.Throws(typeof(ArgumentException), () =>
+            {
                 new ConcatExpression<char, char>(new Expression<char, char>[] {
                     new LiteralExpression<char>('c'),
                     null!
@@ -35,7 +41,8 @@ namespace KleeneTests
         }
 
         [Fact]
-        public void NullInput_Throws() {
+        public void NullInput_Throws()
+        {
             // Given
             var expression = new ConcatExpression<char, char>(new[] {
                 new LiteralExpression<char>('x'),
@@ -44,7 +51,8 @@ namespace KleeneTests
             IEnumerable<char> input = null!;
 
             // Then
-            Assert.Throws(typeof(ArgumentNullException), () => {
+            Assert.Throws(typeof(ArgumentNullException), () =>
+            {
                 expression.Run(input).ToList();
             });
         }
@@ -66,7 +74,8 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => {
+                branch =>
+                {
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(2, branch.Length);
                     Assert.Collection(branch.Output,
@@ -136,7 +145,8 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => {
+                branch =>
+                {
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(3, branch.Length);
                     Assert.Collection(branch.Output,
@@ -228,7 +238,8 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => {
+                branch =>
+                {
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(1, branch.Length);
                     Assert.Collection(branch.Output,
@@ -290,7 +301,8 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => {
+                branch =>
+                {
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(0, branch.Length);
                     Assert.Empty(branch.Output);
@@ -309,7 +321,8 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => {
+                branch =>
+                {
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(0, branch.Length);
                     Assert.Empty(branch.Output);
@@ -322,7 +335,7 @@ namespace KleeneTests
         public void DuplicateChars_ReturnChars(char c)
         {
             // Given
-            var expression = new ConcatExpression<char, char>(new [] {
+            var expression = new ConcatExpression<char, char>(new[] {
                 new LiteralExpression<char>(c),
                 new LiteralExpression<char>(c)
             });
@@ -333,12 +346,68 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => {
+                branch =>
+                {
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(2, branch.Length);
                     Assert.Collection(branch.Output,
                         item => Assert.Equal(c, item),
                         item => Assert.Equal(c, item));
+                });
+        }
+
+        [Fact]
+        public void Backtrack()
+        {
+            // Given
+            var expression = new ConcatExpression<char, char>(new[] {
+                new AltExpression<char, char>(new Expression<char, char> [] {
+                    new ProduceExpression<char, char>('w'),
+                    new ProduceExpression<char, char>('x'),
+                }),
+                new AltExpression<char, char>(new Expression<char, char> [] {
+                    new ProduceExpression<char, char>('y'),
+                    new ProduceExpression<char, char>('z'),
+                })
+            });
+            var input = new char[] { };
+
+            // When
+            var result = expression.Run(input);
+
+            // Then
+            Assert.Collection(result,
+                branch =>
+                {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal('w', item),
+                        item => Assert.Equal('y', item));
+                },
+                branch =>
+                {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal('w', item),
+                        item => Assert.Equal('z', item));
+                },
+                branch =>
+                {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal('x', item),
+                        item => Assert.Equal('y', item));
+                },
+                branch =>
+                {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal('x', item),
+                        item => Assert.Equal('z', item));
                 });
         }
     }
