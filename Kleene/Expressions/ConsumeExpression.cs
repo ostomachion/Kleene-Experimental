@@ -15,7 +15,12 @@ namespace Kleene
 
         public override IEnumerable<IEnumerable<_>> Run(IEnumerable<TIn> input)
         {
-            if (input.Any() && input.First().Equals(this.Value))
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            if (input.Any() && (input.First()?.Equals(this.Value) ?? this.Value is null))
             {
                 yield return Enumerable.Empty<_>();
             }

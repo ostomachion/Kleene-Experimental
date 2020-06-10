@@ -15,6 +15,11 @@ namespace Kleene
 
         public override IEnumerable<IEnumerable<TOut>> Run(IEnumerable<_> input)
         {
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             yield return new [] { this.Value };
         }
     }

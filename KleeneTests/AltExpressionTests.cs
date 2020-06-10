@@ -2,11 +2,53 @@ using System;
 using Xunit;
 using Kleene;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace KleeneTests
 {
     public class AltExpressionTests
     {
+        [Fact]
+        public void NullExpressions_Throws() {
+            Assert.Throws(typeof(ArgumentNullException), () => {
+                new AltExpression<char, char>(null!);
+            });
+        }
+
+        [Fact]
+        public void NullExpression_Throws() {
+            Assert.Throws(typeof(ArgumentException), () => {
+                new AltExpression<char, char>(new Expression<char, char>[] {
+                    null!
+                });
+            });
+        }
+
+        [Fact]
+        public void NullAndNotNullExpression_Throws() {
+            Assert.Throws(typeof(ArgumentException), () => {
+                new AltExpression<char, char>(new Expression<char, char>[] {
+                    new LiteralExpression<char>('c'),
+                    null!
+                });
+            });
+        }
+
+        [Fact]
+        public void NullInput_Throws() {
+            // Given
+            var expression = new AltExpression<char, char>(new[] {
+                new LiteralExpression<char>('x'),
+                new LiteralExpression<char>('y')
+            });
+            IEnumerable<char> input = null!;
+
+            // Then
+            Assert.Throws(typeof(ArgumentNullException), () => {
+                expression.Run(input).ToList();
+            });
+        }
+
         [Theory]
         [InlineData('f', 'o')]
         [InlineData(' ', '\t')]

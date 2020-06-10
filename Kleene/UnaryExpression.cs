@@ -10,7 +10,7 @@ namespace Kleene
 
         public UnaryExpression(Expression<TIn, TOut> expression)
         {
-            this.Expression = expression;
+            this.Expression = expression ?? throw new ArgumentNullException(nameof(expression));
         }
     }
 }

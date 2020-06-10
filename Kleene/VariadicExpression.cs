@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kleene
 {
@@ -9,7 +10,12 @@ namespace Kleene
 
         public VariadicExpression(IEnumerable<Expression<TIn, TOut>> expressions)
         {
-            this.Expressions = expressions;
+            if (expressions.Contains(null!))
+            {
+                throw new ArgumentException(nameof(expressions));
+            }
+
+            this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
     }
 }

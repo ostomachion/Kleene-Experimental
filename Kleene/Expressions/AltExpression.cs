@@ -11,6 +11,11 @@ namespace Kleene
 
         public override IEnumerable<IEnumerable<TOut>> Run(IEnumerable<TIn> input)
         {
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             foreach (var expression in this.Expressions)
             {
                 foreach (var result in expression.Run(input))

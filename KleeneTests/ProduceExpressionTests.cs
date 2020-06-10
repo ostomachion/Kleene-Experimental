@@ -2,11 +2,24 @@ using System;
 using Xunit;
 using Kleene;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace KleeneTests
 {
     public class ProduceExpressionTests
     {
+        [Fact]
+        public void NullInput_Throws() {
+            // Given
+            var expression = new ProduceExpression<char, char>('x');
+            IEnumerable<char> input = null!;
+
+            // Then
+            Assert.Throws(typeof(ArgumentNullException), () => {
+                expression.Run(input).ToList();
+            });
+        }
+        
         [Theory]
         [InlineData('c')]
         [InlineData('X')]
