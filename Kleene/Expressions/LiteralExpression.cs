@@ -20,9 +20,9 @@ namespace Kleene
                 throw new ArgumentNullException(nameof(input));
             }
 
-            if (Expression<T, T>.Consume(input, offset, this.Value) is Result<T> result)
+            if (Expression<T, T>.Consume(input, offset, this.Value))
             {
-                yield return new Result<T>(offset, result.Length, new [] { this.Value });
+                yield return new Result<T>(offset, 1, new [] { this.Value });
             }
         }
     }

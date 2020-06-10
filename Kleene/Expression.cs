@@ -13,23 +13,18 @@ namespace Kleene
 
         internal abstract IEnumerable<Result<TOut>> RunAtOffset(IEnumerable<TIn> input, int offset);
 
-        internal static Result<TOut>? Consume(IEnumerable<TIn> input, int offset, TIn item)
+        internal static bool Consume(IEnumerable<TIn> input, int offset, TIn item)
         {
             Debug.Assert(offset >= 0 && offset <= input.Count());
 
             // At end of stream.
             if (offset == input.Count())
             {
-                return null;
+                return false;
             }
 
             TIn current = input.ElementAt(offset);
-            if (current?.Equals(item) ?? item is null)
-            {
-                return new Result<TOut>(offset, 1, Enumerable.Empty<TOut>());
-            }
-
-            return null;
+            return input.ElementAt(offset)?.Equals(item) ?? item is null;
         }
     }
 }
