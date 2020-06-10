@@ -11,11 +11,6 @@ namespace Kleene
 
         internal override IEnumerable<Result<TOut>> RunAtOffset(IEnumerable<TIn> input, int offset)
         {
-            if (input is null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
-
             throw new NotImplementedException();
         }
     }

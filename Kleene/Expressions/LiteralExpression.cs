@@ -15,11 +15,6 @@ namespace Kleene
 
         internal override IEnumerable<Result<T>> RunAtOffset(IEnumerable<T> input, int offset)
         {
-            if (input is null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
-
             if (Expression<T, T>.Consume(input, offset, this.Value))
             {
                 yield return new Result<T>(offset, 1, new [] { this.Value });
