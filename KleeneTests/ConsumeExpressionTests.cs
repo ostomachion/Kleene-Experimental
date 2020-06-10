@@ -40,7 +40,11 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => Assert.Empty(branch));
+                branch => {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(1, branch.Length);
+                    Assert.Empty(branch.Output);
+                });
         }
 
         [Theory]
@@ -63,7 +67,11 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => Assert.Empty(branch));
+                branch => {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(1, branch.Length);
+                    Assert.Empty(branch.Output);
+                });
         }
 
         [Theory]

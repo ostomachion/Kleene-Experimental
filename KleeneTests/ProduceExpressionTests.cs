@@ -40,8 +40,12 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(item, c)));
+                branch => {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal(item, c));
+                });
         }
 
         [Theory]
@@ -64,8 +68,12 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(item, c)));
+                branch => {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal(item, c));
+                });
         }
 
         [Theory]
@@ -88,8 +96,12 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(item, c)));
+                branch => {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal(item, c));
+                });
         }
 
         [Theory]
@@ -114,8 +126,12 @@ namespace KleeneTests
 
             // Then
             Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(item, c)));
+                branch => {
+                    Assert.Equal(0, branch.Offset);
+                    Assert.Equal(0, branch.Length);
+                    Assert.Collection(branch.Output,
+                        item => Assert.Equal(item, c));
+                });
         }
     }
 }

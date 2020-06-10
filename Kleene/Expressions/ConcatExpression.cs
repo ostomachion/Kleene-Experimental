@@ -9,7 +9,7 @@ namespace Kleene
         public ConcatExpression(IEnumerable<Expression<TIn, TOut>> expressions)
             : base(expressions) { }
 
-        public override IEnumerable<IEnumerable<TOut>> Run(IEnumerable<TIn> input)
+        internal override IEnumerable<Result<TOut>> RunAtOffset(IEnumerable<TIn> input, int offset)
         {
             if (input is null)
             {

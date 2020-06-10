@@ -13,16 +13,16 @@ namespace Kleene
             this.Value = value;
         }
 
-        public override IEnumerable<IEnumerable<T>> Run(IEnumerable<T> input)
+        internal override IEnumerable<Result<T>> RunAtOffset(IEnumerable<T> input, int offset)
         {
             if (input is null)
             {
                 throw new ArgumentNullException(nameof(input));
             }
 
-            if (input.Any() && (input.First()?.Equals(this.Value) ?? this.Value is null))
+            if (Expression<T, T>.Consume(input, offset, this.Value) is Result<T> result)
             {
-                yield return new [] { this.Value };
+                yield return new Result<T>(offset, result.Length, new [] { this.Value });
             }
         }
     }
