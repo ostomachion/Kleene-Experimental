@@ -136,6 +136,29 @@ namespace KleeneTests
         }
 
         [Theory]
+        [InlineData('x', 'y')]
+        [InlineData('J', 'H')]
+        public void TwoChoicesBothMatch_ReturnsBoth(char c1, char c2)
+        {
+            // Given
+            var expression = new AltExpression<char, char>(new Expression<char, char>[] {
+                new LiteralExpression<char>(c1),
+                new ProduceExpression<char, char>(c2)
+            });
+            var input = new[] { c1 };
+
+            // When
+            var result = expression.Run(input);
+
+            // Then
+            Assert.Collection(result,
+                branch => Assert.Collection(branch,
+                    item => Assert.Equal(item, c1)),
+                branch => Assert.Collection(branch,
+                    item => Assert.Equal(item, c2)));
+        }
+
+        [Theory]
         [InlineData('b', 'a', 'r', ' ')]
         [InlineData('u', 'v', 'w', 'U')]
         [InlineData('J', 'o', 's', 'h')]
