@@ -114,7 +114,7 @@ namespace KleeneTests
         [InlineData('\n', " ")]
         [InlineData('\0', " \\ 0 ")]
         [InlineData('μ', "mu")]
-        public void RunOnStartsWithDifferentChar_ReturnsSlef(char c, string input)
+        public void RunOnStartsWithDifferentChar_ReturnsSelf(char c, string input)
         {
             // Given
             Assert.NotEmpty(input);
