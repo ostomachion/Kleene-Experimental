@@ -44,7 +44,7 @@ namespace KleeneTests
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(1, branch.Length);
                     Assert.Collection(branch.Output,
-                        item => Assert.Equal(item, c));
+                        item => Assert.Equal(c, item));
                 });
         }
 
@@ -72,7 +72,7 @@ namespace KleeneTests
                     Assert.Equal(0, branch.Offset);
                     Assert.Equal(1, branch.Length);
                     Assert.Collection(branch.Output,
-                        item => Assert.Equal(item, c));
+                        item => Assert.Equal(c, item));
                 });
         }
 
