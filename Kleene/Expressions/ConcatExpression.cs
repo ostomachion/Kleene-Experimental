@@ -11,6 +11,7 @@ namespace Kleene
 
         internal override IEnumerable<Result<TOut>> RunAtOffset(IEnumerable<TIn> input, int offset)
         {
+            // TODO: This can probably be simplified.
             if (!this.Expressions.Any())
             {
                 yield return new Result<TOut>(offset);
