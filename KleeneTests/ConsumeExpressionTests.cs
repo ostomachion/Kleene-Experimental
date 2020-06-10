@@ -15,7 +15,7 @@ namespace KleeneTests
             IEnumerable<char> input = null!;
 
             // Then
-            Assert.Throws(typeof(ArgumentNullException), () => {
+            Assert.Throws<ArgumentNullException>(() => {
                 expression.Run(input).ToList();
             });
         }

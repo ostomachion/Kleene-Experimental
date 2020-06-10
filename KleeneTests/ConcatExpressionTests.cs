@@ -11,7 +11,7 @@ namespace KleeneTests
         [Fact]
         public void NullExpressions_Throws()
         {
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 new ConcatExpression<char, char>(null!);
             });
@@ -20,7 +20,7 @@ namespace KleeneTests
         [Fact]
         public void NullExpression_Throws()
         {
-            Assert.Throws(typeof(ArgumentException), () =>
+            Assert.Throws<ArgumentException>(() =>
             {
                 new ConcatExpression<char, char>(new Expression<char, char>[] {
                     null!
@@ -31,7 +31,7 @@ namespace KleeneTests
         [Fact]
         public void NullAndNotNullExpression_Throws()
         {
-            Assert.Throws(typeof(ArgumentException), () =>
+            Assert.Throws<ArgumentException>(() =>
             {
                 new ConcatExpression<char, char>(new Expression<char, char>[] {
                     new LiteralExpression<char>('c'),
@@ -51,7 +51,7 @@ namespace KleeneTests
             IEnumerable<char> input = null!;
 
             // Then
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 expression.Run(input).ToList();
             });
@@ -125,10 +125,6 @@ namespace KleeneTests
 
         [Theory]
         [InlineData('b', 'a', 'r')]
-        [InlineData('b', 'a', 'r')]
-        [InlineData('b', 'a', 'r')]
-        [InlineData(' ', '\r', '\n')]
-        [InlineData(' ', '\r', '\n')]
         [InlineData(' ', '\r', '\n')]
         public void ThreeChars_ReturnsChars(char c1, char c2, char c3)
         {
@@ -158,10 +154,6 @@ namespace KleeneTests
 
         [Theory]
         [InlineData('b', 'a', 'r')]
-        [InlineData('b', 'a', 'r')]
-        [InlineData('b', 'a', 'r')]
-        [InlineData(' ', '\r', '\n')]
-        [InlineData(' ', '\r', '\n')]
         [InlineData(' ', '\r', '\n')]
         public void ThreeCharsWrongOrder_ReturnsChars(char c1, char c2, char c3)
         {

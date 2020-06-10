@@ -44,7 +44,7 @@ namespace KleeneTests
         [Fact]
         public void NullExpression_Throws()
         {
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 new RepExpression<char, char>(null!);
             });
@@ -59,7 +59,7 @@ namespace KleeneTests
             IEnumerable<char> input = null!;
 
             // Then
-            Assert.Throws(typeof(ArgumentNullException), () =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 expression.Run(input).ToList();
             });

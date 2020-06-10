@@ -10,14 +10,14 @@ namespace KleeneTests
     {
         [Fact]
         public void NullExpressions_Throws() {
-            Assert.Throws(typeof(ArgumentNullException), () => {
+            Assert.Throws<ArgumentNullException>(() => {
                 new AltExpression<char, char>(null!);
             });
         }
 
         [Fact]
         public void NullExpression_Throws() {
-            Assert.Throws(typeof(ArgumentException), () => {
+            Assert.Throws<ArgumentException>(() => {
                 new AltExpression<char, char>(new Expression<char, char>[] {
                     null!
                 });
@@ -26,7 +26,7 @@ namespace KleeneTests
 
         [Fact]
         public void NullAndNotNullExpression_Throws() {
-            Assert.Throws(typeof(ArgumentException), () => {
+            Assert.Throws<ArgumentException>(() => {
                 new AltExpression<char, char>(new Expression<char, char>[] {
                     new LiteralExpression<char>('c'),
                     null!
@@ -44,7 +44,7 @@ namespace KleeneTests
             IEnumerable<char> input = null!;
 
             // Then
-            Assert.Throws(typeof(ArgumentNullException), () => {
+            Assert.Throws<ArgumentNullException>(() => {
                 expression.Run(input).ToList();
             });
         }
