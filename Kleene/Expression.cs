@@ -9,7 +9,15 @@ namespace Kleene
     {
         public abstract IEnumerable<Expression<TIn, TOut>> Expressions { get; }
 
-        public IEnumerable<Result<TOut>> Run(IEnumerable<TIn> input) => RunAtOffset(input, 0);
+        public IEnumerable<Result<TOut>> Run(IEnumerable<TIn> input)
+        {
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
+            return RunAtOffset(input, 0);
+        }
 
         internal abstract IEnumerable<Result<TOut>> RunAtOffset(IEnumerable<TIn> input, int offset);
 
