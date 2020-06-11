@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Kleene
 {
+    // Temporary comment for test commit.
     public class Result<TOut>
     {
         public int Offset { get; }
