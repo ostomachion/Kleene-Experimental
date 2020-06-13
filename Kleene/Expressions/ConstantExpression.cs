@@ -11,7 +11,7 @@ namespace Kleene
 
         public ConstantExpression(T value)
         {
-            this.Value = value;
+            this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public override IEnumerable<T> Run()

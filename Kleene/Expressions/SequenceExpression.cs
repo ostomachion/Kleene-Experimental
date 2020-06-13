@@ -10,7 +10,12 @@ namespace Kleene
         public IEnumerable<Expression<T>> Expressions { get; }
         public SequenceExpression(IEnumerable<Expression<T>> expressions)
         {
-            this.Expressions = expressions;
+            if (expressions.Contains(null!))
+            {
+                throw new ArgumentException("Expressions must not contain null.", nameof(expressions));
+            }
+
+            this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
 
         public override IEnumerable<SequenceStructure<T>> Run()

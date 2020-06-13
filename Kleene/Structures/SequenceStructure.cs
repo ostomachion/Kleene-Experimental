@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kleene
 {
@@ -10,7 +11,12 @@ namespace Kleene
 
         public SequenceStructure(IEnumerable<T> value)
         {
-            this.Value = value;
+            if (value.Contains(null!))
+            {
+                throw new ArgumentException("Value must not contain null.", nameof(value));
+            }
+
+            this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
     }
 }

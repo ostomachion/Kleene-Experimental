@@ -19,7 +19,7 @@ namespace Kleene
             this.Order = order;
             this.Min = min;
             this.Max = max;
-            this.Expression = expression;
+            this.Expression = expression ?? throw new ArgumentNullException(nameof(expression));
         }
 
         public override IEnumerable<SequenceStructure<T>> Run()
