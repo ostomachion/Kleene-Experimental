@@ -10,5 +10,8 @@ namespace Kleene
         {
             this.Value = value;
         }
+
+        public static implicit operator ConstantStructure<T>(T value) => new ConstantStructure<T>(value);
+        public static implicit operator T(ConstantStructure<T> structure) => structure.Value;
     }
 }

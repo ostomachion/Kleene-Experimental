@@ -12,7 +12,7 @@ namespace KleeneTests
             public void BasicConstructorChar()
             {
                 // When
-                var expression = new ConstantExpression<ConstantStructure<char>>(new ConstantStructure<char>('c'));
+                var expression = new ConstantExpression<ConstantStructure<char>>('c');
 
                 // Then
                 Assert.Equal('c', expression.Value.Value);
@@ -42,7 +42,7 @@ namespace KleeneTests
             public void ConstantStructureChar_Run(char value)
             {
                 // Given
-                var expression = new ConstantExpression<ConstantStructure<char>>(new ConstantStructure<char>(value));
+                var expression = new ConstantExpression<ConstantStructure<char>>(value);
 
                 // When
                 var result = expression.Run();
@@ -64,7 +64,7 @@ namespace KleeneTests
             public void ConstantStructureInt_Run(int value)
             {
                 // Given
-                var expression = new ConstantExpression<ConstantStructure<int>>(new ConstantStructure<int>(value));
+                var expression = new ConstantExpression<ConstantStructure<int>>(value);
 
                 // When
                 var result = expression.Run();
@@ -85,7 +85,7 @@ namespace KleeneTests
             public void ConstantStructureString_Run(string? value)
             {
                 // Given
-                var expression = new ConstantExpression<ConstantStructure<string?>>(new ConstantStructure<string?>(value));
+                var expression = new ConstantExpression<ConstantStructure<string?>>(value);
 
                 // When
                 var result = expression.Run();
