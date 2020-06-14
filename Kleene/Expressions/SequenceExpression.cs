@@ -17,16 +17,16 @@ namespace Kleene
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        public override IEnumerable<StructurePointer<TIn>> Run<TIn>(StructurePointer<TIn> input)
+        public override IEnumerable<TIn> Run<TIn>(TIn input)
         {
             if (!this.Expressions.Any())
             {
-                yield return null; // TODO:
+                yield return input;
                 yield break;
             }
 
-            var stack = new Stack<IEnumerator<StructurePointer<TIn>>>();
-            stack.Push(this.Expressions.First().Run(input).GetEnumerator()); // TODO: Get latest input.
+            var stack = new Stack<IEnumerator<TIn>>();
+            stack.Push(this.Expressions.First().Run(input).GetEnumerator());
 
             while (stack.Any())
             {
@@ -34,11 +34,11 @@ namespace Kleene
                 {
                     if (stack.Count == this.Expressions.Count())
                     {
-                        yield return null; // TODO:
+                        yield return stack.Peek().Current;
                     }
                     else
                     {
-                        stack.Push(this.Expressions.ElementAt(stack.Count).Run(input).GetEnumerator()); // TODO: Get latest input.
+                        stack.Push(this.Expressions.ElementAt(stack.Count).Run(stack.Peek().Current).GetEnumerator());
                     }
                 }
                 else

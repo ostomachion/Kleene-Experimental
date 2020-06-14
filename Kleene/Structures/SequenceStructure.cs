@@ -10,6 +10,7 @@ namespace Kleene
         public IEnumerable<Structure> Value { get; }
 
         public SequenceStructure(IEnumerable<Structure> value)
+            : base(false)
         {
             if (value.Contains(null!))
             {
@@ -21,6 +22,7 @@ namespace Kleene
         }
 
         internal SequenceStructure(IEnumerable<Structure> value, int index)
+            : base(index == value.Count())
         {
             if (value.Contains(null!))
             {
@@ -34,6 +36,16 @@ namespace Kleene
 
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
             this.index = index;
+        }
+
+        public override Structure GetCurrent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Structure Advance()
+        {
+            throw new NotImplementedException();
         }
     }
 }

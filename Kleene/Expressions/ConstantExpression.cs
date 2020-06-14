@@ -13,12 +13,12 @@ namespace Kleene
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public override IEnumerable<StructurePointer<TIn>> Run<TIn>(StructurePointer<TIn> input)
+        public override IEnumerable<TIn> Run<TIn>(TIn input)
         {
             Structure current = input.GetCurrent();
             if (current is ConstantStructure<T> constant && constant.Value is { } && constant.Value.Equals(this.Value.Value))
             {
-                yield return input.Advance();
+                yield return input.Advance() as TIn;
             }
         }
     }

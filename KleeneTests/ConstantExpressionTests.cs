@@ -45,14 +45,14 @@ namespace KleeneTests
                 var expression = new ConstantExpression<char>(new ConstantStructure<char>(value));
 
                 // When
-                var result = expression.Run(new ConstantPointer<char>(new ConstantStructure<char>(value)));
+                var result = expression.Run(new ConstantStructure<char>(value));
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
                         Assert.True(branch.Done);
-                        Assert.Equal(value, branch.Structure.Value);
+                        Assert.Equal(value, branch.Value);
                     });
             }
 
@@ -68,14 +68,14 @@ namespace KleeneTests
                 var expression = new ConstantExpression<int>(new ConstantStructure<int>(value));
 
                 // When
-                var result = expression.Run(new ConstantPointer<int>(new ConstantStructure<int>(value)));
+                var result = expression.Run(new ConstantStructure<int>(value));
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
                         Assert.True(branch.Done);
-                        Assert.Equal(value, branch.Structure.Value);
+                        Assert.Equal(value, branch.Value);
                     });
             }
 
@@ -89,14 +89,14 @@ namespace KleeneTests
                 var expression = new ConstantExpression<string?>(new ConstantStructure<string?>(value));
 
                 // When
-                var result = expression.Run(new ConstantPointer<string?>(new ConstantStructure<string?>(value)));
+                var result = expression.Run(new ConstantStructure<string?>(value));
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
                         Assert.True(branch.Done);
-                        Assert.Equal(value, branch.Structure.Value);
+                        Assert.Equal(value, branch.Value);
                     });
             }
         }

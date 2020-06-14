@@ -18,7 +18,7 @@ namespace Kleene
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
         
-        public override IEnumerable<StructurePointer<TIn>> Run<TIn>(StructurePointer<TIn> input)
+        public override IEnumerable<TIn> Run<TIn>(TIn input)
         {
             foreach (var expression in this.Expressions)
             {
