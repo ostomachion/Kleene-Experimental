@@ -40,12 +40,35 @@ namespace Kleene
 
         public override Structure GetCurrent()
         {
-            throw new NotImplementedException();
+            if (this.Done)
+                throw new NotImplementedException();
+
+            return this.Value.ElementAt(this.index).GetCurrent();
         }
 
         public override Structure Advance()
         {
-            throw new NotImplementedException();
+            if (this.Done)
+                throw new NotImplementedException();
+
+            var item = this.Value.ElementAt(this.index).Advance();
+
+            if (item.Done)
+            {
+                return new SequenceStructure(
+                    this.Value.Take(this.index)
+                    .Concat(new [] { item })
+                    .Concat(this.Value.Skip(this.index + 1)),
+                    this.index + 1);
+            }
+            else
+            {
+                return new SequenceStructure(
+                    this.Value.Take(this.index)
+                    .Concat(new [] { item })
+                    .Concat(this.Value.Skip(this.index + 1)),
+                    this.index);
+            }
         }
     }
 }

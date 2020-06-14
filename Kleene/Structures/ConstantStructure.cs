@@ -20,12 +20,18 @@ namespace Kleene
 
         public override Structure GetCurrent()
         {
-            throw new NotImplementedException();
+            if (this.Done)
+                throw new NotImplementedException();
+
+            return this;
         }
 
         public override Structure Advance()
         {
-            throw new NotImplementedException();
+            if (this.Done)
+                throw new InvalidOperationException();
+
+            return new ConstantStructure<T>(this.Value, true);
         }
     }
 }

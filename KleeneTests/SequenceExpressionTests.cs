@@ -35,8 +35,19 @@ namespace KleeneTests
                 Assert.Collection(result,
                     branch =>
                     {
-                        // TODO:
-                        throw new NotImplementedException(); // TODO:
+                        Assert.True(branch.Done);
+                        Assert.Collection(branch.Value,
+                            item => {
+                                Assert.Equal(true, item.Done);
+                                Assert.IsType<ConstantStructure<char>>(item);
+                                Assert.Equal(c1, (item as ConstantStructure<char>)?.Value);
+                            },
+                            item => {
+                                Assert.Equal(true, item.Done);
+                                Assert.IsType<ConstantStructure<char>>(item);
+                                Assert.Equal(c2, (item as ConstantStructure<char>)?.Value);
+                            }
+                        );
                     });
             }
         }
