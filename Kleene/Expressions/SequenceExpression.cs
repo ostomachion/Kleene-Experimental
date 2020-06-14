@@ -4,11 +4,10 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceExpression<T> : Expression<SequenceStructure<T>>
-        where T : Structure
+    public class SequenceExpression : Expression
     {
-        public IEnumerable<Expression<T>> Expressions { get; }
-        public SequenceExpression(IEnumerable<Expression<T>> expressions)
+        public IEnumerable<Expression> Expressions { get; }
+        public SequenceExpression(IEnumerable<Expression> expressions)
         {
             if (expressions.Contains(null!))
             {
@@ -18,19 +17,16 @@ namespace Kleene
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        internal override IEnumerable<SequenceStructure<T>> Run(SequenceStructure<T>? input)
+        public override IEnumerable<StructurePointer<TIn>> Run<TIn>(StructurePointer<TIn> input)
         {
             if (!this.Expressions.Any())
             {
-                yield return new SequenceStructure<T>(Enumerable.Empty<T>());
+                yield return null; // TODO:
                 yield break;
             }
 
-            var stack = new Stack<IEnumerator<T>>();
-            if (input is null || input.Current is T)
-            {
-                stack.Push(this.Expressions.First().Run(input?.Current).GetEnumerator());
-            }
+            var stack = new Stack<IEnumerator<StructurePointer<TIn>>>();
+            stack.Push(this.Expressions.First().Run(input).GetEnumerator()); // TODO: Get latest input.
 
             while (stack.Any())
             {
@@ -38,11 +34,11 @@ namespace Kleene
                 {
                     if (stack.Count == this.Expressions.Count())
                     {
-                        yield return new SequenceStructure<T>(stack.Reverse().Select(x => x.Current), stack.Count);
+                        yield return null; // TODO:
                     }
-                    else if (input is null || input.Current is T)
+                    else
                     {
-                        stack.Push(this.Expressions.ElementAt(stack.Count).Run(input?.Current).GetEnumerator());
+                        stack.Push(this.Expressions.ElementAt(stack.Count).Run(input).GetEnumerator()); // TODO: Get latest input.
                     }
                 }
                 else

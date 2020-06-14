@@ -4,12 +4,11 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class AltExpression<T> : Expression<T>
-        where T : Structure
+    public class AltExpression : Expression
     {
-        public IEnumerable<Expression<T>> Expressions { get; }
+        public IEnumerable<Expression> Expressions { get; }
 
-        public AltExpression(IEnumerable<Expression<T>> expressions)
+        public AltExpression(IEnumerable<Expression> expressions)
         {
             if (this.Expressions.Contains(null!))
             {
@@ -19,7 +18,7 @@ namespace Kleene
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
         
-        internal override IEnumerable<T> Run(T? input)
+        public override IEnumerable<StructurePointer<TIn>> Run<TIn>(StructurePointer<TIn> input)
         {
             foreach (var expression in this.Expressions)
             {

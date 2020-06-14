@@ -4,14 +4,12 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceStructure<T> : Structure
-    where T : Structure
+    public class SequenceStructure : Structure
     {
         private readonly int index;
-        public IEnumerable<T> Value { get; }
-        public T? Current => this.index == this.Value.Count() ? null : this.Value.ElementAt(this.index);
+        public IEnumerable<Structure> Value { get; }
 
-        public SequenceStructure(IEnumerable<T> value)
+        public SequenceStructure(IEnumerable<Structure> value)
         {
             if (value.Contains(null!))
             {
@@ -22,7 +20,7 @@ namespace Kleene
             this.index = 0;
         }
 
-        internal SequenceStructure(IEnumerable<T> value, int index)
+        internal SequenceStructure(IEnumerable<Structure> value, int index)
         {
             if (value.Contains(null!))
             {

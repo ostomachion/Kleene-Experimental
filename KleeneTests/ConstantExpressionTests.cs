@@ -4,7 +4,7 @@ using Kleene;
 
 namespace KleeneTests
 {
-    public class LiteralExpressionTests
+    public class ConstantExpressionTests
     {
         public class Constructor
         {
@@ -12,7 +12,7 @@ namespace KleeneTests
             public void BasicConstructorChar()
             {
                 // When
-                var expression = new ConstantExpression<ConstantStructure<char>>(new ConstantStructure<char>('c'));
+                var expression = new ConstantExpression<char>(new ConstantStructure<char>('c'));
 
                 // Then
                 Assert.Equal('c', expression.Value.Value);
@@ -42,16 +42,17 @@ namespace KleeneTests
             public void ConstantStructureChar_Run(char value)
             {
                 // Given
-                var expression = new ConstantExpression<ConstantStructure<char>>(new ConstantStructure<char>(value));
+                var expression = new ConstantExpression<char>(new ConstantStructure<char>(value));
 
                 // When
-                var result = expression.Run();
+                var result = expression.Run(new ConstantPointer<char>(new ConstantStructure<char>(value)));
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
-                        Assert.Equal(value, branch.Value);
+                        Assert.True(branch.Done);
+                        Assert.Equal(value, branch.Structure.Value);
                     });
             }
 
@@ -64,16 +65,17 @@ namespace KleeneTests
             public void ConstantStructureInt_Run(int value)
             {
                 // Given
-                var expression = new ConstantExpression<ConstantStructure<int>>(new ConstantStructure<int>(value));
+                var expression = new ConstantExpression<int>(new ConstantStructure<int>(value));
 
                 // When
-                var result = expression.Run();
+                var result = expression.Run(new ConstantPointer<int>(new ConstantStructure<int>(value)));
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
-                        Assert.Equal(value, branch.Value);
+                        Assert.True(branch.Done);
+                        Assert.Equal(value, branch.Structure.Value);
                     });
             }
 
@@ -81,20 +83,20 @@ namespace KleeneTests
             [InlineData("")]
             [InlineData("foo")]
             [InlineData("Hello, world!")]
-            [InlineData(null)]
             public void ConstantStructureString_Run(string? value)
             {
                 // Given
-                var expression = new ConstantExpression<ConstantStructure<string?>>(new ConstantStructure<string?>(value));
+                var expression = new ConstantExpression<string?>(new ConstantStructure<string?>(value));
 
                 // When
-                var result = expression.Run();
+                var result = expression.Run(new ConstantPointer<string?>(new ConstantStructure<string?>(value)));
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
-                        Assert.Equal(value, branch.Value);
+                        Assert.True(branch.Done);
+                        Assert.Equal(value, branch.Structure.Value);
                     });
             }
         }

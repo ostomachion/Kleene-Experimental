@@ -5,10 +5,8 @@ using System.Linq;
 
 namespace Kleene
 {
-    public abstract class Expression<T>
-        where T : Structure
+    public abstract class Expression
     {
-        public IEnumerable<T> Run() => Run(null);
-        internal abstract IEnumerable<T> Run(T? input);
+        public abstract IEnumerable<StructurePointer<TIn>> Run<TIn>(StructurePointer<TIn> input) where TIn : Structure;
     }
 }
