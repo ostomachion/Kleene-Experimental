@@ -8,6 +8,7 @@ namespace Kleene
     public abstract class Expression<T>
         where T : Structure
     {
-        public abstract IEnumerable<T> Run();
+        public IEnumerable<T> Run() => Run(null);
+        internal abstract IEnumerable<T> Run(T? input);
     }
 }

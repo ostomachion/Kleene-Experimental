@@ -14,9 +14,10 @@ namespace Kleene
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public override IEnumerable<T> Run()
+        internal override IEnumerable<T> Run(T? input)
         {
-            yield return this.Value;
+            #warning TODO:
+            throw new NotImplementedException();
         }
     }
 }

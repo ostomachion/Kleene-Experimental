@@ -18,7 +18,7 @@ namespace Kleene
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        public override IEnumerable<SequenceStructure<T>> Run()
+        internal override IEnumerable<SequenceStructure<T>> Run(SequenceStructure<T>? input)
         {
             if (!this.Expressions.Any())
             {
@@ -27,7 +27,10 @@ namespace Kleene
             }
 
             var stack = new Stack<IEnumerator<T>>();
-            stack.Push(this.Expressions.First().Run().GetEnumerator());
+            if (input is null || input.Current is T)
+            {
+                stack.Push(this.Expressions.First().Run(input?.Current).GetEnumerator());
+            }
 
             while (stack.Any())
             {
@@ -35,11 +38,11 @@ namespace Kleene
                 {
                     if (stack.Count == this.Expressions.Count())
                     {
-                        yield return new SequenceStructure<T>(stack.Reverse().Select(x => x.Current));
+                        yield return new SequenceStructure<T>(stack.Reverse().Select(x => x.Current), stack.Count);
                     }
-                    else
+                    else if (input is null || input.Current is T)
                     {
-                        stack.Push(this.Expressions.ElementAt(stack.Count).Run().GetEnumerator());
+                        stack.Push(this.Expressions.ElementAt(stack.Count).Run(input?.Current).GetEnumerator());
                     }
                 }
                 else

@@ -22,7 +22,7 @@ namespace Kleene
             this.Expression = expression ?? throw new ArgumentNullException(nameof(expression));
         }
 
-        public override IEnumerable<SequenceStructure<T>> Run()
+        internal override IEnumerable<SequenceStructure<T>> Run(SequenceStructure<T>? input)
         {
             if (this.Order == Order.Lazy && this.Min == 0 || this.Max == 0)
             {
@@ -34,6 +34,7 @@ namespace Kleene
             }
 
             var stack = new Stack<IEnumerator<T>>();
+            #warning TODO:
             stack.Push(this.Expression.Run().GetEnumerator());
 
             while (stack.Any())
@@ -50,6 +51,7 @@ namespace Kleene
                         {
                             yield return new SequenceStructure<T>(stack.Reverse().Select(x => x.Current));
                         }
+                        #warning TODO:
                         stack.Push(this.Expression.Run().GetEnumerator());
                     }
                 }

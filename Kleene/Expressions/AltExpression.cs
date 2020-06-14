@@ -19,11 +19,11 @@ namespace Kleene
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
         
-        public override IEnumerable<T> Run()
+        internal override IEnumerable<T> Run(T? input)
         {
             foreach (var expression in this.Expressions)
             {
-                foreach (var result in expression.Run())
+                foreach (var result in expression.Run(input))
                 {
                     yield return result;
                 }
