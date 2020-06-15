@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using Kleene;
+using System.Linq;
 
 namespace KleeneTests
 {
@@ -18,36 +19,101 @@ namespace KleeneTests
             public void TwoChars_ReturnsChars(char c1, char c2)
             {
                 // Given
-                var expression = new SequenceExpression(new[] {
-                    new ConstantExpression<char>(new ConstantStructure<char>(c1)),
-                    new ConstantExpression<char>(new ConstantStructure<char>(c2)),
-                });
-
-                var input = new SequenceStructure(new [] {
-                    new ConstantStructure<char>(c1),
-                    new ConstantStructure<char>(c2),
+                var expression = new SequenceExpression<ConstantExpression<char>>(new[] {
+                    new ConstantExpression<char>(c1),
+                    new ConstantExpression<char>(c2),
                 });
 
                 // When
-                var result = expression.Run(input);
+                var result = expression.Run();
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
-                        Assert.IsType<SequenceStructure>(branch);
-                        var structure = (branch as SequenceStructure)!;
-                        Assert.True(branch.Done);
-                        Assert.Collection(structure.Value,
+                        Assert.Collection(branch.Expressions,
                             item => {
-                                Assert.Equal(true, item.Done);
-                                Assert.IsType<ConstantStructure<char>>(item);
-                                Assert.Equal(c1, (item as ConstantStructure<char>)?.Value);
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c1, x.Value));
                             },
                             item => {
-                                Assert.Equal(true, item.Done);
-                                Assert.IsType<ConstantStructure<char>>(item);
-                                Assert.Equal(c2, (item as ConstantStructure<char>)?.Value);
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c2, x.Value));
+                            }
+                        );
+                    });
+            }
+
+            [Theory]
+            [InlineData(':', ';', ')', '(')]
+            public void Backtrack(char c1, char c2, char c3, char c4)
+            {
+                // Given
+                var expression = new SequenceExpression<ConstantExpression<char>>(new[] {
+                    new AltExpression<ConstantExpression<char>>(new [] {
+                        new ConstantExpression<char>(c1),
+                        new ConstantExpression<char>(c2),
+                    }),
+                    new AltExpression<ConstantExpression<char>>(new [] {
+                        new ConstantExpression<char>(c3),
+                        new ConstantExpression<char>(c4),
+                    }),
+                });
+
+                // When
+                var result = expression.Run();
+
+                // Then
+                Assert.Collection(result,
+                    branch =>
+                    {
+                        Assert.Collection(branch.Expressions,
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c1, x.Value));
+                            },
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c3, x.Value));
+                            }
+                        );
+                    },
+                    branch =>
+                    {
+                        Assert.Collection(branch.Expressions,
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c1, x.Value));
+                            },
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c4, x.Value));
+                            }
+                        );
+                    },
+                    branch =>
+                    {
+                        Assert.Collection(branch.Expressions,
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c2, x.Value));
+                            },
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c3, x.Value));
+                            }
+                        );
+                    },
+                    branch =>
+                    {
+                        Assert.Collection(branch.Expressions,
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c2, x.Value));
+                            },
+                            item => {
+                                Assert.Collection(item.Run(),
+                                    x => Assert.Equal(c4, x.Value));
                             }
                         );
                     });

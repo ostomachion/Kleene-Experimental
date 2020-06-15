@@ -4,26 +4,28 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class ConjExpression : Expression
+    public class ConjExpression<T> : Expression<T>
+    where T : Expression<T>
     {
-        public Expression Leader { get; }
-        public Expression Follower { get; }
+        public Expression<T> Leader { get; }
+        public Expression<T> Follower { get; }
 
-        public ConjExpression(Expression leader, Expression follower)
+        public ConjExpression(Expression<T> leader, Expression<T> follower)
         {
             this.Leader = leader ?? throw new ArgumentNullException(nameof(leader));
             this.Follower = follower ?? throw new ArgumentNullException(nameof(follower));
         }
 
-        public override IEnumerable<Structure> Run(Structure input)
+        public override IEnumerable<T> Run()
         {
-            foreach (var attempt in this.Leader.Run(input))
-            {
-                foreach (var result in this.Follower.Run(attempt))
-                {
-                    yield return result;
-                }
-            }
+            throw new NotImplementedException();
+            // foreach (var attempt in this.Leader.Run(input))
+            // {
+            //     foreach (var result in this.Follower.Run(attempt))
+            //     {
+            //         yield return result;
+            //     }
+            // }
         }
     }
 }

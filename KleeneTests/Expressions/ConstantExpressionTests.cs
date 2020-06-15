@@ -12,19 +12,10 @@ namespace KleeneTests
             public void BasicConstructorChar()
             {
                 // When
-                var expression = new ConstantExpression<char>(new ConstantStructure<char>('c'));
+                var expression = new ConstantExpression<char>('c');
 
                 // Then
-                Assert.Equal('c', expression.Value.Value);
-            }
-
-            [Fact]
-            public void NullValue_Throws()
-            {
-                Assert.Throws<ArgumentNullException>(() =>
-                {
-                    var expression = new ConstantExpression<ConstantStructure<char>>(null!);
-                });
+                Assert.Equal('c', expression.Value);
             }
         }
 
@@ -42,19 +33,16 @@ namespace KleeneTests
             public void ConstantStructureChar_Run(char value)
             {
                 // Given
-                var expression = new ConstantExpression<char>(new ConstantStructure<char>(value));
+                var expression = new ConstantExpression<char>(value);
 
                 // When
-                var result = expression.Run(new ConstantStructure<char>(value));
+                var result = expression.Run();
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
-                        Assert.IsType<ConstantStructure<char>>(branch);
-                        var structure = (branch as ConstantStructure<char>)!;
-                        Assert.True(branch.Done);
-                        Assert.Equal(value, structure.Value);
+                        Assert.Equal(value, branch.Value);
                     });
             }
 
@@ -67,19 +55,16 @@ namespace KleeneTests
             public void ConstantStructureInt_Run(int value)
             {
                 // Given
-                var expression = new ConstantExpression<int>(new ConstantStructure<int>(value));
+                var expression = new ConstantExpression<int>(value);
 
                 // When
-                var result = expression.Run(new ConstantStructure<int>(value));
+                var result = expression.Run();
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
-                        Assert.IsType<ConstantStructure<int>>(branch);
-                        var structure = (branch as ConstantStructure<int>)!;
-                        Assert.True(branch.Done);
-                        Assert.Equal(value, structure.Value);
+                        Assert.Equal(value, branch.Value);
                     });
             }
 
@@ -90,19 +75,16 @@ namespace KleeneTests
             public void ConstantStructureString_Run(string value)
             {
                 // Given
-                var expression = new ConstantExpression<string>(new ConstantStructure<string>(value));
+                var expression = new ConstantExpression<string>(value);
 
                 // When
-                var result = expression.Run(new ConstantStructure<string>(value));
+                var result = expression.Run();
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
-                        Assert.IsType<ConstantStructure<string>>(branch);
-                        var structure = (branch as ConstantStructure<string>)!;
-                        Assert.True(branch.Done);
-                        Assert.Equal(value, structure.Value);
+                        Assert.Equal(value, branch.Value);
                     });
             }
         }

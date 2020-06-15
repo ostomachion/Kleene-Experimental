@@ -5,8 +5,9 @@ using System.Linq;
 
 namespace Kleene
 {
-    public abstract class Expression
+    public abstract class Expression<T>
+    where T : Expression<T>
     {
-        public abstract IEnumerable<Structure> Run(Structure input);
+        public abstract IEnumerable<T> Run();
     }
 }

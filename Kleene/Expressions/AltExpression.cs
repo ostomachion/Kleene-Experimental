@@ -4,25 +4,26 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class AltExpression : Expression
+    public class AltExpression<T> : Expression<T>
+    where T : Expression<T>
     {
-        public IEnumerable<Expression> Expressions { get; }
+        public IEnumerable<T> Expressions { get; }
 
-        public AltExpression(IEnumerable<Expression> expressions)
+        public AltExpression(IEnumerable<T> expressions)
         {
-            if (this.Expressions.Contains(null!))
+            if (expressions.Contains(null!))
             {
                 throw new ArgumentException("Expressions must not contain null.", nameof(expressions));
             }
 
-            this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
+            this.Expressions = expressions?.ToList() ?? throw new ArgumentNullException(nameof(expressions));
         }
         
-        public override IEnumerable<Structure> Run(Structure input)
+        public override IEnumerable<T> Run()
         {
             foreach (var expression in this.Expressions)
             {
-                foreach (var result in expression.Run(input))
+                foreach (var result in expression.Run())
                 {
                     yield return result;
                 }

@@ -4,22 +4,18 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class ConstantExpression<T> : Expression
+    public class ConstantExpression<T> : Expression<ConstantExpression<T>>
     {
-        public ConstantStructure<T> Value { get; }
+        public T Value { get; }
 
-        public ConstantExpression(ConstantStructure<T> value)
+        public ConstantExpression(T value)
         {
-            this.Value = value ?? throw new ArgumentNullException(nameof(value));
+            this.Value = value;
         }
 
-        public override IEnumerable<Structure> Run(Structure input)
+        public override IEnumerable<ConstantExpression<T>> Run()
         {
-            Structure current = input.GetCurrent();
-            if (current is ConstantStructure<T> constant && constant.Value is { } && constant.Value.Equals(this.Value.Value))
-            {
-                yield return input.Advance();
-            }
+            yield return this;
         }
     }
 }
