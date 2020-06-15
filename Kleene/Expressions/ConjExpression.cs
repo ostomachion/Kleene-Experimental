@@ -15,7 +15,7 @@ namespace Kleene
             this.Follower = follower ?? throw new ArgumentNullException(nameof(follower));
         }
 
-        public override IEnumerable<TIn> Run<TIn>(TIn input)
+        public override IEnumerable<Structure> Run(Structure input)
         {
             foreach (var attempt in this.Leader.Run(input))
             {

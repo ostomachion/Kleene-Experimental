@@ -17,7 +17,7 @@ namespace Kleene
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        public override IEnumerable<TIn> Run<TIn>(TIn input)
+        public override IEnumerable<Structure> Run(Structure input)
         {
             if (!this.Expressions.Any())
             {
@@ -25,7 +25,7 @@ namespace Kleene
                 yield break;
             }
 
-            var stack = new Stack<IEnumerator<TIn>>();
+            var stack = new Stack<IEnumerator<Structure>>();
             stack.Push(this.Expressions.First().Run(input).GetEnumerator());
 
             while (stack.Any())

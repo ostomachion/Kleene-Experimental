@@ -29,14 +29,16 @@ namespace KleeneTests
                 });
 
                 // When
-                var result = expression.Run<SequenceStructure>(input);
+                var result = expression.Run(input);
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
+                        Assert.IsType<SequenceStructure>(branch);
+                        var structure = (branch as SequenceStructure)!;
                         Assert.True(branch.Done);
-                        Assert.Collection(branch.Value,
+                        Assert.Collection(structure.Value,
                             item => {
                                 Assert.Equal(true, item.Done);
                                 Assert.IsType<ConstantStructure<char>>(item);

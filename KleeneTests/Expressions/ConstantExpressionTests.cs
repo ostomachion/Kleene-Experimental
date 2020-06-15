@@ -51,8 +51,10 @@ namespace KleeneTests
                 Assert.Collection(result,
                     branch =>
                     {
+                        Assert.IsType<ConstantStructure<char>>(branch);
+                        var structure = (branch as ConstantStructure<char>)!;
                         Assert.True(branch.Done);
-                        Assert.Equal(value, branch.Value);
+                        Assert.Equal(value, structure.Value);
                     });
             }
 
@@ -74,8 +76,10 @@ namespace KleeneTests
                 Assert.Collection(result,
                     branch =>
                     {
+                        Assert.IsType<ConstantStructure<int>>(branch);
+                        var structure = (branch as ConstantStructure<int>)!;
                         Assert.True(branch.Done);
-                        Assert.Equal(value, branch.Value);
+                        Assert.Equal(value, structure.Value);
                     });
             }
 
@@ -83,20 +87,22 @@ namespace KleeneTests
             [InlineData("")]
             [InlineData("foo")]
             [InlineData("Hello, world!")]
-            public void ConstantStructureString_Run(string? value)
+            public void ConstantStructureString_Run(string value)
             {
                 // Given
-                var expression = new ConstantExpression<string?>(new ConstantStructure<string?>(value));
+                var expression = new ConstantExpression<string>(new ConstantStructure<string>(value));
 
                 // When
-                var result = expression.Run(new ConstantStructure<string?>(value));
+                var result = expression.Run(new ConstantStructure<string>(value));
 
                 // Then
                 Assert.Collection(result,
                     branch =>
                     {
+                        Assert.IsType<ConstantStructure<string>>(branch);
+                        var structure = (branch as ConstantStructure<string>)!;
                         Assert.True(branch.Done);
-                        Assert.Equal(value, branch.Value);
+                        Assert.Equal(value, structure.Value);
                     });
             }
         }
