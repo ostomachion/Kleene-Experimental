@@ -4,11 +4,10 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceExpression<T> : Expression<SequenceExpression<T>>
-    where T : Expression<T>
+    public class SequenceExpression : Expression
     {
-        public IEnumerable<Expression<T>> Expressions { get; }
-        public SequenceExpression(IEnumerable<Expression<T>> expressions)
+        public IEnumerable<Expression> Expressions { get; }
+        public SequenceExpression(IEnumerable<Expression> expressions)
         {
             if (expressions.Contains(null!))
             {
@@ -19,15 +18,15 @@ namespace Kleene
             this.Expressions = expressions?.ToList() ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        public override IEnumerable<SequenceExpression<T>> Run()
+        public override IEnumerable<Expression> Run()
         {
             if (!this.Expressions.Any())
             {
-                yield return new SequenceExpression<T>(Enumerable.Empty<T>());
+                yield return new SequenceExpression(Enumerable.Empty<Expression>());
                 yield break;
             }
 
-            var stack = new Stack<IEnumerator<T>>();
+            var stack = new Stack<IEnumerator<Expression>>();
             stack.Push(this.Expressions.First().Run().GetEnumerator());
 
             while (stack.Any())
@@ -36,7 +35,7 @@ namespace Kleene
                 {
                     if (stack.Count == this.Expressions.Count())
                     {
-                        yield return new SequenceExpression<T>(stack.Reverse().Select(x => x.Current));
+                        yield return new SequenceExpression(stack.Reverse().Select(x => x.Current));
                     }
                     else
                     {

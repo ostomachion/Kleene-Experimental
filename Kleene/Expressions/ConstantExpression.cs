@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class ConstantExpression<T> : Expression<ConstantExpression<T>>
+    public class ConstantExpression<T> : Expression
     {
         public T Value { get; }
 
@@ -13,7 +13,7 @@ namespace Kleene
             this.Value = value;
         }
 
-        public override IEnumerable<ConstantExpression<T>> Run()
+        public override IEnumerable<Expression> Run()
         {
             yield return this;
         }

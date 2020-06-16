@@ -4,19 +4,18 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class ConjExpression<T> : Expression<T>
-    where T : Expression<T>
+    public class ConjExpression : Expression
     {
-        public Expression<T> Leader { get; }
-        public Expression<T> Follower { get; }
+        public Expression Leader { get; }
+        public Expression Follower { get; }
 
-        public ConjExpression(Expression<T> leader, Expression<T> follower)
+        public ConjExpression(Expression leader, Expression follower)
         {
             this.Leader = leader ?? throw new ArgumentNullException(nameof(leader));
             this.Follower = follower ?? throw new ArgumentNullException(nameof(follower));
         }
 
-        public override IEnumerable<T> Run()
+        public override IEnumerable<Expression> Run()
         {
             throw new NotImplementedException();
             // foreach (var attempt in this.Leader.Run(input))

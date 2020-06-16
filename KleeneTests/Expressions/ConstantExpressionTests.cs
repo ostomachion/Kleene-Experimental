@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using Kleene;
+using System.Linq;
 
 namespace KleeneTests
 {
@@ -36,7 +37,7 @@ namespace KleeneTests
                 var expression = new ConstantExpression<char>(value);
 
                 // When
-                var result = expression.Run();
+                var result = expression.Run().Cast<ConstantExpression<char>>();
 
                 // Then
                 Assert.Collection(result,
@@ -58,7 +59,7 @@ namespace KleeneTests
                 var expression = new ConstantExpression<int>(value);
 
                 // When
-                var result = expression.Run();
+                var result = expression.Run().Cast<ConstantExpression<int>>();
 
                 // Then
                 Assert.Collection(result,
@@ -78,7 +79,7 @@ namespace KleeneTests
                 var expression = new ConstantExpression<string>(value);
 
                 // When
-                var result = expression.Run();
+                var result = expression.Run().Cast<ConstantExpression<string>>();
 
                 // Then
                 Assert.Collection(result,

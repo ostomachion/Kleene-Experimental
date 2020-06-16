@@ -19,13 +19,13 @@ namespace KleeneTests
             public void TwoChars_ReturnsChars(char c1, char c2)
             {
                 // Given
-                var expression = new AltExpression<ConstantExpression<char>>(new[] {
+                var expression = new AltExpression(new[] {
                     new ConstantExpression<char>(c1),
                     new ConstantExpression<char>(c2),
                 });
 
                 // When
-                var result = expression.Run();
+                var result = expression.Run().Cast<ConstantExpression<char>>();
 
                 // Then
                 Assert.Collection(result,
