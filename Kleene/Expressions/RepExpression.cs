@@ -22,7 +22,6 @@ namespace Kleene
 
         public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int offset)
         {
-            // TODO: This can probably be simplified.
             if (this.Order == Order.Lazy && this.Min == 0 || this.Max == 0)
             {
                 yield return Enumerable.Empty<Structure>();
