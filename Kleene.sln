@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KleeneTests", "KleeneTests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xml", "Xml\Xml.csproj", "{C0B2399D-6D32-4088-9E92-B6ECD0E2CC39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlTests", "XmlTests\XmlTests.csproj", "{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{C0B2399D-6D32-4088-9E92-B6ECD0E2CC39}.Release|x64.Build.0 = Release|Any CPU
 		{C0B2399D-6D32-4088-9E92-B6ECD0E2CC39}.Release|x86.ActiveCfg = Release|Any CPU
 		{C0B2399D-6D32-4088-9E92-B6ECD0E2CC39}.Release|x86.Build.0 = Release|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Debug|x64.Build.0 = Debug|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Debug|x86.Build.0 = Debug|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Release|x64.ActiveCfg = Release|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Release|x64.Build.0 = Release|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Release|x86.ActiveCfg = Release|Any CPU
+		{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
