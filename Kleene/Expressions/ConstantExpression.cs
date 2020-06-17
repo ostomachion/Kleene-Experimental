@@ -6,16 +6,23 @@ namespace Kleene
 {
     public class ConstantExpression<T> : Expression
     {
-        public T Value { get; }
+        public ConstantStructure<T> Value { get; }
 
         public ConstantExpression(T value)
         {
-            this.Value = value;
+            this.Value = new ConstantStructure<T>(value);
         }
 
-        public override IEnumerable<Expression> Run()
+        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
         {
-            yield return this;
+            if (index == input.Count())
+                yield break;
+                
+            var structure = input.ElementAt(index);
+            if (structure is ConstantStructure<T> constant && (constant.Value?.Equals(this.Value.Value) ?? this.Value is null))
+            {
+                yield return new [] { structure };
+            }
         }
     }
 }

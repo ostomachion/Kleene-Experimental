@@ -18,16 +18,16 @@ namespace Kleene
             this.Expressions = expressions?.ToList() ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        public override IEnumerable<Expression> Run()
+        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
         {
             if (!this.Expressions.Any())
             {
-                yield return new SequenceExpression(Enumerable.Empty<Expression>());
+                yield return Enumerable.Empty<Structure>();
                 yield break;
             }
 
-            var stack = new Stack<IEnumerator<Expression>>();
-            stack.Push(this.Expressions.First().Run().GetEnumerator());
+            var stack = new Stack<IEnumerator<IEnumerable<Structure>>>();
+            stack.Push(this.Expressions.First().Run(input, index).GetEnumerator());
 
             while (stack.Any())
             {
@@ -35,11 +35,12 @@ namespace Kleene
                 {
                     if (stack.Count == this.Expressions.Count())
                     {
-                        yield return new SequenceExpression(stack.Reverse().Select(x => x.Current));
+                        yield return stack.Reverse().SelectMany(x => x.Current).ToList();
                     }
                     else
                     {
-                        stack.Push(this.Expressions.ElementAt(stack.Count).Run().GetEnumerator());
+                        var length = stack.Sum(x => x.Current.Count());
+                        stack.Push(this.Expressions.ElementAt(stack.Count).Run(input, index + length).GetEnumerator());
                     }
                 }
                 else
