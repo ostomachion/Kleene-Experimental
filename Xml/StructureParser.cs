@@ -28,9 +28,19 @@ namespace Kleene.Xml
         {
             return new ElementStructure(
                 ParseName(element.Name),
+                ParseAttributes(element.Attributes()),
                 element.Nodes().Select(ParseNode)
             );
         }
+
+        public static AttributeListStructure ParseAttributes(IEnumerable<XAttribute> attributes) => new AttributeListStructure(
+            attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns").Select(ParseAttribute)
+        );
+
+        public static AttributeStructure ParseAttribute(XAttribute attribute) => new AttributeStructure(
+            ParseName(attribute.Name),
+            new TextStructure(attribute.Value)
+        );
 
         public static TextStructure ParseText(XText text)
         {

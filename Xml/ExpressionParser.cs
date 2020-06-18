@@ -51,24 +51,39 @@ namespace Kleene.Xml
             else
             {
                 return new ElementExpression(
-                    new NameExpression(
-                        new TextExpression(new SequenceExpression(
-                            element.Name.NamespaceName.Select(c => new ConstantExpression<char>(c))
-                        )),
-                        new TextExpression(new SequenceExpression(
-                            element.Name.LocalName.Select(c => new ConstantExpression<char>(c))
-                        ))
-                    ),
+                    ParseName(element.Name),
+                    ParseAttributes(element.Attributes()),
                     ParseNodes(element.Nodes())
                 );
             }
         }
 
+        private static NameExpression ParseName(XName name) => new NameExpression(
+            ParseText(name.NamespaceName),
+            ParseText(name.LocalName)
+        );
+
         public static TextExpression ParseText(XText text)
         {
-            return new TextExpression(new SequenceExpression(
-                text.Value.Select(c => new ConstantExpression<char>(c))
-            ));
+            return new TextExpression(ParseString(text.Value));
+        }
+        
+        public static TextExpression ParseText(string text)
+        {
+            return new TextExpression(ParseString(text));
+        }
+
+        private static SequenceExpression ParseString(string value) => new SequenceExpression(
+            value.Select(c => new ConstantExpression<char>(c))
+        );
+
+        private static AttributeListExpression ParseAttributes(IEnumerable<XAttribute> attributes)
+        {
+            attributes = attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns");
+            return new AttributeListExpression(new SequenceExpression(attributes.Select(x => new AttributeExpression(
+                ParseName(x.Name),
+                ParseText(x.Value)
+            ))));
         }
 
         private static SequenceExpression ParseNodes(IEnumerable<XNode> nodes)
