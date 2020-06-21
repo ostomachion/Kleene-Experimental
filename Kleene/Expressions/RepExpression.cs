@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Kleene
 {
-    public enum Order { Lazy, Greedy }
     public class RepExpression : Expression
     {
         public Expression Expression { get; }
