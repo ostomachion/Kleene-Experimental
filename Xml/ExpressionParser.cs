@@ -48,6 +48,11 @@ namespace Kleene.Xml
                         return new AnyExpression();
                     case "all":
                         return new AllExpression(ParseOrder(element.Attribute("order")));
+                    case "elem":
+                        return new ElementExpression(
+                            ParseName(element.Element(NS + "name")),
+                            ParseAttributes(element.Element(NS + "attrs")),
+                            ParseNodes(element.Element(NS + "value").Nodes()));
                     default:
                         throw new Exception();
                 }
@@ -67,11 +72,28 @@ namespace Kleene.Xml
             ParseText(name.LocalName)
         );
 
+        private static NameExpression ParseName(XElement element)
+        {
+            if (element.Elements().Count() == 1)
+            {
+                XElement name = element.Elements().Single();
+                return new NameExpression(
+                    ParseText(name.Name.NamespaceName),
+                    ParseText(name.Name.LocalName));
+            }
+            else
+            {
+                return new NameExpression(
+                    ParseNodes(element.Element(NS + "ns").Nodes()),
+                    ParseNodes(element.Element(NS + "local").Nodes()));
+            }
+        }
+
         public static TextExpression ParseText(XText text)
         {
             return new TextExpression(ParseString(text.Value));
         }
-        
+
         public static TextExpression ParseText(string text)
         {
             return new TextExpression(ParseString(text));
@@ -84,10 +106,34 @@ namespace Kleene.Xml
         private static AttributeListExpression ParseAttributes(IEnumerable<XAttribute> attributes)
         {
             attributes = attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns");
-            return new AttributeListExpression(new SequenceExpression(attributes.Select(x => new AttributeExpression(
-                ParseName(x.Name),
-                ParseText(x.Value)
-            ))));
+            return new AttributeListExpression(new SequenceExpression(attributes.Select(ParseAttribute)));
+        }
+
+        private static AttributeListExpression ParseAttributes(XElement element)
+        {
+            return new AttributeListExpression(new SequenceExpression(element.Elements(NS + "attr").Select(ParseAttribute)));
+        }
+
+        private static AttributeExpression ParseAttribute(XAttribute attribute)
+        {
+            return new AttributeExpression(
+                ParseName(attribute.Name),
+                ParseText(attribute.Value)
+            );
+        }
+
+        private static AttributeExpression ParseAttribute(XElement element)
+        {
+            if (element.Elements().Any())
+            {
+                return new AttributeExpression(
+                    ParseName(element.Element(NS + "name")),
+                    new TextExpression(ParseNodes(element.Element(NS + "value").Nodes())));
+            }
+            else
+            {
+                return ParseAttribute(element.Attributes().Single());
+            }
         }
 
         private static SequenceExpression ParseNodes(IEnumerable<XNode> nodes)
