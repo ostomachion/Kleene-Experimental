@@ -48,35 +48,35 @@ namespace KleeneTests
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(4, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     // Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(3, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     // Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(2, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     // Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(1, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     // Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(0, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 }
             );
@@ -98,35 +98,35 @@ namespace KleeneTests
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(0, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(1, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(2, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(3, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 },
                 result => {
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(4, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 }
             );
@@ -148,7 +148,7 @@ namespace KleeneTests
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(0, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 }
             );
@@ -170,7 +170,7 @@ namespace KleeneTests
                     Assert.Equal(input, result.Input);
                     Assert.Equal(0, result.Index);
                     Assert.Equal(0, result.Length);
-                    Assert.Equal(expression, result.Source);
+                    Assert.Equal(expression, result.Expression);
                     Assert.Empty(result.Children);
                 }
             );
