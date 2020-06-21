@@ -41,9 +41,13 @@ namespace Kleene.Xml
                         ));
                     case "rep":
                         return new RepExpression(ParseNodes(element.Nodes()),
-                            ParseRepOrder(element.Attribute("order")),
+                            ParseOrder(element.Attribute("order")),
                             ParseMin(element.Attribute("min")),
                             ParseMax(element.Attribute("max")));
+                    case "any":
+                        return new AnyExpression();
+                    case "all":
+                        return new AllExpression(ParseOrder(element.Attribute("order")));
                     default:
                         throw new Exception();
                 }
@@ -91,7 +95,7 @@ namespace Kleene.Xml
             return new SequenceExpression(nodes.Select(ParseNode));
         }
 
-        private static Order ParseRepOrder(XAttribute order) => order?.Value switch
+        private static Order ParseOrder(XAttribute order) => order?.Value switch
         {
             null => Order.Greedy,
             "greedy" => Order.Greedy,
