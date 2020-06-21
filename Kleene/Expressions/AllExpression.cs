@@ -18,15 +18,15 @@ namespace Kleene
             switch (this.Order)
             {
                 case Order.Greedy:
-                    for (int i = input.Count(); i >= 0; i--)
+                    for (int i = input.Count(); i >= index; i--)
                     {
-                        yield return input.Take(i);
+                        yield return input.Skip(index).Take(i - index);
                     }
                     break;
                 case Order.Lazy:
-                    for (int i = 0; i <= input.Count(); i++)
+                    for (int i = index; i <= input.Count(); i++)
                     {
-                        yield return input.Take(i);
+                        yield return input.Skip(index).Take(i - index);
                     }
                     break;
             }
