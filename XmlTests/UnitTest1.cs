@@ -148,5 +148,16 @@ namespace XmlTests
 
             Assert.True(result.Any());
         }
+
+        
+        [Fact]
+        public void LargeExpressionTest()
+        {
+            var expression = ExpressionParser.ParseElement(XDocument.Load("/home/josh/Projects/UnicodeGlyphs/charts.kl.xml").Root);
+            var structure = StructureParser.ParseElement(XDocument.Load("/home/josh/Projects/UnicodeGlyphs/Output/SVG/2.svg").Root);
+            var result = expression.Run(new [] { structure }, 0);
+
+            Assert.True(result.Any());
+        }
     }
 }

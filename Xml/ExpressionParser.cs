@@ -57,6 +57,8 @@ namespace Kleene.Xml
                             ParseName(element.Element(NS + "name")),
                             ParseAttributes(element.Element(NS + "attrs")),
                             ParseNodes(element.Element(NS + "value").Nodes()));
+                    case "attr":
+                        return ParseAttribute(element);
                     default:
                         throw new Exception();
                 }
@@ -115,7 +117,7 @@ namespace Kleene.Xml
 
         private static AttributeListExpression ParseAttributes(XElement element)
         {
-            return new AttributeListExpression(new SequenceExpression(element.Elements(NS + "attr").Select(ParseAttribute)));
+            return new AttributeListExpression(ParseNodes(element.Nodes()));
         }
 
         private static AttributeExpression ParseAttribute(XAttribute attribute)
