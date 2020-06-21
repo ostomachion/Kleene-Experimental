@@ -31,13 +31,13 @@ namespace Kleene.Xml
             {
                 foreach (var attributesResult in this.Attributes.Run(new[] { element.Attributes }, 0))
                 {
-                    foreach (var valueResult in this.Value.Run(element.Value, 0))
+                    foreach (var valueResult in this.Value.Run(element.Value, 0).Where(x => x.Count() == element.Value.Count()))
                     {
                         yield return new[] {
                             new ElementStructure(
                                 (NameStructure)nameResult.Single(),
                                 (AttributeListStructure)attributesResult.Single(),
-                                valueResult.Cast<NodeStructure>())
+                                valueResult)
                         };
                     }
                 }

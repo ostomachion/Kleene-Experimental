@@ -6,7 +6,7 @@ using System.Linq;
 namespace Kleene.Xml
 {
     [DebuggerDisplay("{" + nameof(ToString) + "(),nq}")]
-    public class TextStructure : NodeStructure
+    public class TextStructure : Structure
     {
         public IEnumerable<ConstantStructure<char>> Value { get; }
 

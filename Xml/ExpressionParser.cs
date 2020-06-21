@@ -90,14 +90,14 @@ namespace Kleene.Xml
             else
             {
                 return new NameExpression(
-                    ParseNodes(element.Element(NS + "ns").Nodes()),
-                    ParseNodes(element.Element(NS + "local").Nodes()));
+                    new TextExpression(ParseNodes(element.Element(NS + "ns").Nodes())),
+                    new TextExpression(ParseNodes(element.Element(NS + "local").Nodes())));
             }
         }
 
-        public static TextExpression ParseText(XText text)
+        public static Expression ParseText(XText text)
         {
-            return new TextExpression(ParseString(text.Value));
+            return ParseString(text.Value);
         }
 
         public static TextExpression ParseText(string text)

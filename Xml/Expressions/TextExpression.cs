@@ -22,7 +22,7 @@ namespace Kleene.Xml
             if (!(structure is TextStructure text))
                 yield break;
 
-            foreach (var result in this.Value.Run(text.Value, 0))
+            foreach (var result in this.Value.Run(text.Value, 0).Where(x => x.Count() == text.Value.Count()))
             {
                 yield return new[] { new TextStructure(result.Cast<ConstantStructure<char>>()) };
             }

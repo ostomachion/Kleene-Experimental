@@ -8,11 +8,11 @@ namespace Kleene.Xml
 {
     public static class StructureParser
     {
-        public static NodeStructure ParseNode(XNode node)
+        public static IEnumerable<Structure> ParseNode(XNode node)
         {
             if (node is XElement element)
             {
-                return ParseElement(element);
+                return new [] { ParseElement(element) };
             }
             else if (node is XText text)
             {
@@ -29,7 +29,7 @@ namespace Kleene.Xml
             return new ElementStructure(
                 ParseName(element.Name),
                 ParseAttributes(element.Attributes()),
-                element.Nodes().Where(x => !(x is XComment)).Select(ParseNode)
+                element.Nodes().Where(x => !(x is XComment)).SelectMany(ParseNode)
             );
         }
 
@@ -42,9 +42,9 @@ namespace Kleene.Xml
             new TextStructure(attribute.Value)
         );
 
-        public static TextStructure ParseText(XText text)
+        public static IEnumerable<Structure> ParseText(XText text)
         {
-            return new TextStructure(text.Value);
+            return text.Value.Select(c => new ConstantStructure<char>(c));
         }
 
         public static NameStructure ParseName(XName name)

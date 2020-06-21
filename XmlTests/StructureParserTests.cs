@@ -3,6 +3,7 @@ using Xunit;
 using Kleene.Xml;
 using System.Xml.Linq;
 using System.Linq;
+using Kleene;
 
 namespace XmlTests
 {
@@ -116,12 +117,8 @@ namespace XmlTests
             Assert.Equal("", String.Join("", structure.Name.NS.Value.Select(x => x.Value)));
             Assert.Equal("foo", String.Join("", structure.Name.Local.Value.Select(x => x.Value)));
             Assert.Empty(structure.Attributes.Value);
-            Assert.Collection(structure.Value,
-                node => {
-                    Assert.IsType<TextStructure>(node);
-                    Assert.Equal("Hello, world!", String.Join("", ((TextStructure)node).Value.Select(x => x.Value)));
-                }
-            );
+            Assert.All(structure.Value, x => Assert.IsType<ConstantStructure<char>>(x));
+            Assert.Equal("Hello, world!", String.Join("", structure.Value.Cast<ConstantStructure<char>>().Select(x => x.Value)));
         }
         
         [Fact]
@@ -210,8 +207,16 @@ namespace XmlTests
                     Assert.Empty(((ElementStructure)node).Value);
                 },
                 node => {
-                    Assert.IsType<TextStructure>(node);
-                    Assert.Equal("baz", String.Join("", ((TextStructure)node).Value.Select(x => x.Value)));
+                    Assert.IsType<ConstantStructure<char>>(node);
+                    Assert.Equal('b', ((ConstantStructure<char>)node).Value);
+                },
+                node => {
+                    Assert.IsType<ConstantStructure<char>>(node);
+                    Assert.Equal('a', ((ConstantStructure<char>)node).Value);
+                },
+                node => {
+                    Assert.IsType<ConstantStructure<char>>(node);
+                    Assert.Equal('z', ((ConstantStructure<char>)node).Value);
                 }
             );
         }

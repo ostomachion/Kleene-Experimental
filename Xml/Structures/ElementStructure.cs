@@ -6,13 +6,13 @@ using System.Linq;
 namespace Kleene.Xml
 {
     [DebuggerDisplay("{" + nameof(ToString) + "(),nq}")]
-    public class ElementStructure : NodeStructure
+    public class ElementStructure : Structure
     {
         public NameStructure Name { get; }
         public AttributeListStructure Attributes { get; }
-        public IEnumerable<NodeStructure> Value { get; }
+        public IEnumerable<Structure> Value { get; }
 
-        public ElementStructure(NameStructure name, AttributeListStructure attributes, IEnumerable<NodeStructure> value)
+        public ElementStructure(NameStructure name, AttributeListStructure attributes, IEnumerable<Structure> value)
         {
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
             this.Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
