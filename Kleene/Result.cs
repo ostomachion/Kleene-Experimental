@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kleene
 {
@@ -18,5 +19,25 @@ namespace Kleene
             this.Expression = source ?? throw new System.ArgumentNullException(nameof(source));
             this.Children = children ?? throw new System.ArgumentNullException(nameof(children));
         }
+
+        public IEnumerable<Result> GetCaptures()
+        {
+            foreach (var result in this.Children)
+            {
+                if (result.Expression is CaptureExpression)
+                {
+                    yield return result;
+                }
+                else
+                {
+                    foreach (var capture in result.GetCaptures())
+                    {
+                        yield return capture;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Result> GetCaptures(string name) => GetCaptures().Where(x => (x.Expression as CaptureExpression)!.Name == name);
     }
 }
