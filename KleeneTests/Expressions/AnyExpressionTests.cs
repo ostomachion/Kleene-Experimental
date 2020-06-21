@@ -33,15 +33,21 @@ namespace KleeneTests
         {
             // Given
             var expression = new AnyExpression();
-            var input = new [] { new ConstantStructure<char>(c) };
+            var input = new [] { new ConstantStructure<char>(c) }.ToArray();
             
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(c, ((ConstantStructure<char>)item).Value)));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
+                }
+            );
         }
 
         [Theory]
@@ -57,15 +63,21 @@ namespace KleeneTests
         {
             // Given
             var expression = new AnyExpression();
-            var input = new [] { c, 'T', 'e', 's', 't', '.' }.Select(x => new ConstantStructure<char>(x));
+            var input = new [] { c, 'T', 'e', 's', 't', '.' }.Select(x => new ConstantStructure<char>(x)).ToArray();
             
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(c, ((ConstantStructure<char>)item).Value)));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
+                }
+            );
         }
 
         [Fact]
@@ -73,13 +85,13 @@ namespace KleeneTests
         {
             // Given
             var expression = new AnyExpression();
-            var input = Enumerable.Empty<ConstantStructure<char>>();
+            var input = Enumerable.Empty<ConstantStructure<char>>().ToArray();
             
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
     }
 }

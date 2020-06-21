@@ -13,7 +13,7 @@ namespace Kleene
             this.Value = new ConstantStructure<T>(value);
         }
 
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             if (index == input.Count())
                 yield break;
@@ -21,7 +21,7 @@ namespace Kleene
             var structure = input.ElementAt(index);
             if (structure is ConstantStructure<T> constant && (constant.Value?.Equals(this.Value.Value) ?? this.Value is null))
             {
-                yield return new [] { structure };
+                yield return new Result(input, index, 1, this, Enumerable.Empty<Result>());
             }
         }
     }

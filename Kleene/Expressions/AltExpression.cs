@@ -18,13 +18,13 @@ namespace Kleene
             this.Expressions = expressions?.ToList() ?? throw new ArgumentNullException(nameof(expressions));
         }
         
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             foreach (var expression in this.Expressions)
             {
                 foreach (var result in expression.Run(input, index))
                 {
-                    yield return result;
+                    yield return new Result(input, index, result.Length, this, new [] { result });
                 }
             }
         }

@@ -55,19 +55,32 @@ namespace KleeneTests
         public void FirstChoiceOfTwoChars_ReturnsFirstChar(char c1, char c2)
         {
             // Given
-            var expression = new AltExpression(new[] {
-                new ConstantExpression<char>(c1),
-                new ConstantExpression<char>(c2)
-            });
-            var input = new[] { c1 }.Select(x => new ConstantStructure<char>(x));
+            var item1 = new ConstantExpression<char>(c1);
+            var item2 = new ConstantExpression<char>(c2);
+            var expression = new AltExpression(new[] { item1, item2 });
+            var input = new[] { c1 }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(c1, ((ConstantStructure<char>)item).Value)));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Source);
+                            Assert.Empty(result.Children);
+                        }
+                    );
+                }
+            );
         }
 
         [Theory]
@@ -76,19 +89,32 @@ namespace KleeneTests
         public void SecondChoiceOfTwoChars_ReturnsSecondChar(char c1, char c2)
         {
             // Given
-            var expression = new AltExpression(new[] {
-                new ConstantExpression<char>(c1),
-                new ConstantExpression<char>(c2)
-            });
-            var input = new[] { c2 }.Select(x => new ConstantStructure<char>(x));;
+            var item1 = new ConstantExpression<char>(c1);
+            var item2 = new ConstantExpression<char>(c2);
+            var expression = new AltExpression(new[] { item1, item2 });
+            var input = new[] { c2 }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(c2, ((ConstantStructure<char>)item).Value)));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Source);
+                            Assert.Empty(result.Children);
+                        }
+                    );
+                }
+            );
         }
 
         [Theory]
@@ -101,13 +127,13 @@ namespace KleeneTests
                 new ConstantExpression<char>(c1),
                 new ConstantExpression<char>(c2)
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x));;
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -126,15 +152,28 @@ namespace KleeneTests
                 new ConstantExpression<char>(c2),
                 new ConstantExpression<char>(c3),
             });
-            var input = new[] { c }.Select(x => new ConstantStructure<char>(x));;
+            var input = new[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(c, ((ConstantStructure<char>)item).Value)));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Empty(result.Children);
+                        }
+                    );
+                }
+            );
         }
 
         [Theory]
@@ -148,13 +187,13 @@ namespace KleeneTests
                 new ConstantExpression<char>(c2),
                 new ConstantExpression<char>(c3),
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x));;
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -168,13 +207,13 @@ namespace KleeneTests
                 new ConstantExpression<char>(c1),
                 new ConstantExpression<char>(c2)
             });
-            var input = new[] { c }.Select(x => new ConstantStructure<char>(x));;
+            var input = new[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -190,13 +229,13 @@ namespace KleeneTests
                 new ConstantExpression<char>(c2),
                 new ConstantExpression<char>(c3)
             });
-            var input = new[] { c }.Select(x => new ConstantStructure<char>(x));;
+            var input = new[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -206,18 +245,31 @@ namespace KleeneTests
         public void OneChoiceMatch_ReturnsChoice(char c)
         {
             // Given
-            var expression = new AltExpression(new[] {
-                new ConstantExpression<char>(c)
-            });
-            var input = new[] { c }.Select(x => new ConstantStructure<char>(x));;
+            var item = new ConstantExpression<char>(c);
+            var expression = new AltExpression(new[] { item });
+            var input = new[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(c, ((ConstantStructure<char>)item).Value)));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item, result.Source);
+                            Assert.Empty(result.Children);
+                        }
+                    );
+                }
+            );
         }
 
         [Theory]
@@ -231,13 +283,13 @@ namespace KleeneTests
             var expression = new AltExpression(new[] {
                 new ConstantExpression<char>(c1)
             });
-            var input = new[] { c }.Select(x => new ConstantStructure<char>(x));;
+            var input = new[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -250,13 +302,13 @@ namespace KleeneTests
             var expression = new AltExpression(new[] {
                 new ConstantExpression<char>(c)
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x));;
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -267,13 +319,13 @@ namespace KleeneTests
         {
             // Given
             var expression = new AltExpression(Enumerable.Empty<Expression>());
-            var input = new char[] { c }.Select(x => new ConstantStructure<char>(x));;
+            var input = new char[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Fact]
@@ -281,13 +333,13 @@ namespace KleeneTests
         {
             // Given
             var expression = new AltExpression(Enumerable.Empty<Expression>());
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x));;
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Theory]
@@ -296,21 +348,47 @@ namespace KleeneTests
         public void DuplicateChoice_ReturnChoiceTwice(char c)
         {
             // Given
-            var expression = new AltExpression(new [] {
-                new ConstantExpression<char>(c),
-                new ConstantExpression<char>(c)
-            });
-            var input = new char[] { c }.Select(x => new ConstantStructure<char>(x));;
+            var item1 = new ConstantExpression<char>(c);
+            var item2 = new ConstantExpression<char>(c);
+            var expression = new AltExpression(new [] { item1, item2 });
+            var input = new char[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch => Assert.Collection(branch,
-                    item => Assert.Equal(c, ((ConstantStructure<char>)item).Value)),
-                branch => Assert.Collection(branch,
-                        item => Assert.Equal(c, ((ConstantStructure<char>)item).Value)));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Source);
+                            Assert.Empty(result.Children);
+                        }
+                    );
+                },
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Source);
+                            Assert.Empty(result.Children);
+                        }
+                    );
+                }
+            );
         }
 
         [Theory]
@@ -323,13 +401,13 @@ namespace KleeneTests
                 new ConstantExpression<char>(c),
                 new ConstantExpression<char>(c)
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x));;
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Kleene.Xml
             this.Local = local ?? throw new ArgumentNullException(nameof(local));
         }
 
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             if (index == input.Count())
                 yield break;
@@ -25,13 +25,11 @@ namespace Kleene.Xml
             if (!(structure is NameStructure name))
                 yield break;
 
-            foreach (var nsResult in this.NS.Run(new[] { name.NS }, 0).Where(x => x.Count() == 1))
+            foreach (var nsResult in this.NS.Run(new[] { name.NS }, 0).Where(x => x.Length == 1))
             {
-                foreach (var localResult in this.Local.Run(new[] { name.Local }, 0).Where(x => x.Count() == 1))
+                foreach (var localResult in this.Local.Run(new[] { name.Local }, 0).Where(x => x.Length == 1))
                 {
-                    yield return new[] { new NameStructure(
-                        nsResult.Cast<TextStructure>().Single(),
-                        localResult.Cast<TextStructure>().Single()) };
+                    yield return new Result(input, index, 1, this, new [] { nsResult, localResult });
                 }
             }
         }

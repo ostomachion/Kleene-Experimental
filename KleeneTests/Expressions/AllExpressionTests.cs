@@ -37,43 +37,49 @@ namespace KleeneTests
         {
             // Given
             var expression = new AllExpression(Order.Greedy);
-            var input = new[] { 't', 'e', 's', 't' }.Select(x => new ConstantStructure<char>(x));
+            var input = new[] { 't', 'e', 's', 't' }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('e', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('s', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value));
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(4, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('e', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('s', ((ConstantStructure<char>)item).Value));
+                result => {
+                    // Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(3, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('e', ((ConstantStructure<char>)item).Value));
+                result => {
+                    // Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value));
+                result => {
+                    // Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Empty(branch);
-                });
+                result => {
+                    // Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(0, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
+                }
+            );
         }
 
         [Fact]
@@ -81,43 +87,49 @@ namespace KleeneTests
         {
             // Given
             var expression = new AllExpression(Order.Lazy);
-            var input = new[] { 't', 'e', 's', 't' }.Select(x => new ConstantStructure<char>(x));
+            var input = new[] { 't', 'e', 's', 't' }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch =>
-                {
-                    Assert.Empty(branch);
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(0, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value));
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('e', ((ConstantStructure<char>)item).Value));
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('e', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('s', ((ConstantStructure<char>)item).Value));
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(3, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
                 },
-                branch =>
-                {
-                    Assert.Collection(branch,
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('e', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('s', ((ConstantStructure<char>)item).Value),
-                        item => Assert.Equal('t', ((ConstantStructure<char>)item).Value));
-                });
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(4, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
+                }
+            );
         }
 
         [Fact]
@@ -125,17 +137,21 @@ namespace KleeneTests
         {
             // Given
             var expression = new AllExpression(Order.Greedy);
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x));
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch =>
-                {
-                    Assert.Empty(branch);
-                });
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(0, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
+                }
+            );
         }
 
         [Fact]
@@ -143,17 +159,21 @@ namespace KleeneTests
         {
             // Given
             var expression = new AllExpression(Order.Lazy);
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x));
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var result = expression.Run(input, 0);
+            var results = expression.Run(input, 0);
 
             // Then
-            Assert.Collection(result,
-                branch =>
-                {
-                    Assert.Empty(branch);
-                });
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(0, result.Length);
+                    Assert.Equal(expression, result.Source);
+                    Assert.Empty(result.Children);
+                }
+            );
         }
     }
 }

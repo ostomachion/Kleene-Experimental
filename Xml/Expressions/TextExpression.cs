@@ -13,7 +13,7 @@ namespace Kleene.Xml
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             if (index == input.Count())
                 yield break;
@@ -22,9 +22,9 @@ namespace Kleene.Xml
             if (!(structure is TextStructure text))
                 yield break;
 
-            foreach (var result in this.Value.Run(text.Value, 0).Where(x => x.Count() == text.Value.Count()))
+            foreach (var result in this.Value.Run(text.Value, 0).Where(x => x.Length == text.Value.Count()))
             {
-                yield return new[] { new TextStructure(result.Cast<ConstantStructure<char>>()) };
+                yield return new Result(input, index, 1, this, new [] { result });
             }
         }
     }

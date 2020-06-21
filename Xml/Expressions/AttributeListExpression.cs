@@ -12,7 +12,7 @@ namespace Kleene.Xml
             this.Value = value ?? throw new System.ArgumentNullException(nameof(value));
         }
 
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             if (index == input.Count())
                 yield break;
@@ -22,10 +22,9 @@ namespace Kleene.Xml
                 yield break;
 
             // TODO: Match attributes in order for now.
-            var count = attributes.Value.Count();
-            foreach (var result in this.Value.Run(attributes.Value, 0).Where(x => x.Count() == attributes.Value.Count()))
+            foreach (var result in this.Value.Run(attributes.Value, 0).Where(x => x.Length == attributes.Value.Count()))
             {
-                yield return new [] { new AttributeListStructure(result.Cast<AttributeStructure>()) };
+                yield return new Result(input, index, 1, this, new [] { result });
             }
         }
     }

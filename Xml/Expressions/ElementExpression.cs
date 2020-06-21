@@ -18,7 +18,7 @@ namespace Kleene.Xml
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             if (index == input.Count())
                 yield break;
@@ -31,14 +31,9 @@ namespace Kleene.Xml
             {
                 foreach (var attributesResult in this.Attributes.Run(new[] { element.Attributes }, 0))
                 {
-                    foreach (var valueResult in this.Value.Run(element.Value, 0).Where(x => x.Count() == element.Value.Count()))
+                    foreach (var valueResult in this.Value.Run(element.Value, 0).Where(x => x.Length == element.Value.Count()))
                     {
-                        yield return new[] {
-                            new ElementStructure(
-                                (NameStructure)nameResult.Single(),
-                                (AttributeListStructure)attributesResult.Single(),
-                                valueResult)
-                        };
+                        yield return new Result(input, index, 1, this, new [] { nameResult, attributesResult, valueResult });
                     }
                 }
             }

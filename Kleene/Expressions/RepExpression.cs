@@ -19,19 +19,19 @@ namespace Kleene
             this.Max = max;
         }
 
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int offset)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             if (this.Order == Order.Lazy && this.Min == 0 || this.Max == 0)
             {
-                yield return Enumerable.Empty<Structure>();
+                yield return new Result(input, index, 0, this, Enumerable.Empty<Result>());
                 if (this.Max == 0)
                 {
                     yield break;
                 }
             }
 
-            var stack = new Stack<IEnumerator<IEnumerable<Structure>>>();
-            stack.Push(this.Expression.Run(input, offset).GetEnumerator());
+            var stack = new Stack<IEnumerator<Result>>();
+            stack.Push(this.Expression.Run(input, index).GetEnumerator());
 
             while (stack.Any())
             {
@@ -39,16 +39,15 @@ namespace Kleene
                 {
                     if (stack.Count == this.Max)
                     {
-                        yield return stack.Reverse().SelectMany(x => x.Current).ToList();
+                        yield return new Result(input, index, stack.Sum(x => x.Current.Length), this, stack.Reverse().Select(x => x.Current).ToArray());
                     }
                     else
                     {
                         if (this.Order == Order.Lazy && stack.Count >= this.Min)
                         {
-                            yield return stack.Reverse().SelectMany(x => x.Current).ToList();
+                            yield return new Result(input, index, stack.Sum(x => x.Current.Length), this, stack.Reverse().Select(x => x.Current).ToArray());
                         }
-                        var length = stack.Sum(x => x.Current.Count());
-                        stack.Push(this.Expression.Run(input, offset + length).GetEnumerator());
+                        stack.Push(this.Expression.Run(input, index + stack.Sum(x => x.Current.Length)).GetEnumerator());
                     }
                 }
                 else
@@ -59,11 +58,11 @@ namespace Kleene
                     {
                         if (stack.Any() && stack.Count >= this.Min)
                         {
-                            yield return stack.Reverse().SelectMany(x => x.Current).ToList();
+                            yield return new Result(input, index, stack.Sum(x => x.Current.Length), this, stack.Reverse().Select(x => x.Current).ToArray());
                         }
                         else if (this.Min == 0)
                         {
-                            yield return Enumerable.Empty<Structure>();
+                            yield return new Result(input, index, 0, this, Enumerable.Empty<Result>());
                         }
                     }
                 }

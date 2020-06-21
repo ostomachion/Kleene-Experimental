@@ -13,20 +13,20 @@ namespace Kleene
             this.Order = order;
         }
 
-        public override IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
             switch (this.Order)
             {
                 case Order.Greedy:
                     for (int i = input.Count(); i >= index; i--)
                     {
-                        yield return input.Skip(index).Take(i - index);
+                        yield return new Result(input, index, i - index, this, Enumerable.Empty<Result>());
                     }
                     break;
                 case Order.Lazy:
                     for (int i = index; i <= input.Count(); i++)
                     {
-                        yield return input.Skip(index).Take(i - index);
+                        yield return new Result(input, index, i - index, this, Enumerable.Empty<Result>());
                     }
                     break;
             }

@@ -7,6 +7,6 @@ namespace Kleene
 {
     public abstract class Expression
     {
-        public abstract IEnumerable<IEnumerable<Structure>> Run(IEnumerable<Structure> input, int index);
+        public abstract IEnumerable<Result> Run(IEnumerable<Structure> input, int index);
     }
 }
