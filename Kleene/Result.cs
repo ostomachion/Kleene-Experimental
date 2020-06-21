@@ -20,6 +20,8 @@ namespace Kleene
             this.Children = children ?? throw new System.ArgumentNullException(nameof(children));
         }
 
+        public IEnumerable<Structure> GetValue() => this.Input.Skip(this.Index).Take(this.Length);
+
         public IEnumerable<Result> GetCaptures()
         {
             foreach (var result in this.Children)
