@@ -52,6 +52,8 @@ namespace Kleene.Xml
                         return new AnyExpression();
                     case "all":
                         return new AllExpression(ParseOrder(element.Attribute("order")));
+                    case "capture":
+                        return new CaptureExpression(ParseNodes(element.Nodes()), element.Attribute("name").Value);
                     case "elem":
                         return new ElementExpression(
                             ParseName(element.Element(NS + "name")),
