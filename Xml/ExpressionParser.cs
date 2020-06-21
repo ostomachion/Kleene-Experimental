@@ -20,6 +20,10 @@ namespace Kleene.Xml
             {
                 return ParseText(text);
             }
+            else if (node is XComment)
+            {
+                return new SequenceExpression(Enumerable.Empty<Expression>());
+            }
             else
             {
                 throw new NotSupportedException();

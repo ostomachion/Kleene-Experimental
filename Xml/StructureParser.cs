@@ -29,7 +29,7 @@ namespace Kleene.Xml
             return new ElementStructure(
                 ParseName(element.Name),
                 ParseAttributes(element.Attributes()),
-                element.Nodes().Select(ParseNode)
+                element.Nodes().Where(x => !(x is XComment)).Select(ParseNode)
             );
         }
 
