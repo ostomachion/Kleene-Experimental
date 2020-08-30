@@ -34,7 +34,7 @@ namespace Kleene.Xml
         }
 
         public static AttributeListStructure ParseAttributes(IEnumerable<XAttribute> attributes) => new AttributeListStructure(
-            attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns").Select(ParseAttribute)
+            attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns" && x.Name.Namespace != XNamespace.Xml).Select(ParseAttribute)
         );
 
         public static AttributeStructure ParseAttribute(XAttribute attribute) => new AttributeStructure(

@@ -115,7 +115,7 @@ namespace Kleene.Xml
 
         private static AttributeListExpression ParseAttributes(IEnumerable<XAttribute> attributes)
         {
-            attributes = attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns");
+            attributes = attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns" && x.Name.Namespace != XNamespace.Xml);
             return new AttributeListExpression(new SequenceExpression(attributes.Select(ParseAttribute)));
         }
 
