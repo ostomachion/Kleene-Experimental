@@ -8,6 +8,7 @@ namespace KleeneTests
 {
     public class StructureExpressionTests
     {
+        [Fact]
         public void NullName_Throws()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -16,6 +17,7 @@ namespace KleeneTests
             });
         }
 
+        [Fact]
         public void NullNameWithExpression_Throws()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -24,6 +26,7 @@ namespace KleeneTests
             });
         }
 
+        [Fact]
         public void NullExpression_Throws()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -32,6 +35,7 @@ namespace KleeneTests
             });
         }
 
+        [Fact]
         public void NoChildren_ReturnsSameNameNoChildren()
         {
             // Given
@@ -62,6 +66,7 @@ namespace KleeneTests
             );
         }
 
+        [Fact]
         public void WithExpression_ReturnsStructureWithChild()
         {
             // Given
