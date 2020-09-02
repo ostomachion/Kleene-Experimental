@@ -11,14 +11,14 @@ namespace Kleene
 
         public StructureExpression(string name)
         {
-            this.Name = name;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
             this.Value = SequenceExpression.Empty;
         }
 
         public StructureExpression(string name, Expression value)
         {
-            this.Name = name;
-            this.Value = value;
+            this.Name = name ?? throw new ArgumentNullException(nameof(name));
+            this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public override IEnumerable<NondeterministicStructure?> Run()
