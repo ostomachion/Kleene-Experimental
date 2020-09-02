@@ -60,12 +60,14 @@ namespace KleeneTests
                     Assert.NotNull(result);
                     Assert.Equal("foo", result!.Name);
                     Assert.Collection(result.FirstChild,
-                        item => {
+                        item =>
+                        {
                             Assert.Null(item);
                         }
                     );
                     Assert.Collection(result.NextSibling,
-                        item => {
+                        item =>
+                        {
                             Assert.Null(item);
                         }
                     );
