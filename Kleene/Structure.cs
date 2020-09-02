@@ -9,14 +9,28 @@ namespace Kleene
     {
         public string Name { get; }
 
-        public Structure? FirstChildren { get; }
+        public Structure? FirstChild { get; }
         public Structure? NextSibling { get; }
 
-        public Structure(string name, Structure? firstChild, Structure? nextSibling)
+        public Structure(string name, Structure? firstChild = null, Structure? nextSibling = null)
         {
             this.Name = name;
-            this.FirstChildren = FirstChildren;
+            this.FirstChild = firstChild;
             this.NextSibling = nextSibling;
+        }
+
+        public override string ToString()
+        {
+            string value = this.Name;
+            value += this.FirstChild is null ? ";" :
+                this.FirstChild.NextSibling is null ?
+                " " + this.FirstChild + ";" :
+                " {\n" + this.FirstChild.ToString().Replace("\n", "\t\n") + "\n} ";
+                
+            if (this.NextSibling is Structure)
+                value += " " + this.NextSibling;
+            
+            return value;
         }
     }
 }
