@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kleene", "Kleene\Kleene.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KleeneTests", "KleeneTests\KleeneTests.csproj", "{21BA4A52-007E-45FC-B460-DD8933C4F985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xml", "Xml\Xml.csproj", "{C0B2399D-6D32-4088-9E92-B6ECD0E2CC39}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlTests", "XmlTests\XmlTests.csproj", "{8AF0180A-3C58-443D-8A54-1C4DFF25BCE1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
