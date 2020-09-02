@@ -27,7 +27,7 @@ namespace KleeneTests
         }
 
         [Fact]
-        public void TwoEmtpyChoices_RetrurnsEmpty()
+        public void TwoEmptyChoices_RetrurnsEmpty()
         {
             // Given
             var expression = new ConjunctionExpression(SequenceExpression.Empty, SequenceExpression.Empty);
