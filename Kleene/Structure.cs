@@ -12,7 +12,7 @@ namespace Kleene
         public Structure? FirstChildren { get; }
         public Structure? NextSibling { get; }
 
-        public Structure(string name, Structure? fisrtChild, Structure? nextSibling)
+        public Structure(string name, Structure? firstChild, Structure? nextSibling)
         {
             this.Name = name;
             this.FirstChildren = FirstChildren;
