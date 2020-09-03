@@ -28,7 +28,7 @@ namespace Kleene
                 " {\n" + this.FirstChild.ToString().Replace("\n", "\t\n") + "\n} ";
                 
             if (this.NextSibling is Structure)
-                value += " " + this.NextSibling;
+                value += "\n" + this.NextSibling;
             
             return value;
         }
