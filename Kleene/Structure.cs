@@ -16,16 +16,19 @@ namespace Kleene
         {
             get
             {
-                return FirstChild is Structure first
-                    ? EnumerableExt.Yield(first).Concat(getSiblingsAfterSelf(first))
+                return this.FirstChild is Structure first
+                    ? EnumerableExt.Yield(first).Concat(first.SiblingsAfterSelf)
                     : Enumerable.Empty<Structure>();
+            }
+        }
 
-                static IEnumerable<Structure> getSiblingsAfterSelf(Structure structure)
-                {
-                    return structure.NextSibling is Structure next
-                        ? EnumerableExt.Yield(next).Concat(getSiblingsAfterSelf(next))
-                        : Enumerable.Empty<Structure>();
-                }
+        public IEnumerable<Structure> SiblingsAfterSelf
+        {
+            get
+            {
+                return this.NextSibling is Structure next
+                    ? EnumerableExt.Yield(next).Concat(next.SiblingsAfterSelf)
+                    : Enumerable.Empty<Structure>();
             }
         }
 
