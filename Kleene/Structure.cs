@@ -52,5 +52,7 @@ namespace Kleene
 
             return value;
         }
+
+        public static explicit operator Structure?(string text) => TextHelper.CreateStructure(text);
     }
 }
