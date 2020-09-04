@@ -26,11 +26,5 @@ namespace Kleene
             var value = this.Value.Run();
             yield return new NondeterministicStructure(this.Name, this.Value.Run(), EnumerableExt.Yield<NondeterministicStructure?>(null));
         }
-
-        public static explicit operator StructureExpression(Structure structure)
-        {
-            return new StructureExpression(structure.Name,
-                new SequenceExpression(structure.Children.Cast<StructureExpression>()));
-        }
     }
 }
