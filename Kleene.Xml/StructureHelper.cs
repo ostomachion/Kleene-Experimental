@@ -4,7 +4,7 @@ using Kleene;
 
 namespace Kleene.Xml
 {
-    public static class Helper
+    public static class StructureHelper
     {
         public static Structure? CreateStructure(XNode? node)
         {
