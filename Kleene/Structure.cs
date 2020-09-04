@@ -53,6 +53,19 @@ namespace Kleene
             return value;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Structure structure &&
+                   Name == structure.Name &&
+                   EqualityComparer<Structure?>.Default.Equals(FirstChild, structure.FirstChild) &&
+                   EqualityComparer<Structure?>.Default.Equals(NextSibling, structure.NextSibling);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, FirstChild, NextSibling);
+        }
+
         public static explicit operator Structure?(string text) => TextHelper.CreateStructure(text);
     }
 }
