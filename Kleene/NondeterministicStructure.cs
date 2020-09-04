@@ -18,5 +18,18 @@ namespace Kleene
             this.FirstChild = firstChild;
             this.NextSibling = nextSibling;
         }
+
+        public IEnumerable<Structure> Collapse()
+        {
+            var children = this.FirstChild.SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var siblings = this.NextSibling.SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            foreach (var sibling in siblings)
+            {
+                foreach (var child in children)
+                {
+                    yield return new Structure(this.Name, child, sibling);
+                }
+            }
+        }
     }
 }
