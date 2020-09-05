@@ -831,7 +831,7 @@ namespace XmlTests
                         <k:local>foo</k:local>
                     </k:name>
                     <k:attrs/>
-                    <k:value>baz<k:all/></k:value>
+                    <k:value>baz<bar/></k:value>
                 </k:elem>"
             ));
 
