@@ -9,14 +9,6 @@ namespace KleeneTests
     public class AnyExpressionTests
     {
         [Fact]
-        public void LoneAny_Throws()
-        {
-            var expression = new AnyExpression();
-
-            Assert.Throws<InvalidOperationException>(() => expression.Run().ToList());
-        }
-
-        [Fact]
         public void Any_ReturnsInput() {
             // Given
             var expression = new AnyExpression();
@@ -26,7 +18,10 @@ namespace KleeneTests
             var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
 
             // Then
-            Assert.Empty(results);
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result);
+                });
         }
     }
 }
