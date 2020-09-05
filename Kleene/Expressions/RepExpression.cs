@@ -14,7 +14,10 @@ namespace Kleene
 
         public override IEnumerable<NondeterministicStructure?> Run()
         {
-            return SequenceExpression.Concat(this.Expression.Run(), this.Run()).Concat(SequenceExpression.Empty.Run());
+            foreach (var result in SequenceExpression.Concat(this.Expression.Run(), this.Run()).Concat(SequenceExpression.Empty.Run()))
+            {
+                yield return result;
+            }
         }
     }
 }
