@@ -35,7 +35,11 @@ namespace Kleene
 
             static IEnumerable<NondeterministicStructure?> concat(IEnumerable<NondeterministicStructure?> head, IEnumerable<NondeterministicStructure?> tail)
             {
-                return head.SelectMany(x => x is null ? tail : EnumerableExt.Yield(new NondeterministicStructure(x.Name, x.FirstChild, concat(x.NextSibling, tail))));
+                return head.SelectMany(x =>
+                    x is null ? tail :
+                    x is NamedNondeterministicStructure named ? (IEnumerable<NondeterministicStructure?>)EnumerableExt.Yield(new NamedNondeterministicStructure(named.Name, named.FirstChild, concat(named.NextSibling, tail))) :
+                    x is AnyStructure all ? EnumerableExt.Yield(new AnyStructure(concat(all.NextSibling, tail))) :
+                    throw new NotImplementedException());
             }
         }
     }

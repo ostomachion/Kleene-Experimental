@@ -34,8 +34,46 @@ namespace Kleene
 
             static IEnumerable<NondeterministicStructure?> overlap(IEnumerable<NondeterministicStructure?> leader, IEnumerable<NondeterministicStructure?> follower)
             {
-                return leader.SelectMany(x => follower.Where(y => y?.Name == x?.Name)
-                    .Select(y => y is null ? null : new NondeterministicStructure(y.Name, overlap(x!.FirstChild, y.FirstChild), overlap(x.NextSibling, y.NextSibling))));
+                return leader.SelectMany(x =>
+                {
+                    if (x is NamedNondeterministicStructure namedX)
+                    {
+                        return follower.Select(y =>
+                        {
+                            if (y is NamedNondeterministicStructure namedY)
+                            {
+                                return namedX.Name == namedY.Name ? new NamedNondeterministicStructure(namedX.Name,
+                                    overlap(namedX.FirstChild, namedY.FirstChild),
+                                    overlap(namedX.NextSibling, namedY.NextSibling))
+                                    : null;
+                            }
+                            else if (y is AnyStructure)
+                            {
+                                return namedX;
+                            }
+                            else if (y is null)
+                            {
+                                return null;
+                            }
+                            else
+                            {
+                                throw new NotImplementedException();
+                            }
+                        }).OfType<NondeterministicStructure>();
+                    }
+                    else if (x is AnyStructure)
+                    {
+                        return follower;
+                    }
+                    else if (x is null)
+                    {
+                        return follower.Where(y => y is null);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                });
             }
         }
     }

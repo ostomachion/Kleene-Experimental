@@ -71,14 +71,15 @@ namespace KleeneTests
             Assert.Collection(results,
                 result =>
                 {
-                    Assert.NotNull(result);
-                    Assert.Equal("foo", result!.Name);
-                    Assert.Collection(result.FirstChild,
+                    Assert.IsType<NamedNondeterministicStructure>(result);
+                    var namedResult = (NamedNondeterministicStructure)result!;
+                    Assert.Equal("foo", namedResult!.Name);
+                    Assert.Collection(namedResult.FirstChild,
                         item => {
                             Assert.Null(item);
                         }
                     );
-                    Assert.Collection(result.NextSibling,
+                    Assert.Collection(namedResult.NextSibling,
                         item => {
                             Assert.Null(item);
                         }
@@ -103,23 +104,25 @@ namespace KleeneTests
             Assert.Collection(results,
                 result =>
                 {
-                    Assert.NotNull(result);
-                    Assert.Equal("foo", result!.Name);
-                    Assert.Collection(result.FirstChild,
+                    Assert.IsType<NamedNondeterministicStructure>(result);
+                    var namedResult = (NamedNondeterministicStructure)result!;
+                    Assert.Equal("foo", namedResult!.Name);
+                    Assert.Collection(namedResult.FirstChild,
                         item => {
                             Assert.Null(item);
                         }
                     );
-                    Assert.Collection(result.NextSibling,
+                    Assert.Collection(namedResult.NextSibling,
                         item => {
-                            Assert.NotNull(item);
-                            Assert.Equal("bar", item!.Name);
-                            Assert.Collection(item.FirstChild,
+                            Assert.IsType<NamedNondeterministicStructure>(item);
+                            var namedItem = (NamedNondeterministicStructure)item!;
+                            Assert.Equal("bar", namedItem!.Name);
+                            Assert.Collection(namedItem.FirstChild,
                                 item => {
                                     Assert.Null(item);
                                 }
                             );
-                            Assert.Collection(item.NextSibling,
+                            Assert.Collection(namedItem.NextSibling,
                                 item => {
                                     Assert.Null(item);
                                 }
