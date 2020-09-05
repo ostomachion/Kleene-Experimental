@@ -40,11 +40,11 @@ namespace XmlTests
             var expression = ExpressionHelper.ParseElement(XElement.Parse(
                 @"<k:elem xmlns:k='http://hufford.io/kleene/xml'>
                     <k:name>
-                        <k:ns><k:all/></k:ns>
-                        <k:local><k:all/></k:local>
+                        <k:ns><k:rep><k:any/></k:rep></k:ns>
+                        <k:local><k:rep><k:any/></k:rep></k:local>
                     </k:name>
-                    <k:attrs><k:all/></k:attrs>
-                    <k:value><k:all/></k:value>
+                    <k:attrs><k:rep><k:any/></k:rep></k:attrs>
+                    <k:value><k:rep><k:any/></k:rep></k:value>
                 </k:elem>"
             ));
 
@@ -221,7 +221,7 @@ namespace XmlTests
                         <k:ns/>
                         <k:local>foo</k:local>
                     </k:name>
-                    <k:attrs><k:all/></k:attrs>
+                    <k:attrs><k:rep><k:any/></k:rep></k:attrs>
                     <k:value/>
                 </k:elem>"
             ));
@@ -249,10 +249,10 @@ namespace XmlTests
                     <k:attrs>
                         <k:attr>
                             <k:name>
-                                <k:ns><k:all/></k:ns>
-                                <k:local><k:all/></k:local>
+                                <k:ns><k:rep><k:any/></k:rep></k:ns>
+                                <k:local><k:rep><k:any/></k:rep></k:local>
                             </k:name>
-                            <k:value><k:all/></k:value>
+                            <k:value><k:rep><k:any/></k:rep></k:value>
                         </k:attr>
                     </k:attrs>
                     <k:value/>
@@ -548,7 +548,7 @@ namespace XmlTests
             ));
 
             var expression = ExpressionHelper.ParseElement(XElement.Parse(
-                @"<foo xmlns:k='http://hufford.io/kleene/xml'><k:all/></foo>"
+                @"<foo xmlns:k='http://hufford.io/kleene/xml'><k:rep><k:any/></k:rep></foo>"
             ));
 
             // When
@@ -633,7 +633,7 @@ namespace XmlTests
             ));
 
             var expression = ExpressionHelper.ParseElement(XElement.Parse(
-                @"<foo xmlns:k='http://hufford.io/kleene/xml'><k:all/></foo>"
+                @"<foo xmlns:k='http://hufford.io/kleene/xml'><k:rep><k:any/></k:rep></foo>"
             ));
 
             // When
@@ -762,7 +762,7 @@ namespace XmlTests
             ));
 
             var expression = ExpressionHelper.ParseElement(XElement.Parse(
-                @"<foo xmlns:k='http://hufford.io/kleene/xml'><k:all/></foo>"
+                @"<foo xmlns:k='http://hufford.io/kleene/xml'><k:rep><k:any/></k:rep></foo>"
             ));
 
             // When
@@ -805,7 +805,7 @@ namespace XmlTests
                     </k:name>
                     <k:attrs/>
                     <k:value>
-                        <k:all/>
+                        <k:rep><k:any/></k:rep>
                     </k:value>
                 </k:elem>"
             ));
