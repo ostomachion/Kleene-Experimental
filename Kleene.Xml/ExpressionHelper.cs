@@ -45,6 +45,10 @@ namespace Kleene.Xml
                         return new AltExpression(element.Elements(NS + "item").Select(item =>
                             ParseNodes(item.Nodes())
                         ));
+                    case "rep":
+                        return new RepExpression(ParseNodes(element.Nodes()));
+                    case "any":
+                        return new AnyExpression();
                     case "elem":
                         return new StructureExpression("elem", new SequenceExpression(new[] {
                             ParseName(element.Element(NS + "name")),
