@@ -91,17 +91,12 @@ namespace Kleene.Xml
             }
         }
 
-        public static Expression ParseText(XText text)
-        {
-            return ParseString(text.Value);
-        }
+        public static Expression ParseText(XText text) => ParseText(text.Value);
 
         public static Expression ParseText(string text)
         {
-            return ParseString(text);
+            return (Expression)TextHelper.CreateStructure(text);
         }
-
-        private static Expression ParseString(string value) => (Expression)TextHelper.CreateStructure(value);
 
         private static Expression ParseAttributes(IEnumerable<XAttribute> attributes)
         {

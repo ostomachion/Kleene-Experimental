@@ -19,7 +19,7 @@ namespace Kleene
             return structure is Structure
                 ? new SequenceExpression(new [] {
                     new StructureExpression(structure.Name,
-                        new SequenceExpression(structure.Children.Select(x => (Expression)x))),
+                        (Expression)structure.FirstChild),
                         (Expression)structure.NextSibling,
                     })
                 : SequenceExpression.Empty;
