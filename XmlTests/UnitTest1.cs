@@ -11,7 +11,7 @@ namespace XmlTests
         public void Test()
         {
             var el = XElement.Parse("<root name='value'>foo<div class='a b c'>bar</div></root>");
-            var structure = Kleene.Xml.Helper.CreateStructure(el);
+            var structure = Kleene.Xml.StructureHelper.CreateStructure(el);
             ;
         }
     }
