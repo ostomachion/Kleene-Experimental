@@ -11,7 +11,6 @@ namespace Kleene
             if (index == input.Count())
                 yield break;
 
-            var structure = input.ElementAt(index);
             yield return new Result(input, index, 1, this, Enumerable.Empty<Result>());
         }
     }

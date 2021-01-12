@@ -20,7 +20,7 @@ namespace Kleene.Xml
                 yield break;
 
             var structure = input.ElementAt(index);
-            if (!(structure is AttributeStructure attribute))
+            if (structure is not AttributeStructure attribute)
                 yield break;
 
             foreach (var nameResult in this.Name.Run(new[] { attribute.Name }, 0))

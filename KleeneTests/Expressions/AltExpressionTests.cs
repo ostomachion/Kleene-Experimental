@@ -127,7 +127,7 @@ namespace KleeneTests
                 new ConstantExpression<char>(c1),
                 new ConstantExpression<char>(c2)
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -187,7 +187,7 @@ namespace KleeneTests
                 new ConstantExpression<char>(c2),
                 new ConstantExpression<char>(c3),
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -302,7 +302,7 @@ namespace KleeneTests
             var expression = new AltExpression(new[] {
                 new ConstantExpression<char>(c)
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -333,7 +333,7 @@ namespace KleeneTests
         {
             // Given
             var expression = new AltExpression(Enumerable.Empty<Expression>());
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -401,7 +401,7 @@ namespace KleeneTests
                 new ConstantExpression<char>(c),
                 new ConstantExpression<char>(c)
             });
-            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
