@@ -51,9 +51,9 @@ namespace Kleene.Xml
                         return new AnyExpression();
                     case "elem":
                         return new StructureExpression("elem", new SequenceExpression(new[] {
-                            ParseName(element.Element(NS + "name")),
-                            ParseAttributes(element.Element(NS + "attrs")),
-                            new StructureExpression("value", ParseNodes(element.Element(NS + "value").Nodes()))
+                            ParseName(element.Element(NS + "name")!),
+                            ParseAttributes(element.Element(NS + "attrs")!),
+                            new StructureExpression("value", ParseNodes(element.Element(NS + "value")!.Nodes()))
                         }));
                     case "attr":
                         return ParseAttribute(element);
@@ -89,8 +89,8 @@ namespace Kleene.Xml
             else
             {
                 return new StructureExpression("name", new SequenceExpression(new [] {
-                    new StructureExpression("ns", ParseNodes(element.Element(NS + "ns").Nodes())),
-                    new StructureExpression("local", ParseNodes(element.Element(NS + "local").Nodes()))
+                    new StructureExpression("ns", ParseNodes(element.Element(NS + "ns")!.Nodes())),
+                    new StructureExpression("local", ParseNodes(element.Element(NS + "local")!.Nodes()))
                 }));
             }
         }
@@ -128,8 +128,8 @@ namespace Kleene.Xml
             if (element.Elements().Any())
             {
                 return new StructureExpression("attr", new SequenceExpression(new [] {
-                    ParseName(element.Element(NS + "name")),
-                    new StructureExpression("value", ParseNodes(element.Element(NS + "value").Nodes()))
+                    ParseName(element.Element(NS + "name")!),
+                    new StructureExpression("value", ParseNodes(element.Element(NS + "value")!.Nodes()))
                 }));
             }
             else

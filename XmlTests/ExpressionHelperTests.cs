@@ -23,7 +23,7 @@ namespace XmlTests
 
             // When
             var test = expression.Run(structure);
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -49,7 +49,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -75,7 +75,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -98,7 +98,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -117,7 +117,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -143,7 +143,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -166,7 +166,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -184,7 +184,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -202,7 +202,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -227,7 +227,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -260,7 +260,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -293,7 +293,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -323,7 +323,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -350,7 +350,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -368,7 +368,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -401,7 +401,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -431,7 +431,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -458,7 +458,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -476,7 +476,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -516,7 +516,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -534,7 +534,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -552,7 +552,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -577,7 +577,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -595,7 +595,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -617,7 +617,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -637,7 +637,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -673,7 +673,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -700,7 +700,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -745,7 +745,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -766,7 +766,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -784,7 +784,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -811,7 +811,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));
@@ -836,7 +836,7 @@ namespace XmlTests
             ));
 
             // When
-            var results = expression.Run(structure).SelectMany(x => x.Collapse());
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
 
             // Then
             Assert.Collection(results, item => Assert.Equal(structure, item));

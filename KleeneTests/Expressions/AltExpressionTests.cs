@@ -155,7 +155,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure(c1);
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Collection(results,
@@ -180,7 +180,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure("");
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
@@ -200,7 +200,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure(c);
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
@@ -222,7 +222,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure(c);
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
@@ -240,7 +240,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure(c);
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Collection(results,
@@ -265,7 +265,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure(c);
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
@@ -284,7 +284,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure("");
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
@@ -301,7 +301,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure(c);
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
@@ -315,7 +315,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure("");
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
@@ -333,7 +333,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure(c);
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Collection(results,
@@ -361,7 +361,7 @@ namespace KleeneTests
                 var input = TextHelper.CreateStructure("");
 
                 // When
-                var results = expression.Run(input).SelectMany(x => x?.Collapse());
+                var results = expression.Run(input).SelectMany(x => x!.Collapse());
 
                 // Then
                 Assert.Empty(results);
