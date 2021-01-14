@@ -15,7 +15,7 @@ namespace XmlTests
             var structure = StructureHelper.CreateStructure(XElement.Parse(
                 @"<foo/>"
             ));
-
+            
             var expected = new Structure("elem",
                 new Structure("name",
                     new Structure("ns",

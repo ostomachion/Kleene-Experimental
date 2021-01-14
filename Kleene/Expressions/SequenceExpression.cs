@@ -39,7 +39,7 @@ namespace Kleene
             return head.SelectMany(x =>
                 x is null ? tail :
                 x is NamedNondeterministicStructure named ? (IEnumerable<NondeterministicStructure?>)EnumerableExt.Yield(new NamedNondeterministicStructure(named.Name, named.FirstChild, Concat(named.NextSibling, tail))) :
-                x is AnyStructure all ? EnumerableExt.Yield(new AnyStructure(Concat(all.NextSibling, tail))) :
+                x is AnyStructure any ? EnumerableExt.Yield(new AnyStructure(Concat(any.NextSibling, tail))) :
                 throw new NotImplementedException());
         }
     }

@@ -14,6 +14,7 @@ namespace Kleene
 
         public override IEnumerable<NondeterministicStructure?> Run()
         {
+            // p* := pp*|1
             foreach (var result in SequenceExpression.Concat(this.Expression.Run(), this.Run()).Concat(SequenceExpression.Empty.Run()))
             {
                 yield return result;
