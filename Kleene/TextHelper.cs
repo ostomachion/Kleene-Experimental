@@ -14,7 +14,7 @@ namespace Kleene
 
         public static Structure? CreateStructure(string? text, Structure? next = null)
         {
-            return text is null ? null : text.Any() ? CreateStructure(text[0], CreateStructure(text.Substring(1), next) ?? next) : null;
+            return text is null ? null : text.Any() ? CreateStructure(text[0], CreateStructure(text[1..], next) ?? next) : null;
         }
     }
 }

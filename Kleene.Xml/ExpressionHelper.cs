@@ -71,7 +71,7 @@ namespace Kleene.Xml
             }
         }
 
-        private static StructureExpression ParseName(XName name) => new StructureExpression("name", new SequenceExpression(new [] {
+        private static StructureExpression ParseName(XName name) => new("name", new SequenceExpression(new [] {
             new StructureExpression("ns", ParseText(name.NamespaceName)),
             new StructureExpression("local", ParseText(name.LocalName)),
         }));
