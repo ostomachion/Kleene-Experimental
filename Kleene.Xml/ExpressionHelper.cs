@@ -104,15 +104,13 @@ namespace Kleene.Xml
 
         private static Expression ParseAttributes(IEnumerable<XAttribute> attributes)
         {
-            // TODO: Permute
             attributes = attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns" && x.Name.Namespace != XNamespace.Xml);
-            return new StructureExpression("attrs", new SequenceExpression(attributes.Select(ParseAttribute)));
+            return new StructureExpression("attrs", new PermuteExpression(attributes.Select(ParseAttribute)));
         }
 
         private static Expression ParseAttributes(XElement element)
         {
-            // TODO: Permute
-            return new StructureExpression("attrs", ParseNodes(element.Nodes()));
+            return new StructureExpression("attrs", new SequenceExpression(ParseNodes(element.Nodes()).Expressions));
         }
 
         private static Expression ParseAttribute(XAttribute attribute)

@@ -483,6 +483,24 @@ namespace XmlTests
         }
 
         [Fact]
+        public void TwoAttributesOutOfOrder()
+        {
+            var structure = StructureHelper.CreateStructure(XElement.Parse(
+                @"<foo bar='123' baz='wat'/>"
+            ));
+
+            var expression = ExpressionHelper.ParseElement(XElement.Parse(
+                @"<foo baz='wat' bar='123'/>"
+            ));
+
+            // When
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
+
+            // Then
+            Assert.Collection(results, item => Assert.Equal(structure, item));
+        }
+
+        [Fact]
         public void TwoAttributesLong()
         {
             var structure = StructureHelper.CreateStructure(XElement.Parse(
@@ -509,6 +527,46 @@ namespace XmlTests
                                 <k:local>baz</k:local>
                             </k:name>
                             <k:value>wat</k:value>
+                        </k:attr>
+                    </k:attrs>
+                    <k:value/>
+                </k:elem>"
+            ));
+
+            // When
+            var results = expression.Run(structure).SelectMany(x => x!.Collapse());
+
+            // Then
+            Assert.Collection(results, item => Assert.Equal(structure, item));
+        }
+
+        [Fact]
+        public void TwoAttributesOutOfOrderLong()
+        {
+            var structure = StructureHelper.CreateStructure(XElement.Parse(
+                @"<foo bar='123' baz='wat'/>"
+            ));
+
+            var expression = ExpressionHelper.ParseElement(XElement.Parse(
+                @"<k:elem xmlns:k='http://hufford.io/kleene/xml'>
+                    <k:name>
+                        <k:ns/>
+                        <k:local>foo</k:local>
+                    </k:name>
+                    <k:attrs>
+                        <k:attr>
+                            <k:name>
+                                <k:ns/>
+                                <k:local>baz</k:local>
+                            </k:name>
+                            <k:value>wat</k:value>
+                        </k:attr>
+                        <k:attr>
+                            <k:name>
+                                <k:ns/>
+                                <k:local>bar</k:local>
+                            </k:name>
+                            <k:value>123</k:value>
                         </k:attr>
                     </k:attrs>
                     <k:value/>
