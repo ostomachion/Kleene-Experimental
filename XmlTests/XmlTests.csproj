@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kleene.Xml\Kleene.Xml.csproj" />
+    <ProjectReference Include="..\Kleene\Kleene.csproj" />
   </ItemGroup>
 
 </Project>
