@@ -18,15 +18,9 @@ namespace Kleene
             this.Expressions = expressions?.ToList() ?? throw new ArgumentNullException(nameof(expressions));
         }
         
-        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
+        public override IEnumerable<NondeterministicStructure?> Run()
         {
-            foreach (var expression in this.Expressions)
-            {
-                foreach (var result in expression.Run(input, index))
-                {
-                    yield return new Result(input, index, result.Length, this, new [] { result });
-                }
-            }
+            return this.Expressions.SelectMany(x => x.Run());
         }
     }
 }
