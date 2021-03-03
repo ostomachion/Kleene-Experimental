@@ -34,103 +34,27 @@ namespace KleeneTests
             Assert.Throws<ArgumentException>(() =>
             {
                 new SequenceExpression(new Expression[] {
-                    SequenceExpression.Empty,
+                    new ConstantExpression<char>('c'),
                     null!
                 });
             });
         }
 
         [Fact]
-        public void ZeroChoices_RetrurnsEmpty()
-        {
-            // Given
-            var expression = new SequenceExpression(Enumerable.Empty<Expression>());
-
-            // When
-            var results = expression.Run();
-
-            // Then
-            Assert.Collection(results,
-                item =>
-                {
-                    Assert.Null(item);
-                }
-            );
-        }
-
-        [Fact]
-        public void OneChoice_ReturnsChoice()
-        {
-            // Given
-            var expression = new SequenceExpression(EnumerableExt.Yield(new StructureExpression("foo")));
-
-            // When
-            var results = expression.Run();
-
-            // Then
-            Assert.Collection(results,
-                result =>
-                {
-                    Assert.IsType<NamedNondeterministicStructure>(result);
-                    var namedResult = (NamedNondeterministicStructure)result!;
-                    Assert.Equal("foo", namedResult!.Name);
-                    Assert.Collection(namedResult.FirstChild,
-                        item => {
-                            Assert.Null(item);
-                        }
-                    );
-                    Assert.Collection(namedResult.NextSibling,
-                        item => {
-                            Assert.Null(item);
-                        }
-                    );
-                }
-            );
-        }
-
-        [Fact]
-        public void TwoChoices_ReturnsBothChoices()
+        public void NullInput_Throws()
         {
             // Given
             var expression = new SequenceExpression(new[] {
-                new StructureExpression("foo"),
-                new StructureExpression("bar")
+                new ConstantExpression<char>('x'),
+                new ConstantExpression<char>('y')
             });
-
-            // When
-            var results = expression.Run();
+            IEnumerable<Structure> input = null!;
 
             // Then
-            Assert.Collection(results,
-                result =>
-                {
-                    Assert.IsType<NamedNondeterministicStructure>(result);
-                    var namedResult = (NamedNondeterministicStructure)result!;
-                    Assert.Equal("foo", namedResult!.Name);
-                    Assert.Collection(namedResult.FirstChild,
-                        item => {
-                            Assert.Null(item);
-                        }
-                    );
-                    Assert.Collection(namedResult.NextSibling,
-                        item => {
-                            Assert.IsType<NamedNondeterministicStructure>(item);
-                            var namedItem = (NamedNondeterministicStructure)item!;
-                            Assert.Equal("bar", namedItem!.Name);
-                            Assert.Collection(namedItem.FirstChild,
-                                item => {
-                                    Assert.Null(item);
-                                }
-                            );
-                            Assert.Collection(namedItem.NextSibling,
-                                item => {
-                                    Assert.Null(item);
-                                }
-                            );
-                        }
-                    );
-                }
-            );
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                expression.Run(input, 0).ToList();
+            });
         }
 
         [Theory]
@@ -139,19 +63,37 @@ namespace KleeneTests
         public void TwoChars_ReturnsChars(char c1, char c2)
         {
             // Given
-            var item1 = (Expression)TextHelper.CreateStructure(c1);
-            var item2 = (Expression)TextHelper.CreateStructure(c2);
+            var item1 = new ConstantExpression<char>(c1);
+            var item2 = new ConstantExpression<char>(c2);
             var expression = new SequenceExpression(new[] { item1, item2 });
-            var input = TextHelper.CreateStructure(new string(new [] { c1, c2 }));
-            
+            var input = new[] { c1, c2 }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Collection(results,
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Expression);
+                            Assert.Empty(result.Children);
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(1, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Expression);
+                            Assert.Empty(result.Children);
+                        }
+                    );
                 }
             );
         }
@@ -164,13 +106,13 @@ namespace KleeneTests
             // Given
             Assert.NotEqual(c1, c2);
             var expression = new SequenceExpression(new[] {
-                (Expression)TextHelper.CreateStructure(c1),
-                (Expression)TextHelper.CreateStructure(c2)
+                new ConstantExpression<char>(c1),
+                new ConstantExpression<char>(c2)
             });
-            var input = TextHelper.CreateStructure(new string(new [] { c2, c1 }));
+            var input = new[] { c2, c1 }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Empty(results);
@@ -183,13 +125,13 @@ namespace KleeneTests
         {
             // Given
             var expression = new SequenceExpression(new[] {
-                (Expression)TextHelper.CreateStructure(c1),
-                (Expression)TextHelper.CreateStructure(c2)
+                new ConstantExpression<char>(c1),
+                new ConstantExpression<char>(c2)
             });
-            var input = TextHelper.CreateStructure("");
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Empty(results);
@@ -201,19 +143,45 @@ namespace KleeneTests
         public void ThreeChars_ReturnsChars(char c1, char c2, char c3)
         {
             // Given
-            var item1 = (Expression)TextHelper.CreateStructure(c1);
-            var item2 = (Expression)TextHelper.CreateStructure(c2);
-            var item3 = (Expression)TextHelper.CreateStructure(c3);
+            var item1 = new ConstantExpression<char>(c1);
+            var item2 = new ConstantExpression<char>(c2);
+            var item3 = new ConstantExpression<char>(c3);
             var expression = new SequenceExpression(new[] { item1, item2, item3 });
-            var input = TextHelper.CreateStructure(new string(new [] { c1, c2, c3 }));
+            var input = new[] { c1, c2, c3 }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Collection(results,
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(3, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Expression);
+                            Assert.Empty(result.Children);
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(1, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Expression);
+                            Assert.Empty(result.Children);
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(2, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item3, result.Expression);
+                            Assert.Empty(result.Children);
+                        }
+                    );
                 }
             );
         }
@@ -226,14 +194,14 @@ namespace KleeneTests
             // Given
             Assert.NotEqual(c2, c3);
             var expression = new SequenceExpression(new[] {
-                (Expression)TextHelper.CreateStructure(c1),
-                (Expression)TextHelper.CreateStructure(c2),
-                (Expression)TextHelper.CreateStructure(c3),
+                new ConstantExpression<char>(c1),
+                new ConstantExpression<char>(c2),
+                new ConstantExpression<char>(c3),
             });
-            var input = TextHelper.CreateStructure(new string(new [] { c1, c3, c2 }));
+            var input = new[] { c1, c3, c2 }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Empty(results);
@@ -246,14 +214,14 @@ namespace KleeneTests
         {
             // Given
             var expression = new SequenceExpression(new[] {
-                (Expression)TextHelper.CreateStructure(c1),
-                (Expression)TextHelper.CreateStructure(c2),
-                (Expression)TextHelper.CreateStructure(c3),
+                new ConstantExpression<char>(c1),
+                new ConstantExpression<char>(c2),
+                new ConstantExpression<char>(c3),
             });
-            var input = TextHelper.CreateStructure("");
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Empty(results);
@@ -267,13 +235,13 @@ namespace KleeneTests
             // Given
             Assert.NotEqual(c, c2);
             var expression = new SequenceExpression(new[] {
-                (Expression)TextHelper.CreateStructure(c1),
-                (Expression)TextHelper.CreateStructure(c2)
+                new ConstantExpression<char>(c1),
+                new ConstantExpression<char>(c2)
             });
-            var input = TextHelper.CreateStructure(new string(new [] { c1, c }));
+            var input = new[] { c1, c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var ressult = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var ressult = expression.Run(input, 0);
 
             // Then
             Assert.Empty(ressult);
@@ -286,17 +254,29 @@ namespace KleeneTests
         public void OneCharMatch_ReturnsChar(char c)
         {
             // Given
-            var item = (Expression)TextHelper.CreateStructure(c);
+            var item = new ConstantExpression<char>(c);
             var expression = new SequenceExpression(new[] { item });
-            var input = TextHelper.CreateStructure(new string(new [] { c }));
+            var input = new[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Collection(results,
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(1, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item, result.Expression);
+                            Assert.Empty(result.Children);
+                        }
+                    );
                 }
             );
         }
@@ -310,12 +290,12 @@ namespace KleeneTests
             // Given
             Assert.NotEqual(c1, c);
             var expression = new SequenceExpression(new[] {
-                (Expression)TextHelper.CreateStructure(c1)
+                new ConstantExpression<char>(c1)
             });
-            var input = TextHelper.CreateStructure(new string(new [] { c }));
+            var input = new[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Empty(results);
@@ -329,15 +309,40 @@ namespace KleeneTests
         {
             // Given
             var expression = new SequenceExpression(new[] {
-                (Expression)TextHelper.CreateStructure(c)
+                new ConstantExpression<char>(c)
             });
-            var input = TextHelper.CreateStructure("");
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Empty(results);
+        }
+
+        [Theory]
+        [InlineData('x')]
+        [InlineData('\\')]
+        [InlineData('\0')]
+        public void ZeroChars_Returns(char c)
+        {
+            // Given
+            var expression = new SequenceExpression(Enumerable.Empty<Expression>());
+            var input = new char[] { c }.Select(x => new ConstantStructure<char>(x)).ToArray();
+
+            // When
+            var results = expression.Run(input, 0);
+
+            // Then
+            Assert.Collection(results,
+                result => {
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(0, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Empty(result.Children);
+                }
+            );
         }
 
         [Fact]
@@ -345,15 +350,19 @@ namespace KleeneTests
         {
             // Given
             var expression = new SequenceExpression(Enumerable.Empty<Expression>());
-            var input = TextHelper.CreateStructure("");
+            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Collection(results,
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(0, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Empty(result.Children);
                 }
             );
         }
@@ -364,18 +373,37 @@ namespace KleeneTests
         public void DuplicateChars_ReturnChars(char c)
         {
             // Given
-            var item1 = (Expression)TextHelper.CreateStructure(c);
-            var item2 = (Expression)TextHelper.CreateStructure(c);
+            var item1 = new ConstantExpression<char>(c);
+            var item2 = new ConstantExpression<char>(c);
             var expression = new SequenceExpression(new[] { item1, item2 });
-            var input = TextHelper.CreateStructure(new string(new [] { c, c }));
+            var input = new char[] { c, c }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Collection(results,
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Expression);
+                            Assert.Empty(result.Children);
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(1, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Expression);
+                            Assert.Empty(result.Children);
+                        }
+                    );
                 }
             );
         }
@@ -384,31 +412,171 @@ namespace KleeneTests
         public void Backtrack()
         {
             // Given
-            var item1_1 = (Expression)TextHelper.CreateStructure('x');
-            var item1_2 = (Expression)TextHelper.CreateStructure('x');
-            var item2_1 = (Expression)TextHelper.CreateStructure('y');
-            var item2_2 = (Expression)TextHelper.CreateStructure('y');
+            var item1_1 = new ConstantExpression<char>('x');
+            var item1_2 = new ConstantExpression<char>('x');
+            var item2_1 = new ConstantExpression<char>('y');
+            var item2_2 = new ConstantExpression<char>('y');
             var item1 = new AltExpression(new Expression[] { item1_1, item1_2 });
             var item2 = new AltExpression(new Expression[] { item2_1, item2_2 });
             var expression = new SequenceExpression(new[] { item1, item2 });
-            var input = TextHelper.CreateStructure(new string(new [] { 'x', 'y' }));
+            var input = new char[] { 'x', 'y' }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
-            var results = expression.Run(input).SelectMany(x => x?.Collapse() ?? EnumerableExt.Yield<Structure?>(null));
+            var results = expression.Run(input, 0);
 
             // Then
             Assert.Collection(results,
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(0, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item1_1, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(1, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(1, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item2_1, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        }
+                    );
                 },
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(0, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item1_1, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(1, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(1, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item2_2, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        }
+                    );
                 },
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(0, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item1_2, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(1, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(1, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item2_1, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        }
+                    );
                 },
                 result => {
-                    Assert.Equal(input, result);
+                    Assert.Equal(input, result.Input);
+                    Assert.Equal(0, result.Index);
+                    Assert.Equal(2, result.Length);
+                    Assert.Equal(expression, result.Expression);
+                    Assert.Collection(result.Children,
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(0, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item1, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(0, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item1_2, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        },
+                        result => {
+                            Assert.Equal(input, result.Input);
+                            Assert.Equal(1, result.Index);
+                            Assert.Equal(1, result.Length);
+                            Assert.Equal(item2, result.Expression);
+                            Assert.Collection(result.Children,
+                                result => {
+                                    Assert.Equal(input, result.Input);
+                                    Assert.Equal(1, result.Index);
+                                    Assert.Equal(1, result.Length);
+                                    Assert.Equal(item2_2, result.Expression);
+                                    Assert.Empty(result.Children);
+                                }
+                            );
+                        }
+                    );
                 }
             );
         }

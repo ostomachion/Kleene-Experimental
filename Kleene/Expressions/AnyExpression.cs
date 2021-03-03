@@ -6,11 +6,12 @@ namespace Kleene
 {
     public class AnyExpression : Expression
     {
-        public AnyExpression() { }
-
-        public override IEnumerable<NondeterministicStructure?> Run()
+        public override IEnumerable<Result> Run(IEnumerable<Structure> input, int index)
         {
-            yield return new AnyStructure(EnumerableExt.Yield<NondeterministicStructure?>(null));
+            if (index == input.Count())
+                yield break;
+
+            yield return new Result(input, index, 1, this, Enumerable.Empty<Result>());
         }
     }
 }
