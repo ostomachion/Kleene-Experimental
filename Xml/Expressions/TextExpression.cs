@@ -19,7 +19,7 @@ namespace Kleene.Xml
                 yield break;
 
             var structure = input.ElementAt(index);
-            if (structure is not TextStructure text)
+            if (!(structure is TextStructure text))
                 yield break;
 
             foreach (var result in this.Value.Run(text.Value, 0).Where(x => x.Length == text.Value.Count()))

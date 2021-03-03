@@ -33,11 +33,11 @@ namespace Kleene.Xml
             );
         }
 
-        public static AttributeListStructure ParseAttributes(IEnumerable<XAttribute> attributes) => new(
+        public static AttributeListStructure ParseAttributes(IEnumerable<XAttribute> attributes) => new AttributeListStructure(
             attributes.Where(x => x.Name.Namespace != XNamespace.Xmlns && x.Name != "xmlns" && x.Name.Namespace != XNamespace.Xml).Select(ParseAttribute)
         );
 
-        public static AttributeStructure ParseAttribute(XAttribute attribute) => new(
+        public static AttributeStructure ParseAttribute(XAttribute attribute) => new AttributeStructure(
             ParseName(attribute.Name),
             new TextStructure(attribute.Value)
         );

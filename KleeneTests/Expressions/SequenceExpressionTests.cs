@@ -128,7 +128,7 @@ namespace KleeneTests
                 new ConstantExpression<char>(c1),
                 new ConstantExpression<char>(c2)
             });
-            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -218,7 +218,7 @@ namespace KleeneTests
                 new ConstantExpression<char>(c2),
                 new ConstantExpression<char>(c3),
             });
-            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -311,7 +311,7 @@ namespace KleeneTests
             var expression = new SequenceExpression(new[] {
                 new ConstantExpression<char>(c)
             });
-            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -350,7 +350,7 @@ namespace KleeneTests
         {
             // Given
             var expression = new SequenceExpression(Enumerable.Empty<Expression>());
-            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);

@@ -53,14 +53,14 @@ namespace Kleene.Xml
                     case "all":
                         return new AllExpression(ParseOrder(element.Attribute("order")));
                     case "capture":
-                        return new CaptureExpression(ParseNodes(element.Nodes()), element.Attribute("name")!.Value);
+                        return new CaptureExpression(ParseNodes(element.Nodes()), element.Attribute("name").Value);
                     case "atom":
                         return new AtomExpression(ParseNodes(element.Nodes()));
                     case "elem":
                         return new ElementExpression(
-                            ParseName(element.Element(NS + "name")!),
-                            ParseAttributes(element.Element(NS + "attrs")!),
-                            ParseNodes(element.Element(NS + "value")!.Nodes()));
+                            ParseName(element.Element(NS + "name")),
+                            ParseAttributes(element.Element(NS + "attrs")),
+                            ParseNodes(element.Element(NS + "value").Nodes()));
                     case "attr":
                         return ParseAttribute(element);
                     default:
@@ -77,7 +77,7 @@ namespace Kleene.Xml
             }
         }
 
-        private static NameExpression ParseName(XName name) => new(
+        private static NameExpression ParseName(XName name) => new NameExpression(
             ParseText(name.NamespaceName),
             ParseText(name.LocalName)
         );
@@ -94,8 +94,8 @@ namespace Kleene.Xml
             else
             {
                 return new NameExpression(
-                    new TextExpression(ParseNodes(element.Element(NS + "ns")!.Nodes())),
-                    new TextExpression(ParseNodes(element.Element(NS + "local")!.Nodes())));
+                    new TextExpression(ParseNodes(element.Element(NS + "ns").Nodes())),
+                    new TextExpression(ParseNodes(element.Element(NS + "local").Nodes())));
             }
         }
 
@@ -109,7 +109,7 @@ namespace Kleene.Xml
             return new TextExpression(ParseString(text));
         }
 
-        private static SequenceExpression ParseString(string value) => new(
+        private static SequenceExpression ParseString(string value) => new SequenceExpression(
             value.Select(c => new ConstantExpression<char>(c))
         );
 
@@ -137,8 +137,8 @@ namespace Kleene.Xml
             if (element.Elements().Any())
             {
                 return new AttributeExpression(
-                    ParseName(element.Element(NS + "name")!),
-                    new TextExpression(ParseNodes(element.Element(NS + "value")!.Nodes())));
+                    ParseName(element.Element(NS + "name")),
+                    new TextExpression(ParseNodes(element.Element(NS + "value").Nodes())));
             }
             else
             {
@@ -151,7 +151,7 @@ namespace Kleene.Xml
             return new SequenceExpression(nodes.Select(ParseNode));
         }
 
-        private static Order ParseOrder(XAttribute? order) => order?.Value switch
+        private static Order ParseOrder(XAttribute order) => order?.Value switch
         {
             null => Order.Greedy,
             "greedy" => Order.Greedy,
@@ -159,7 +159,7 @@ namespace Kleene.Xml
             _ => throw new Exception()
         };
 
-        private static int ParseMin(XAttribute? min)
+        private static int ParseMin(XAttribute min)
         {
             if (min is null)
                 return 0;
@@ -167,7 +167,7 @@ namespace Kleene.Xml
             return Int32.Parse(min.Value);
         }
 
-        private static int ParseMax(XAttribute? max)
+        private static int ParseMax(XAttribute max)
         {
             if (max is null)
                 return -1;

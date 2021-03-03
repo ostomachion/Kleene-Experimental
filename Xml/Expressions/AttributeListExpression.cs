@@ -18,7 +18,7 @@ namespace Kleene.Xml
                 yield break;
 
             var structure = input.ElementAt(index);
-            if (structure is not AttributeListStructure attributes)
+            if (!(structure is AttributeListStructure attributes))
                 yield break;
 
             // TODO: Match attributes in order for now.

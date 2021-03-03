@@ -22,7 +22,7 @@ namespace Kleene.Xml
                 yield break;
 
             var structure = input.ElementAt(index);
-            if (structure is not NameStructure name)
+            if (!(structure is NameStructure name))
                 yield break;
 
             foreach (var nsResult in this.NS.Run(new[] { name.NS }, 0).Where(x => x.Length == 1))

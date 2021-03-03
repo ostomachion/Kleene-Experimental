@@ -137,7 +137,7 @@ namespace KleeneTests
         {
             // Given
             var expression = new AllExpression(Order.Greedy);
-            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
@@ -159,7 +159,7 @@ namespace KleeneTests
         {
             // Given
             var expression = new AllExpression(Order.Lazy);
-            var input = Enumerable.Empty<char>().Select(x => new ConstantStructure<char>(x)).ToArray();
+            var input = new char[] { }.Select(x => new ConstantStructure<char>(x)).ToArray();
 
             // When
             var results = expression.Run(input, 0);
