@@ -47,7 +47,7 @@ namespace Kleene
                                     overlap(namedX.NextSibling, namedY.NextSibling))
                                     : null;
                             }
-                            else if (y is AnyStructure)
+                            else if (y is AnyStructure<T>)
                             {
                                 return namedX;
                             }
