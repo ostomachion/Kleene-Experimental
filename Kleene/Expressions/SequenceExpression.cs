@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceExpression : Expression
+    public class SequenceExpression<T> : Expression<T> where T : IRunnable<T>
     {
-        public static readonly SequenceExpression Empty = new SequenceExpression(Enumerable.Empty<Expression>());
+        public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
 
-        public IEnumerable<Expression> Expressions { get; }
-        public SequenceExpression(IEnumerable<Expression> expressions)
+        public IEnumerable<Expression<T>> Expressions { get; }
+        public SequenceExpression(IEnumerable<Expression<T>> expressions)
         {
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
 
@@ -29,7 +29,7 @@ namespace Kleene
             }
 
             var head = this.Expressions.First().Run();
-            var tail = new SequenceExpression(this.Expressions.Skip(1)).Run();
+            var tail = new SequenceExpression<T>(this.Expressions.Skip(1)).Run();
 
             return Concat(head, tail);
         }

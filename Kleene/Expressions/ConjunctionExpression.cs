@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class ConjunctionExpression : Expression
+    public class ConjunctionExpression<T> : Expression<T> where T : IRunnable<T>
     {
-        public Expression Leader { get; }
-        public Expression Follower { get; }
+        public Expression<T> Leader { get; }
+        public Expression<T> Follower { get; }
 
-        public ConjunctionExpression(Expression leader, Expression follower)
+        public ConjunctionExpression(Expression<T> leader, Expression<T> follower)
         {
             if (leader is null)
             {

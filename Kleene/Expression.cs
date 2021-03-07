@@ -5,24 +5,13 @@ using System.Linq;
 
 namespace Kleene
 {
-    public abstract class Expression
+    public abstract class Expression<T> where T : IRunnable<T>
     {
         public abstract IEnumerable<NondeterministicStructure?> Run();
 
-        public IEnumerable<NondeterministicStructure?> Run(Structure? input)
+        public IEnumerable<NondeterministicStructure?> Run(T input)
         {
-            return new ConjunctionExpression((Expression)input, this).Run();
-        }
-
-        public static explicit operator Expression(Structure? structure)
-        {
-            return structure is Structure
-                ? new SequenceExpression(new [] {
-                    new StructureExpression(structure.Name,
-                        (Expression)structure.FirstChild),
-                        (Expression)structure.NextSibling,
-                    })
-                : SequenceExpression.Empty;
+            return new ConjunctionExpression<T>(input.ToExpression(), this).Run();
         }
     }
 }

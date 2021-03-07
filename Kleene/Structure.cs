@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class Structure
+    public class Structure : IRunnable<Structure>
     {
         public string Name { get; }
 

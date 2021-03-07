@@ -4,10 +4,8 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class AnyExpression : Expression
+    public class AnyExpression<T> : Expression<T> where T : IRunnable<T>
     {
-        public AnyExpression() { }
-
         public override IEnumerable<NondeterministicStructure?> Run()
         {
             yield return new AnyStructure();

@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class AltExpression : Expression
+    public class AltExpression<T> : Expression<T> where T : IRunnable<T>
     {
-        public IEnumerable<Expression> Expressions { get; }
+        public IEnumerable<Expression<T>> Expressions { get; }
 
-        public AltExpression(IEnumerable<Expression> expressions)
+        public AltExpression(IEnumerable<Expression<T>> expressions)
         {
             if (expressions.Contains(null!))
             {
