@@ -23,7 +23,7 @@ namespace Kleene
 
         public override IEnumerable<NondeterministicStructure?> Run()
         {
-            yield return new NamedNondeterministicStructure(this.Name, this.Value.Run(), EnumerableExt.Yield<NondeterministicStructure?>(null));
+            yield return new NamedNondeterministicStructure(this.Name, this.Value.Run());
         }
     }
 }

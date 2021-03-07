@@ -10,7 +10,7 @@ namespace Kleene
 
         public override IEnumerable<NondeterministicStructure?> Run()
         {
-            yield return new AnyStructure(EnumerableExt.Yield<NondeterministicStructure?>(null));
+            yield return new AnyStructure();
         }
     }
 }
