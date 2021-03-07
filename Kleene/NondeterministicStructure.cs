@@ -22,5 +22,18 @@ namespace Kleene
             // TODO:
             throw new NotImplementedException();
         }
+
+        public override IEnumerable<NondeterministicObject<Structure>> Overlap(NondeterministicObject<Structure> other)
+        {
+            if (other is AnyObject<Structure>)
+            {
+                yield return this;
+            }
+            else
+            {
+                // TODO:
+                throw new NotImplementedException();
+            }
+        }
     }
 }

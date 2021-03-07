@@ -8,7 +8,7 @@ namespace Kleene
     {
         public override IEnumerable<NondeterministicObject<T>> Run()
         {
-            yield return new AnyStructure<T>();
+            yield return new AnyObject<T>();
         }
     }
 }

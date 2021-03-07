@@ -27,54 +27,7 @@ namespace Kleene
 
         public override IEnumerable<NondeterministicObject<T>> Run()
         {
-            var leader = this.Leader.Run();
-            var follower = this.Follower.Run();
-
-            return overlap(leader, follower);
-
-            static IEnumerable<NondeterministicObject<T>> overlap(IEnumerable<NondeterministicObject<T>> leader, IEnumerable<NondeterministicObject<T>> follower)
-            {
-                return leader.SelectMany(x =>
-                {
-                    if (x is NondeterministicStructure namedX)
-                    {
-                        return follower.Select(y =>
-                        {
-                            if (y is NondeterministicStructure namedY)
-                            {
-                                return namedX.Name == namedY.Name ? new NondeterministicStructure(namedX.Name,
-                                    overlap(namedX.FirstChild, namedY.FirstChild),
-                                    overlap(namedX.NextSibling, namedY.NextSibling))
-                                    : null;
-                            }
-                            else if (y is AnyStructure<T>)
-                            {
-                                return namedX;
-                            }
-                            else if (y is null)
-                            {
-                                return null;
-                            }
-                            else
-                            {
-                                throw new NotImplementedException();
-                            }
-                        }).OfType<NondeterministicObject<T>>();
-                    }
-                    else if (x is AnyStructure<T>)
-                    {
-                        return follower;
-                    }
-                    else if (x is null)
-                    {
-                        return follower.Where(y => y is null);
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
-                });
-            }
+            return this.Leader.Run().SelectMany(x => this.Follower.Run().SelectMany(y => x.Overlap(y)));
         }
     }
 }

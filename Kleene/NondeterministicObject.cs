@@ -6,5 +6,7 @@ namespace Kleene
     public abstract class NondeterministicObject<T> where T : IRunnable<T>
     {
         public abstract IEnumerable<T> Collapse();
+
+        public abstract IEnumerable<NondeterministicObject<T>> Overlap(NondeterministicObject<T> other);
     }
 }
