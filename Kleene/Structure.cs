@@ -44,6 +44,9 @@ namespace Kleene
             return HashCode.Combine(Name, Children);
         }
 
-        public static explicit operator Structure?(string text) => TextHelper.CreateStructure(text);
+        public Expression<Structure> ToExpression()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

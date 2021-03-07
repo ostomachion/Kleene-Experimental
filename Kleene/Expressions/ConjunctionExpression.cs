@@ -25,14 +25,14 @@ namespace Kleene
             this.Follower = follower;
         }
 
-        public override IEnumerable<NondeterministicObject<T>?> Run()
+        public override IEnumerable<NondeterministicObject<T>> Run()
         {
             var leader = this.Leader.Run();
             var follower = this.Follower.Run();
 
             return overlap(leader, follower);
 
-            static IEnumerable<NondeterministicObject<T>?> overlap(IEnumerable<NondeterministicObject<T>?> leader, IEnumerable<NondeterministicObject<T>?> follower)
+            static IEnumerable<NondeterministicObject<T>> overlap(IEnumerable<NondeterministicObject<T>> leader, IEnumerable<NondeterministicObject<T>> follower)
             {
                 return leader.SelectMany(x =>
                 {

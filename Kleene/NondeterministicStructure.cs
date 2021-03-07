@@ -9,9 +9,9 @@ namespace Kleene
     {
         public string Name { get; }
 
-        public IEnumerable<IEnumerable<NondeterministicObject<Structure>>> Children { get; }
+        public IEnumerable<NondeterministicObject<ISequencable<Structure>>> Children { get; }
 
-        public NondeterministicStructure(string name, IEnumerable<IEnumerable<NondeterministicObject<Structure>>> children)
+        public NondeterministicStructure(string name, IEnumerable<NondeterministicObject<ISequencable<Structure>>> children)
         {
             this.Name = name;
             this.Children = children;

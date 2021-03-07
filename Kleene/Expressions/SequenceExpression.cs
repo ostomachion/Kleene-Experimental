@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceExpression<T> : Expression<T> where T : IRunnable<T>
+    public class SequenceExpression<T> : Expression<ISequencable<T>> where T : IRunnable<T>
     {
         public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
 
@@ -19,13 +19,13 @@ namespace Kleene
             }
         }
 
-        public override IEnumerable<NondeterministicObject<T>?> Run()
+        public override IEnumerable<NondeterministicObject<ISequencable<T>>> Run()
         {
             // TODO: This can probably be a lot more efficient.
 
             if (!this.Expressions.Any())
             {
-                return EnumerableExt.Yield<NondeterministicObject<T>?>(null);
+                return Enumerable.Empty<NondeterministicObject<ISequencable<T>>>();
             }
 
             var head = this.Expressions.First().Run();
@@ -34,7 +34,7 @@ namespace Kleene
             return Concat(head, tail);
         }
 
-        internal static IEnumerable<NondeterministicObject<T>?> Concat(IEnumerable<NondeterministicObject<T>?> head, IEnumerable<NondeterministicObject<T>?> tail)
+        internal static IEnumerable<NondeterministicObject<ISequencable<T>>> Concat(IEnumerable<NondeterministicObject<T>> head, IEnumerable<NondeterministicObject<ISequencable<T>>> tail)
         {
             return head.SelectMany(x =>
                 x is null ? tail :
