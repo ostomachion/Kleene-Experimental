@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class RepExpression : Expression
+    public class RepExpression<T> : Expression<T> where T : IRunnable<T>
     {
-        public Expression Expression { get; }
-        public RepExpression(Expression expression)
+        public Expression<T> Expression { get; }
+        public RepExpression(Expression<T> expression)
         {
             this.Expression = expression ?? throw new ArgumentNullException(nameof(expression));
         }
 
-        public override IEnumerable<NondeterministicStructure?> Run()
+        public override IEnumerable<NondeterministicObject<T>?> Run()
         {
             // p* := pp*|1
-            foreach (var result in SequenceExpression.Concat(this.Expression.Run(), this.Run()).Concat(SequenceExpression.Empty.Run()))
+            foreach (var result in SequenceExpression<T>.Concat(this.Expression.Run(), this.Run()).Concat(SequenceExpression<T>.Empty.Run()))
             {
                 yield return result;
             }

@@ -6,9 +6,9 @@ namespace Kleene
 {
     public class AnyExpression<T> : Expression<T> where T : IRunnable<T>
     {
-        public override IEnumerable<NondeterministicStructure?> Run()
+        public override IEnumerable<NondeterministicObject<T>?> Run()
         {
-            yield return new AnyStructure();
+            yield return new AnyStructure<T>();
         }
     }
 }

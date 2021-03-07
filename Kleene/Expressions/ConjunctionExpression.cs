@@ -25,24 +25,24 @@ namespace Kleene
             this.Follower = follower;
         }
 
-        public override IEnumerable<NondeterministicStructure?> Run()
+        public override IEnumerable<NondeterministicObject<T>?> Run()
         {
             var leader = this.Leader.Run();
             var follower = this.Follower.Run();
 
             return overlap(leader, follower);
 
-            static IEnumerable<NondeterministicStructure?> overlap(IEnumerable<NondeterministicStructure?> leader, IEnumerable<NondeterministicStructure?> follower)
+            static IEnumerable<NondeterministicObject<T>?> overlap(IEnumerable<NondeterministicObject<T>?> leader, IEnumerable<NondeterministicObject<T>?> follower)
             {
                 return leader.SelectMany(x =>
                 {
-                    if (x is NamedNondeterministicStructure namedX)
+                    if (x is NondeterministicStructure namedX)
                     {
                         return follower.Select(y =>
                         {
-                            if (y is NamedNondeterministicStructure namedY)
+                            if (y is NondeterministicStructure namedY)
                             {
-                                return namedX.Name == namedY.Name ? new NamedNondeterministicStructure(namedX.Name,
+                                return namedX.Name == namedY.Name ? new NondeterministicStructure(namedX.Name,
                                     overlap(namedX.FirstChild, namedY.FirstChild),
                                     overlap(namedX.NextSibling, namedY.NextSibling))
                                     : null;
@@ -59,9 +59,9 @@ namespace Kleene
                             {
                                 throw new NotImplementedException();
                             }
-                        }).OfType<NondeterministicStructure>();
+                        }).OfType<NondeterministicObject<T>>();
                     }
-                    else if (x is AnyStructure)
+                    else if (x is AnyStructure<T>)
                     {
                         return follower;
                     }

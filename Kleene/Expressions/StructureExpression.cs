@@ -21,9 +21,9 @@ namespace Kleene
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public override IEnumerable<NondeterministicStructure?> Run()
+        public override IEnumerable<NondeterministicObject<Structure>?> Run()
         {
-            yield return new NamedNondeterministicStructure(this.Name, this.Value.Run());
+            yield return new NondeterministicStructure(this.Name, this.Value.Run());
         }
     }
 }

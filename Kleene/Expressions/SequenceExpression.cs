@@ -19,13 +19,13 @@ namespace Kleene
             }
         }
 
-        public override IEnumerable<NondeterministicStructure?> Run()
+        public override IEnumerable<NondeterministicObject<T>?> Run()
         {
             // TODO: This can probably be a lot more efficient.
 
             if (!this.Expressions.Any())
             {
-                return EnumerableExt.Yield<NondeterministicStructure?>(null);
+                return EnumerableExt.Yield<NondeterministicObject<T>?>(null);
             }
 
             var head = this.Expressions.First().Run();
@@ -34,12 +34,12 @@ namespace Kleene
             return Concat(head, tail);
         }
 
-        internal static IEnumerable<NondeterministicStructure?> Concat(IEnumerable<NondeterministicStructure?> head, IEnumerable<NondeterministicStructure?> tail)
+        internal static IEnumerable<NondeterministicObject<T>?> Concat(IEnumerable<NondeterministicObject<T>?> head, IEnumerable<NondeterministicObject<T>?> tail)
         {
             return head.SelectMany(x =>
                 x is null ? tail :
-                x is NamedNondeterministicStructure named ? (IEnumerable<NondeterministicStructure?>)EnumerableExt.Yield(new NamedNondeterministicStructure(named.Name, named.FirstChild, Concat(named.NextSibling, tail))) :
-                x is AnyStructure any ? EnumerableExt.Yield(new AnyStructure(Concat(any.NextSibling, tail))) :
+                x is NondeterministicStructure named ? (IEnumerable<NondeterministicObject<T>?>)EnumerableExt.Yield(new NondeterministicStructure(named.Name, named.FirstChild, Concat(named.NextSibling, tail))) :
+                x is AnyStructure<T> any ? EnumerableExt.Yield(new AnyStructure<T>(Concat(any.NextSibling, tail))) :
                 throw new NotImplementedException());
         }
     }

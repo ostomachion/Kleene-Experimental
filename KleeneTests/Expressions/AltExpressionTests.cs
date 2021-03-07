@@ -68,8 +68,8 @@ namespace KleeneTests
                 Assert.Collection(results,
                     result =>
                     {
-                        Assert.IsType<NamedNondeterministicStructure>(result);
-                        var namedResult = (NamedNondeterministicStructure)result!;
+                        Assert.IsType<NondeterministicStructure>(result);
+                        var namedResult = (NondeterministicStructure)result!;
                         Assert.Equal("foo", namedResult.Name);
                         Assert.Collection(namedResult.FirstChild,
                             item =>
@@ -103,8 +103,8 @@ namespace KleeneTests
                 Assert.Collection(results,
                     result =>
                     {
-                        Assert.IsType<NamedNondeterministicStructure>(result);
-                        var namedResult = (NamedNondeterministicStructure)result!;
+                        Assert.IsType<NondeterministicStructure>(result);
+                        var namedResult = (NondeterministicStructure)result!;
                         Assert.Equal("foo", namedResult!.Name);
                         Assert.Collection(namedResult.FirstChild,
                             item =>
@@ -121,8 +121,8 @@ namespace KleeneTests
                     },
                     result =>
                     {
-                        Assert.IsType<NamedNondeterministicStructure>(result);
-                        var namedResult = (NamedNondeterministicStructure)result!;
+                        Assert.IsType<NondeterministicStructure>(result);
+                        var namedResult = (NondeterministicStructure)result!;
                         Assert.Equal("bar", namedResult!.Name);
                         Assert.Collection(namedResult.FirstChild,
                             item =>
