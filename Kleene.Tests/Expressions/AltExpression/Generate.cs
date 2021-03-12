@@ -46,6 +46,7 @@ namespace Kleene.Tests.AltExpression
                 item => Assert.Equal(1, item.Value),
                 item => Assert.Equal(2, item.Value));
         }
+        
         [Fact]
         public void ThreeChoices_ReturnsAll()
         {
