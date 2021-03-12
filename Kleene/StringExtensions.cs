@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public static class TextHelper
+    public static class StringExtensions
     {
         public static ObjectSequence<Runnable<char>> ToRunnable(this string text)
         {
