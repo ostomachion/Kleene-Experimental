@@ -24,7 +24,7 @@ namespace Kleene
         {
             if (!this.Expressions.Any())
             {
-                return Enumerable.Empty<NondeterministicObject<ObjectSequence<T>>>();
+                return EnumerableExtensions.Yield(new NondeterministicEmptyObjectSequence<T>());
             }
 
             var head = this.Expressions.First().Run();
