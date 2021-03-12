@@ -11,7 +11,9 @@ namespace Kleene
 
         public IEnumerable<T> Generate()
         {
-            return this.Run().OfType<NondeterministicObject<T>>().SelectMany(x => x.Collapse());
+            return this.Run()
+                .OfType<NondeterministicObject<T>>()
+                .SelectMany(x => x.Collapse());
         }
 
         public IEnumerable<NondeterministicObject<T>?> Run(T input)

@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using Kleene;
 
-namespace Kleene.Tests.Expressions.AltExpression
+namespace Kleene.Tests.AltExpression
 {
     public class Generate
     {
