@@ -14,7 +14,7 @@ namespace Kleene
 
         public Expression<Runnable<T>> ToExpression()
         {
-            throw new System.NotImplementedException();
+            return new RunnableExpression<T>(this.Value);
         }
 
         public override bool Equals(object? obj)
@@ -27,6 +27,8 @@ namespace Kleene
         {
             return HashCode.Combine(Value);
         }
+
+        public static implicit operator Runnable<T>(T value) => new(value);
     }
 
     public class NondeterministicRunnable<T> : NondeterministicObject<Runnable<T>>
@@ -57,6 +59,8 @@ namespace Kleene
                 throw new ArgumentException("Argument type is not supported.", nameof(other));
             }
         }
+
+        public static implicit operator NondeterministicRunnable<T>(T value) => new(value);
     }
 
     public class RunnableExpression<T> : Expression<Runnable<T>>
@@ -72,5 +76,7 @@ namespace Kleene
         {
             yield return new NondeterministicRunnable<T>(this.Value);
         }
+
+        public static implicit operator RunnableExpression<T>(T value) => new(value);
     }
 }
