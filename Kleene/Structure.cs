@@ -9,9 +9,9 @@ namespace Kleene
     {
         public string Name { get; }
 
-        public IEnumerable<Structure> Children { get; }
+        public ObjectSequence<Structure> Children { get; }
 
-        public Structure(string name, IEnumerable<Structure> children)
+        public Structure(string name, ObjectSequence<Structure> children)
         {
             this.Name = name;
             this.Children = children;
@@ -46,7 +46,7 @@ namespace Kleene
 
         public Expression<Structure> ToExpression()
         {
-            throw new NotImplementedException();
+            return new StructureExpression(this.Name, this.Children.ToExpression());
         }
     }
 }

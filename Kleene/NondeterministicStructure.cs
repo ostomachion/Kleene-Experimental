@@ -9,9 +9,9 @@ namespace Kleene
     {
         public string Name { get; }
 
-        public IEnumerable<NondeterministicObject<ISequencable<Structure>>> Children { get; }
+        public IEnumerable<NondeterministicObject<ObjectSequence<Structure>>?> Children { get; }
 
-        public NondeterministicStructure(string name, IEnumerable<NondeterministicObject<ISequencable<Structure>>> children)
+        public NondeterministicStructure(string name, IEnumerable<NondeterministicObject<ObjectSequence<Structure>>?> children)
         {
             this.Name = name;
             this.Children = children;
@@ -19,20 +19,26 @@ namespace Kleene
 
         public override IEnumerable<Structure> Collapse()
         {
-            // TODO:
-            throw new NotImplementedException();
+            foreach (var children in this.Children
+                .OfType<NondeterministicObject<ObjectSequence<Structure>>>()
+                .SelectMany(x => x.Collapse()))
+            {
+                yield return new Structure(this.Name, children);
+            }
         }
 
         public override IEnumerable<NondeterministicObject<Structure>> Overlap(NondeterministicObject<Structure> other)
         {
-            if (other is AnyObject<Structure>)
+            if (other is NondeterministicStructure structure)
             {
-                yield return this;
+                if (this.Name != structure.Name)
+                    yield break;
+                
+                yield return new NondeterministicStructure(this.Name, NondeterministicObject<ObjectSequence<Structure>>.Overlap(this.Children, structure.Children));
             }
             else
             {
-                // TODO:
-                throw new NotImplementedException();
+                throw new ArgumentException("Argument type is not supported.", nameof(other));
             }
         }
     }

@@ -18,7 +18,7 @@ namespace Kleene
             this.Expressions = expressions?.ToList() ?? throw new ArgumentNullException(nameof(expressions));
         }
         
-        public override IEnumerable<NondeterministicObject<T>> Run()
+        public override IEnumerable<NondeterministicObject<T>?> Run()
         {
             return this.Expressions.SelectMany(x => x.Run());
         }

@@ -4,11 +4,12 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceExpression<T> : Expression<ISequencable<T>> where T : IRunnable<T>
+    public class SequenceExpression<T> : Expression<ObjectSequence<T>> where T : IRunnable<T>
     {
         public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
 
         public IEnumerable<Expression<T>> Expressions { get; }
+
         public SequenceExpression(IEnumerable<Expression<T>> expressions)
         {
             this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
@@ -19,13 +20,11 @@ namespace Kleene
             }
         }
 
-        public override IEnumerable<NondeterministicObject<ISequencable<T>>> Run()
+        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>?> Run()
         {
-            // TODO: This can probably be a lot more efficient.
-
             if (!this.Expressions.Any())
             {
-                return Enumerable.Empty<NondeterministicObject<ISequencable<T>>>();
+                return Enumerable.Empty<NondeterministicObject<ObjectSequence<T>>>();
             }
 
             var head = this.Expressions.First().Run();
@@ -34,13 +33,9 @@ namespace Kleene
             return Concat(head, tail);
         }
 
-        internal static IEnumerable<NondeterministicObject<ISequencable<T>>> Concat(IEnumerable<NondeterministicObject<T>> head, IEnumerable<NondeterministicObject<ISequencable<T>>> tail)
+        internal static IEnumerable<NondeterministicObject<ObjectSequence<T>>?> Concat(IEnumerable<NondeterministicObject<T>?> head, IEnumerable<NondeterministicObject<ObjectSequence<T>>?> tail)
         {
-            return head.SelectMany(x =>
-                x is null ? tail :
-                x is NondeterministicStructure named ? (IEnumerable<NondeterministicObject<T>?>)EnumerableExt.Yield(new NondeterministicStructure(named.Name, named.FirstChild, Concat(named.NextSibling, tail))) :
-                x is AnyObject<T> any ? EnumerableExt.Yield(new AnyStructure<T>(Concat(any.NextSibling, tail))) :
-                throw new NotImplementedException());
+            return head.Select(x => x is null ? null : new NondeterministicObjectSequence<T>(x, tail));
         }
     }
 }
