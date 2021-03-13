@@ -20,7 +20,7 @@ namespace Kleene
             }
         }
 
-        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>?> Run()
+        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>> Run()
         {
             if (!this.Expressions.Any())
             {
@@ -33,9 +33,9 @@ namespace Kleene
             return Concat(head, tail);
         }
 
-        internal static IEnumerable<NondeterministicObject<ObjectSequence<T>>?> Concat(IEnumerable<NondeterministicObject<T>?> head, IEnumerable<NondeterministicObject<ObjectSequence<T>>?> tail)
+        internal static IEnumerable<NondeterministicObject<ObjectSequence<T>>> Concat(IEnumerable<NondeterministicObject<T>> head, IEnumerable<NondeterministicObject<ObjectSequence<T>>> tail)
         {
-            return head.Select(x => x is null ? null : new NondeterministicObjectSequence<T>(x, tail));
+            return head.Select(x => new NondeterministicObjectSequence<T>(x, tail));
         }
     }
 }

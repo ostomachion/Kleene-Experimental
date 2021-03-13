@@ -11,7 +11,7 @@ namespace Kleene
             Value = value;
         }
 
-        public override IEnumerable<NondeterministicObject<Runnable<T>>?> Run()
+        public override IEnumerable<NondeterministicObject<Runnable<T>>> Run()
         {
             yield return new NondeterministicRunnable<T>(this.Value);
         }

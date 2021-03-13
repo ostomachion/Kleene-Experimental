@@ -6,7 +6,7 @@ namespace Kleene
 {
     public class AnyExpression<T> : Expression<T> where T : IRunnable<T>
     {
-        public override IEnumerable<AnyObject<T>?> Run()
+        public override IEnumerable<AnyObject<T>> Run()
         {
             yield return new AnyObject<T>();
         }

@@ -17,7 +17,7 @@ namespace Kleene
             yield return new Runnable<T>(this.Value);
         }
 
-        public override IEnumerable<NondeterministicObject<Runnable<T>>?> Overlap(NondeterministicObject<Runnable<T>> other)
+        public override IEnumerable<NondeterministicObject<Runnable<T>>> Overlap(NondeterministicObject<Runnable<T>> other)
         {
             if (other is NondeterministicRunnable<T> runnable)
             {
