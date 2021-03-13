@@ -8,16 +8,11 @@ namespace Kleene
     {
         public abstract IEnumerable<T> Collapse();
 
-        public abstract IEnumerable<NondeterministicObject<T>?> Overlap(NondeterministicObject<T> other);
+        public abstract IEnumerable<NondeterministicObject<T>> Overlap(NondeterministicObject<T> other);
 
-        public static IEnumerable<NondeterministicObject<T>?> Overlap(NondeterministicObject<T>? left, NondeterministicObject<T>? right)
+        public static IEnumerable<NondeterministicObject<T>> Overlap(NondeterministicObject<T> left, NondeterministicObject<T> right)
         {
-            if (left is null || right is null)
-            {
-                if (right is null && right is null)
-                    yield return null;
-            }
-            else if (left is AnyObject<T>)
+            if (left is AnyObject<T>)
             {
                 yield return right;
             }
@@ -34,7 +29,7 @@ namespace Kleene
             }
         }
 
-        public static IEnumerable<NondeterministicObject<T>?> Overlap(IEnumerable<NondeterministicObject<T>?> left, IEnumerable<NondeterministicObject<T>?> right)
+        public static IEnumerable<NondeterministicObject<T>> Overlap(IEnumerable<NondeterministicObject<T>> left, IEnumerable<NondeterministicObject<T>> right)
         {
             foreach (var l in left)
             {

@@ -8,9 +8,9 @@ namespace Kleene
     {
         protected NondeterministicObject<T> Head { get; }
 
-        protected IEnumerable<NondeterministicObject<ObjectSequence<T>>?> Tail { get; }
+        protected IEnumerable<NondeterministicObject<ObjectSequence<T>>> Tail { get; }
 
-        public NondeterministicObjectSequence(NondeterministicObject<T> head, IEnumerable<NondeterministicObject<ObjectSequence<T>>?> tail)
+        public NondeterministicObjectSequence(NondeterministicObject<T> head, IEnumerable<NondeterministicObject<ObjectSequence<T>>> tail)
         {
             Head = head;
             Tail = tail;
@@ -20,22 +20,20 @@ namespace Kleene
         {
             foreach (var head in Head.Collapse())
             {
-                foreach (var tail in Tail
-                    .OfType<NondeterministicObject<ObjectSequence<T>>>()
-                    .SelectMany(x => x.Collapse()))
+                foreach (var tail in Tail.SelectMany(x => x.Collapse()))
                 {
                     yield return new ObjectSequence<T>(new[] { head }.Concat(tail));
                 }
             }
         }
 
-        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>?> Overlap(NondeterministicObject<ObjectSequence<T>> other)
+        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>> Overlap(NondeterministicObject<ObjectSequence<T>> other)
         {
             if (other is NondeterministicObjectSequence<T> sequence)
             {
                 foreach (var head in NondeterministicObject<T>.Overlap(this.Head, sequence.Head))
                 {
-                    yield return head is null ? null : new NondeterministicObjectSequence<T>(head, NondeterministicObject<ObjectSequence<T>>.Overlap(this.Tail, sequence.Tail));
+                    yield return new NondeterministicObjectSequence<T>(head, NondeterministicObject<ObjectSequence<T>>.Overlap(this.Tail, sequence.Tail));
                 }
             }
             else

@@ -10,7 +10,7 @@ namespace Kleene
             yield return ObjectSequence<T>.Empty;
         }
 
-        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>?> Overlap(NondeterministicObject<ObjectSequence<T>> other)
+        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>> Overlap(NondeterministicObject<ObjectSequence<T>> other)
         {
             if (other is NondeterministicEmptyObjectSequence<T>)
             {
