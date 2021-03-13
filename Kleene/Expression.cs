@@ -7,7 +7,7 @@ namespace Kleene
 {
     public abstract class Expression<T> where T : IRunnable<T>
     {
-        public abstract IEnumerable<NondeterministicObject<T>?> Run();
+        public abstract IEnumerable<NondeterministicObject<T>> Run();
 
         public IEnumerable<T> Generate()
         {
@@ -16,7 +16,7 @@ namespace Kleene
                 .SelectMany(x => x.Collapse());
         }
 
-        public IEnumerable<NondeterministicObject<T>?> Run(T input)
+        public IEnumerable<NondeterministicObject<T>> Run(T input)
         {
             return new ConjunctionExpression<T>(input.ToExpression(), this).Run();
         }

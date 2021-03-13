@@ -25,7 +25,7 @@ namespace Kleene
             this.Follower = follower;
         }
 
-        public override IEnumerable<NondeterministicObject<T>?> Run()
+        public override IEnumerable<NondeterministicObject<T>> Run()
         {
             return this.Leader.Run().SelectMany(x => this.Follower.Run().SelectMany(y => NondeterministicObject<T>.Overlap(x, y)));
         }

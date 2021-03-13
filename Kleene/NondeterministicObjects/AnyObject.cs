@@ -7,10 +7,9 @@ namespace Kleene
     {
         public override IEnumerable<T> Collapse() => throw new InvalidOperationException();
 
-        public override IEnumerable<NondeterministicObject<T>?> Overlap(NondeterministicObject<T> other)
+        public override IEnumerable<NondeterministicObject<T>> Overlap(NondeterministicObject<T> other)
         {
-            if (other is NondeterministicObject<T>)
-                yield return other;
+            yield return other;
         }
     }
 }
