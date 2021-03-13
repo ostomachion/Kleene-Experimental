@@ -6,9 +6,9 @@ namespace Kleene
 {
     public class NondeterministicObjectSequence<T> : NondeterministicObject<ObjectSequence<T>> where T : IRunnable<T>
     {
-        protected NondeterministicObject<T> Head { get; }
+        public NondeterministicObject<T> Head { get; }
 
-        protected IEnumerable<NondeterministicObject<ObjectSequence<T>>> Tail { get; }
+        public IEnumerable<NondeterministicObject<ObjectSequence<T>>> Tail { get; }
 
         public NondeterministicObjectSequence(NondeterministicObject<T> head, IEnumerable<NondeterministicObject<ObjectSequence<T>>> tail)
         {
