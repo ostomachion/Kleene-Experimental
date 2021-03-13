@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace Kleene
 {
-    // TODO: Can this be replaced with just null?
     public class NondeterministicEmptyObjectSequence<T> : NondeterministicObject<ObjectSequence<T>> where T : IRunnable<T>
     {
         public override IEnumerable<ObjectSequence<T>> Collapse()
