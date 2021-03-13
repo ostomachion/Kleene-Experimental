@@ -16,6 +16,10 @@ namespace Kleene
             {
                 yield return this;
             }
+            else if (other is NondeterministicObjectSequence<T>)
+            {
+                yield break;
+            }
             else
             {
                 throw new System.ArgumentException("Argument type is not supported.", nameof(other));

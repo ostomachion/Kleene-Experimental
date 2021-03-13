@@ -36,6 +36,10 @@ namespace Kleene
                     yield return new NondeterministicObjectSequence<T>(head, NondeterministicObject<ObjectSequence<T>>.Overlap(this.Tail, sequence.Tail));
                 }
             }
+            else if (other is NondeterministicEmptyObjectSequence<T>)
+            {
+                yield break;
+            }
             else
             {
                 throw new ArgumentException("Argument type is not supported.", nameof(other));
