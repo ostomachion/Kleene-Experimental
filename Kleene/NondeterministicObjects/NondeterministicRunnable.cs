@@ -32,6 +32,19 @@ namespace Kleene
             }
         }
 
+        public override bool Equals(NondeterministicObject<Runnable<T>>? other) => this.Equals(other as object);
+
+        public override bool Equals(object? obj)
+        {
+            return obj is NondeterministicRunnable<T> runnable &&
+                   EqualityComparer<T>.Default.Equals(Value, runnable.Value);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value);
+        }
+
         public static implicit operator NondeterministicRunnable<T>(T value) => new(value);
     }
 }

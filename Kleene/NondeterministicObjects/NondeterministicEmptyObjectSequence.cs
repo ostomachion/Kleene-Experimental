@@ -24,5 +24,17 @@ namespace Kleene
                 throw new System.ArgumentException("Argument type is not supported.", nameof(other));
             }
         }
+
+        public override bool Equals(NondeterministicObject<ObjectSequence<T>>? other) => this.Equals(other as object);
+
+        public override bool Equals(object? obj)
+        {
+            return obj is NondeterministicEmptyObjectSequence<T>;
+        }
+
+        public override int GetHashCode()
+        {
+            return 1;
+        }
     }
 }

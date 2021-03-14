@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public abstract class NondeterministicObject<T> where T : IRunnable<T>
+    public abstract class NondeterministicObject<T> : IEquatable<NondeterministicObject<T>> where T : IRunnable<T>
     {
         public abstract IEnumerable<T> Collapse();
 
@@ -42,5 +42,11 @@ namespace Kleene
                 }
             }
         }
+
+        public override abstract bool Equals(object? obj);
+
+        public override abstract int GetHashCode();
+
+        public abstract bool Equals(NondeterministicObject<T>? other);
     }
 }

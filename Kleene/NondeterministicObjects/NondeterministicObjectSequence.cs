@@ -45,5 +45,19 @@ namespace Kleene
                 throw new ArgumentException("Argument type is not supported.", nameof(other));
             }
         }
+
+        public override bool Equals(NondeterministicObject<ObjectSequence<T>>? other) => this.Equals(other as object);
+
+        public override bool Equals(object? obj)
+        {
+            return obj is NondeterministicObjectSequence<T> sequence &&
+                   EqualityComparer<NondeterministicObject<T>>.Default.Equals(Head, sequence.Head) &&
+                   Tail.SequenceEqual(sequence.Tail);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Head, Tail);
+        }
     }
 }

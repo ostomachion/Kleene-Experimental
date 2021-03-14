@@ -2,7 +2,6 @@ using System.Collections;
 using System.Linq;
 using System;
 using Xunit;
-using Kleene;
 
 namespace Kleene.Tests.NondeterministicRunnable
 {
@@ -20,10 +19,12 @@ namespace Kleene.Tests.NondeterministicRunnable
 
             // Then
             Assert.Collection(overlap,
-                item => {
-                   Assert.IsType<NondeterministicRunnable<int>>(item);
-                   var cast = item as NondeterministicRunnable<int>;
-                   Assert.Equal(1, cast.Value); 
+                item =>
+                {
+                    Assert.IsType<NondeterministicRunnable<int>>(item);
+                    var cast = (NondeterministicRunnable<int>)item;
+
+                    Assert.Equal(1, cast.Value);
                 });
         }
 

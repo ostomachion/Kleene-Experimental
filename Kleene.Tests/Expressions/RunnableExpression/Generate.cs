@@ -12,7 +12,7 @@ namespace Kleene.Tests.RunnableExpression
         {
             // Given
             var expression = new RunnableExpression<int>(1);
-            
+
             // When
             var results = expression.Generate();
 
