@@ -1,5 +1,4 @@
 ﻿using System.Xml.Linq;
-using System;
 using Kleene;
 
 namespace Kleene.Xml
