@@ -24,6 +24,12 @@ namespace Kleene
 
         protected override bool InnerStep(out T? value)
         {
+            if (this.Expressions.Count == 0)
+            {
+                value = null;
+                return true;
+            }
+
             var expression = this.Expressions[this.index];
             expression.Step();
             value = expression.Value;
