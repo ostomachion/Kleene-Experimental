@@ -11,7 +11,7 @@ namespace Kleene.Tests.Expressions.SequenceExpression
         public void ZeroChoices_ReturnsEmpty()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(Array.Empty<LiteralExpression<int>>());
+            var expression = new SequenceExpression<string>(Array.Empty<LiteralExpression<string>>());
             
             // When
             var results = expression.Generate();
@@ -25,7 +25,7 @@ namespace Kleene.Tests.Expressions.SequenceExpression
         public void OneChoice_ReturnsChoice()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(new LiteralExpression<int>[] { 1 });
+            var expression = new SequenceExpression<string>(new LiteralExpression<string>[] { new("foo") });
             
             // When
             var results = expression.Generate();
@@ -33,14 +33,14 @@ namespace Kleene.Tests.Expressions.SequenceExpression
             // Then
             Assert.Collection(results,
                 result => Assert.Collection(result,
-                    item => Assert.Equal(1, item.Value)));
+                    item => Assert.Equal("foo", item)));
         }
 
         [Fact]
         public void TwoChoices_ReturnsBoth()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2 });
+            var expression = new SequenceExpression<string>(new LiteralExpression<string>[] { new("foo"), new("bar") });
             
             // When
             var results = expression.Generate();
@@ -48,15 +48,15 @@ namespace Kleene.Tests.Expressions.SequenceExpression
             // Then
             Assert.Collection(results,
                 result => Assert.Collection(result,
-                    item => Assert.Equal(1, item.Value),
-                    item => Assert.Equal(2, item.Value)));
+                    item => Assert.Equal("foo", item),
+                    item => Assert.Equal("bar", item)));
         }
 
         [Fact]
         public void ThreeChoices_ReturnsAll()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2, 3 });
+            var expression = new SequenceExpression<string>(new LiteralExpression<string>[] { new("foo"), new("bar"), new("baz") });
             
             // When
             var results = expression.Generate();
@@ -64,9 +64,9 @@ namespace Kleene.Tests.Expressions.SequenceExpression
             // Then
             Assert.Collection(results,
                 result => Assert.Collection(result,
-                    item => Assert.Equal(1, item.Value),
-                    item => Assert.Equal(2, item.Value),
-                    item => Assert.Equal(3, item.Value)));
+                    item => Assert.Equal("foo", item),
+                    item => Assert.Equal("bar", item),
+                    item => Assert.Equal("baz", item)));
         }
     }
 }

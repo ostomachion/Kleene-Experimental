@@ -8,12 +8,12 @@ namespace Kleene.Tests.ConjunctionExpression
     public class Generate
     {
         [Fact]
-        public void DifferentInts_ReturnsNothing()
+        public void DifferentStrings_ReturnsNothing()
         {
             // Given
-            var expression = new ConjunctionExpression<Runnable<int>>(
-                new LiteralExpression<int>(1),
-                new LiteralExpression<int>(2));
+            var expression = new ConjunctionExpression<string>(
+                new LiteralExpression<string>("foo"),
+                new LiteralExpression<string>("bar"));
 
             // When
             var results = expression.Generate();
@@ -23,19 +23,19 @@ namespace Kleene.Tests.ConjunctionExpression
         }
 
         [Fact]
-        public void SameInts_ReturnsOne()
+        public void SameStrings_ReturnsOne()
         {
             // Given
-            var expression = new ConjunctionExpression<Runnable<int>>(
-                new LiteralExpression<int>(1),
-                new LiteralExpression<int>(1));
+            var expression = new ConjunctionExpression<string>(
+                new LiteralExpression<string>("foo"),
+                new LiteralExpression<string>("foo"));
 
             // When
             var results = expression.Generate();
             
             // Then
             Assert.Collection(results,
-                result => Assert.Equal(1, result.Value));
+                result => Assert.Equal("foo", result ));
         }
     }
 }

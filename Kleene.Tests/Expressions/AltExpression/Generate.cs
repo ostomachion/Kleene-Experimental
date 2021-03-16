@@ -11,8 +11,8 @@ namespace Kleene.Tests.AltExpression
         public void ZeroChoices_ReturnsNothing()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(Array.Empty<LiteralExpression<int>>());
-            
+            var expression = new AltExpression<string>(Array.Empty<LiteralExpression<string>>());
+
             // When
             var results = expression.Generate();
 
@@ -23,44 +23,44 @@ namespace Kleene.Tests.AltExpression
         public void OneChoices_ReturnsChoice()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(new LiteralExpression<int>[] { 1 });
-            
+            var expression = new AltExpression<string>(new LiteralExpression<string>[] { new("foo") });
+
             // When
             var results = expression.Generate();
 
             // Then
             Assert.Collection(results,
-                item => Assert.Equal(1, item.Value));
+                item => Assert.Equal("foo", item));
         }
         [Fact]
         public void TwoChoices_ReturnsBoth()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2 });
-            
+            var expression = new AltExpression<string>(new LiteralExpression<string>[] { new("foo"), new("bar") });
+
             // When
             var results = expression.Generate();
 
             // Then
             Assert.Collection(results,
-                item => Assert.Equal(1, item.Value),
-                item => Assert.Equal(2, item.Value));
+                item => Assert.Equal("foo", item),
+                item => Assert.Equal("bar", item));
         }
-        
+
         [Fact]
         public void ThreeChoices_ReturnsAll()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2, 3 });
-            
+            var expression = new AltExpression<string>(new LiteralExpression<string>[] { new("foo"), new("bar"), new("baz") });
+
             // When
             var results = expression.Generate();
 
             // Then
             Assert.Collection(results,
-                item => Assert.Equal(1, item.Value),
-                item => Assert.Equal(2, item.Value),
-                item => Assert.Equal(3, item.Value));
+                item => Assert.Equal("foo", item),
+                item => Assert.Equal("bar", item),
+                item => Assert.Equal("baz", item));
         }
     }
 }

@@ -11,14 +11,14 @@ namespace Kleene.Tests.RunnableExpression
         public void Generate_ReturnsSameValue()
         {
             // Given
-            var expression = new LiteralExpression<int>(1);
+            var expression = new LiteralExpression<string>("foo");
             
             // When
             var results = expression.Generate();
 
             // Then
             Assert.Collection(results,
-                item => Assert.Equal(1, item.Value));
+                item => Assert.Equal("foo", item));
         }
     }
 }

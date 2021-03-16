@@ -15,7 +15,7 @@ namespace Kleene
         {
             if (this.Done)
                 throw new InvalidOperationException();
-            
+
             this.Done = InnerStep(out T? value);
             this.Value = value;
         }
@@ -30,5 +30,15 @@ namespace Kleene
         protected abstract bool InnerStep(out T? value);
 
         protected abstract void InnerReset();
+
+        public IEnumerable<T> Generate()
+        {
+            while (!this.Done)
+            {
+                this.Step();
+                if (this.Value is T)
+                    yield return this.Value;
+            }
+        }
     }
 }

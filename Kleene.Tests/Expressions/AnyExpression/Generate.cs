@@ -11,7 +11,7 @@ namespace Kleene.Tests.AnyExpression
         public void Generate_Throws()
         {
             // Given
-            var expression = new AnyExpression<Runnable<int>>();
+            var expression = new AnyExpression<string>();
 
             // When
             var results = expression.Generate();
