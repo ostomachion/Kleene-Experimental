@@ -3,7 +3,7 @@ using System;
 using Xunit;
 using Kleene;
 
-namespace Kleene.Tests.Expressions.SequenceExpression
+namespace Kleene.Tests.SequenceExpression
 {
     public class Generate
     {
