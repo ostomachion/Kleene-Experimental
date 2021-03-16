@@ -8,7 +8,7 @@ namespace Kleene
     public class SequenceExpression<T> : Expression<ReadOnlyCollection<T>> where T : class
     {
         public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
-        
+
         private int index = 0;
 
         public ReadOnlyCollection<Expression<T>> Expressions { get; }
@@ -25,8 +25,12 @@ namespace Kleene
 
         protected override bool InnerStep(out ReadOnlyCollection<T>? value)
         {
-            // TODO: Test this method.
-            // FIXME: This is wrong for SequenceExpression.Empty
+            if (this.Expressions.Count == 0)
+            {
+                value = new List<T>().AsReadOnly();
+                return true;
+            }
+
             if (this.index == this.Expressions.Count)
             {
                 // Backtrack.
