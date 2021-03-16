@@ -12,8 +12,8 @@ namespace Kleene.Tests.ConjunctionExpression
         {
             // Given
             var expression = new ConjunctionExpression<Runnable<int>>(
-                new RunnableExpression<int>(1),
-                new RunnableExpression<int>(2));
+                new LiteralExpression<int>(1),
+                new LiteralExpression<int>(2));
 
             // When
             var results = expression.Generate();
@@ -27,8 +27,8 @@ namespace Kleene.Tests.ConjunctionExpression
         {
             // Given
             var expression = new ConjunctionExpression<Runnable<int>>(
-                new RunnableExpression<int>(1),
-                new RunnableExpression<int>(1));
+                new LiteralExpression<int>(1),
+                new LiteralExpression<int>(1));
 
             // When
             var results = expression.Generate();

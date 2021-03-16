@@ -11,7 +11,7 @@ namespace Kleene.Tests.Expressions.SequenceExpression
         public void ZeroChoices_ReturnsEmpty()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(Array.Empty<RunnableExpression<int>>());
+            var expression = new SequenceExpression<Runnable<int>>(Array.Empty<LiteralExpression<int>>());
             
             // When
             var results = expression.Generate();
@@ -25,7 +25,7 @@ namespace Kleene.Tests.Expressions.SequenceExpression
         public void OneChoice_ReturnsChoice()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(new RunnableExpression<int>[] { 1 });
+            var expression = new SequenceExpression<Runnable<int>>(new LiteralExpression<int>[] { 1 });
             
             // When
             var results = expression.Generate();
@@ -40,7 +40,7 @@ namespace Kleene.Tests.Expressions.SequenceExpression
         public void TwoChoices_ReturnsBoth()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(new RunnableExpression<int>[] { 1, 2 });
+            var expression = new SequenceExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2 });
             
             // When
             var results = expression.Generate();
@@ -56,7 +56,7 @@ namespace Kleene.Tests.Expressions.SequenceExpression
         public void ThreeChoices_ReturnsAll()
         {
             // Given
-            var expression = new SequenceExpression<Runnable<int>>(new RunnableExpression<int>[] { 1, 2, 3 });
+            var expression = new SequenceExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2, 3 });
             
             // When
             var results = expression.Generate();

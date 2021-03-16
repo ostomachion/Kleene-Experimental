@@ -11,7 +11,7 @@ namespace Kleene.Tests.RunnableExpression
         public void Generate_ReturnsSameValue()
         {
             // Given
-            var expression = new RunnableExpression<int>(1);
+            var expression = new LiteralExpression<int>(1);
             
             // When
             var results = expression.Generate();

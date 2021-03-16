@@ -11,7 +11,7 @@ namespace Kleene.Tests.AltExpression
         public void ZeroChoices_ReturnsNothing()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(Array.Empty<RunnableExpression<int>>());
+            var expression = new AltExpression<Runnable<int>>(Array.Empty<LiteralExpression<int>>());
             
             // When
             var results = expression.Generate();
@@ -23,7 +23,7 @@ namespace Kleene.Tests.AltExpression
         public void OneChoices_ReturnsChoice()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(new RunnableExpression<int>[] { 1 });
+            var expression = new AltExpression<Runnable<int>>(new LiteralExpression<int>[] { 1 });
             
             // When
             var results = expression.Generate();
@@ -36,7 +36,7 @@ namespace Kleene.Tests.AltExpression
         public void TwoChoices_ReturnsBoth()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(new RunnableExpression<int>[] { 1, 2 });
+            var expression = new AltExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2 });
             
             // When
             var results = expression.Generate();
@@ -51,7 +51,7 @@ namespace Kleene.Tests.AltExpression
         public void ThreeChoices_ReturnsAll()
         {
             // Given
-            var expression = new AltExpression<Runnable<int>>(new RunnableExpression<int>[] { 1, 2, 3 });
+            var expression = new AltExpression<Runnable<int>>(new LiteralExpression<int>[] { 1, 2, 3 });
             
             // When
             var results = expression.Generate();

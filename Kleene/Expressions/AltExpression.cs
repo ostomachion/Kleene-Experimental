@@ -1,12 +1,16 @@
+using System.Collections.ObjectModel;
+using System.Collections.Immutable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Kleene
 {
-    public class AltExpression<T> : Expression<T> where T : IRunnable<T>
+    public class AltExpression<T> : Expression<T> where T : class
     {
-        public IEnumerable<Expression<T>> Expressions { get; }
+        private int index = 0;
+
+        public ReadOnlyCollection<Expression<T>> Expressions { get; }
 
         public AltExpression(IEnumerable<Expression<T>> expressions)
         {
@@ -15,12 +19,17 @@ namespace Kleene
                 throw new ArgumentException("Expressions must not contain null.", nameof(expressions));
             }
 
-            this.Expressions = expressions?.ToList() ?? throw new ArgumentNullException(nameof(expressions));
+            this.Expressions = expressions?.ToList().AsReadOnly() ?? throw new ArgumentNullException(nameof(expressions));
         }
-        
-        public override IEnumerable<NondeterministicObject<T>> Run()
+
+        protected override bool InnerStep(out T? value)
         {
-            return this.Expressions.SelectMany(x => x.Run());
+            var expression = this.Expressions[this.index];
+            expression.Step();
+            value = expression.Value;
+            if (expression.Done)
+                this.index++;
+            return this.index == this.Expressions.Count;
         }
     }
 }

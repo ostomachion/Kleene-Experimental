@@ -5,20 +5,30 @@ using System.Linq;
 
 namespace Kleene
 {
-    public abstract class Expression<T> where T : IRunnable<T>
+    public abstract class Expression<T> where T : class
     {
-        public abstract IEnumerable<NondeterministicObject<T>> Run();
+        public T? Value { get; private set; }
 
-        public IEnumerable<T> Generate()
+        public bool Done { get; private set; }
+
+        public void Step()
         {
-            return this.Run()
-                .OfType<NondeterministicObject<T>>()
-                .SelectMany(x => x.Collapse());
+            if (this.Done)
+                throw new InvalidOperationException();
+            
+            this.Done = InnerStep(out T? value);
+            this.Value = value;
         }
 
-        public IEnumerable<NondeterministicObject<T>> Run(T input)
+        public void Reset()
         {
-            return new ConjunctionExpression<T>(input.ToExpression(), this).Run();
+            this.Value = null;
+            this.Done = false;
+            InnerReset();
         }
+
+        protected abstract bool InnerStep(out T? value);
+
+        protected abstract void InnerReset();
     }
 }

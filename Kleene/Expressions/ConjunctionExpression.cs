@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class ConjunctionExpression<T> : Expression<T> where T : IRunnable<T>
+    public class ConjunctionExpression<T> : Expression<T> where T : notnull
     {
         public Expression<T> Leader { get; }
         public Expression<T> Follower { get; }
@@ -25,9 +25,10 @@ namespace Kleene
             this.Follower = follower;
         }
 
-        public override IEnumerable<NondeterministicObject<T>> Run()
+        public override void Step()
         {
-            return this.Leader.Run().SelectMany(x => this.Follower.Run().SelectMany(y => NondeterministicObject<T>.Overlap(x, y)));
+            // TODO:
+            throw new NotImplementedException();
         }
     }
 }

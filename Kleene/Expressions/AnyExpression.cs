@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class AnyExpression<T> : Expression<T> where T : IRunnable<T>
+    public class AnyExpression<T> : Expression<T> where T : class
     {
-        public override IEnumerable<AnyObject<T>> Run()
+        protected override bool InnerStep(out T? value)
         {
-            yield return new AnyObject<T>();
+            throw new InvalidOperationException();
         }
     }
 }

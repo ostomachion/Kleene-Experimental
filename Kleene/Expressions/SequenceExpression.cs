@@ -1,18 +1,21 @@
+using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceExpression<T> : Expression<ObjectSequence<T>> where T : IRunnable<T>
+    public class SequenceExpression<T> : Expression<ReadOnlyCollection<T>> where T : class
     {
+        private int index = 0;
+
         public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
 
-        public IEnumerable<Expression<T>> Expressions { get; }
+        public ReadOnlyCollection<Expression<T>> Expressions { get; }
 
         public SequenceExpression(IEnumerable<Expression<T>> expressions)
         {
-            this.Expressions = expressions ?? throw new ArgumentNullException(nameof(expressions));
+            this.Expressions = expressions?.ToList().AsReadOnly() ?? throw new ArgumentNullException(nameof(expressions));
 
             if (expressions.Contains(null!))
             {
@@ -20,22 +23,38 @@ namespace Kleene
             }
         }
 
-        public override IEnumerable<NondeterministicObject<ObjectSequence<T>>> Run()
+        protected override bool InnerStep(out ReadOnlyCollection<T>? value)
         {
-            if (!this.Expressions.Any())
+            // TODO: Test this method.
+            // FIXME: This is wrong for SequenceExpression.Empty
+            if (this.index == this.Expressions.Count)
             {
-                return EnumerableExtensions.Yield(new NondeterministicEmptyObjectSequence<T>());
+                // Backtrack.
+                while (this.index-- != 0 && this.Expressions[this.index].Done)
+                {
+                    this.Expressions[this.index].Reset();
+                }
+
+                if (this.index == -1)
+                {
+                    value = null;
+                    return true;
+                }
             }
 
-            var head = this.Expressions.First().Run();
-            var tail = new SequenceExpression<T>(this.Expressions.Skip(1)).Run();
+            var expression = this.Expressions[index];
+            expression.Step();
+            if (expression.Value is null)
+            {
+                value = null;
+            }
+            else
+            {
+                this.index++;
+                value = this.index == this.Expressions.Count ? this.Expressions.Select(x => x.Value!).ToList().AsReadOnly() : null;
+            }
 
-            return Concat(head, tail);
-        }
-
-        internal static IEnumerable<NondeterministicObject<ObjectSequence<T>>> Concat(IEnumerable<NondeterministicObject<T>> head, IEnumerable<NondeterministicObject<ObjectSequence<T>>> tail)
-        {
-            return head.Select(x => new NondeterministicObjectSequence<T>(x, tail));
+            return false;
         }
     }
 }
