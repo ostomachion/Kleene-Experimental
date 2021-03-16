@@ -10,5 +10,7 @@ namespace Kleene
         {
             throw new InvalidOperationException();
         }
+
+        protected override void InnerReset() { }
     }
 }

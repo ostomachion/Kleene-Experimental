@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class ConjunctionExpression<T> : Expression<T> where T : notnull
+    public class ConjunctionExpression<T> : Expression<T> where T : class
     {
         public Expression<T> Leader { get; }
         public Expression<T> Follower { get; }
@@ -25,10 +25,15 @@ namespace Kleene
             this.Follower = follower;
         }
 
-        public override void Step()
+        protected override bool InnerStep(out T? value)
         {
-            // TODO:
             throw new NotImplementedException();
+        }
+
+        protected override void InnerReset()
+        {
+            this.Leader.Reset();
+            this.Follower.Reset();
         }
     }
 }

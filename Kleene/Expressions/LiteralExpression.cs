@@ -6,8 +6,6 @@ namespace Kleene
 {
     public class LiteralExpression<T> : Expression<T> where T : class
     {
-        private bool done;
-
         public T Item { get; }
 
         public LiteralExpression(T item)
@@ -20,5 +18,7 @@ namespace Kleene
             value = this.Item;
             return true;
         }
+
+        protected override void InnerReset() { }
     }
 }

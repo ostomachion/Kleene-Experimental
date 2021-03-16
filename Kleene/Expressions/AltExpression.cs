@@ -31,5 +31,14 @@ namespace Kleene
                 this.index++;
             return this.index == this.Expressions.Count;
         }
+
+        protected override void InnerReset()
+        {
+            foreach (var expression in this.Expressions)
+            {
+                expression.Reset();
+            }
+            this.index = 0;
+        }
     }
 }

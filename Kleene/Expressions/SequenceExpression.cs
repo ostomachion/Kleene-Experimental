@@ -7,9 +7,9 @@ namespace Kleene
 {
     public class SequenceExpression<T> : Expression<ReadOnlyCollection<T>> where T : class
     {
-        private int index = 0;
-
         public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
+        
+        private int index = 0;
 
         public ReadOnlyCollection<Expression<T>> Expressions { get; }
 
@@ -55,6 +55,15 @@ namespace Kleene
             }
 
             return false;
+        }
+
+        protected override void InnerReset()
+        {
+            foreach (var expression in this.Expressions)
+            {
+                expression.Reset();
+            }
+            this.index = 0;
         }
     }
 }
