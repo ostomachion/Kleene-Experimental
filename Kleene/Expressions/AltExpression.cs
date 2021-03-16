@@ -22,7 +22,7 @@ namespace Kleene
             this.Expressions = expressions?.ToList().AsReadOnly() ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        protected override bool InnerStep(out T? value)
+        protected override bool InnerStep(out T? value, Expression<T> anchor)
         {
             if (this.Expressions.Count == 0)
             {
@@ -31,7 +31,7 @@ namespace Kleene
             }
 
             var expression = this.Expressions[this.index];
-            expression.Step();
+            expression.Step(anchor);
             value = expression.Value;
             if (expression.Done)
                 this.index++;

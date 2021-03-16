@@ -25,7 +25,7 @@ namespace Kleene
             this.Follower = follower;
         }
 
-        protected override bool InnerStep(out T? value)
+        protected override bool InnerStep(out T? value, Expression<T> anchor)
         {
             throw new NotImplementedException();
         }

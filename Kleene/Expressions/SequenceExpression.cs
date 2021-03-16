@@ -23,8 +23,10 @@ namespace Kleene
             }
         }
 
-        protected override bool InnerStep(out ReadOnlyCollection<T>? value)
+        protected override bool InnerStep(out ReadOnlyCollection<T>? value, Expression<ReadOnlyCollection<T>> anchor)
         {
+            // TODO: Use anchor.
+
             if (this.Expressions.Count == 0)
             {
                 value = new List<T>().AsReadOnly();
@@ -47,7 +49,7 @@ namespace Kleene
             }
 
             var expression = this.Expressions[index];
-            expression.Step();
+            expression.Step(new AnyExpression<T>());
             if (expression.Value is null)
             {
                 value = null;

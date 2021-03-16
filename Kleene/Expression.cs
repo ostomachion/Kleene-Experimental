@@ -11,12 +11,12 @@ namespace Kleene
 
         public bool Done { get; private set; }
 
-        public void Step()
+        public void Step(Expression<T> anchor)
         {
             if (this.Done)
                 throw new InvalidOperationException();
 
-            this.Done = InnerStep(out T? value);
+            this.Done = InnerStep(out T? value, anchor);
             this.Value = value;
         }
 
@@ -27,7 +27,7 @@ namespace Kleene
             InnerReset();
         }
 
-        protected abstract bool InnerStep(out T? value);
+        protected abstract bool InnerStep(out T? value, Expression<T> anchor);
 
         protected abstract void InnerReset();
 
@@ -35,7 +35,7 @@ namespace Kleene
         {
             while (!this.Done)
             {
-                this.Step();
+                this.Step(new AnyExpression<T>());
                 if (this.Value is T)
                     yield return this.Value;
             }

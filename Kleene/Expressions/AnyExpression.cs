@@ -6,7 +6,7 @@ namespace Kleene
 {
     public class AnyExpression<T> : Expression<T> where T : class
     {
-        protected override bool InnerStep(out T? value)
+        protected override bool InnerStep(out T? value, Expression<T> anchor)
         {
             throw new InvalidOperationException();
         }

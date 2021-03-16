@@ -13,8 +13,9 @@ namespace Kleene
             Item = item;
         }
 
-        protected override bool InnerStep(out T? value)
+        protected override bool InnerStep(out T? value, Expression<T> anchor)
         {
+            // TODO: Check anchor.
             value = this.Item;
             return true;
         }
