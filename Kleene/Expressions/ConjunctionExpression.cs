@@ -25,9 +25,10 @@ namespace Kleene
             this.Follower = follower;
         }
 
-        protected override bool InnerStep(out Result<T>? value, Expression<T> anchor)
+        protected override bool InnerStep(out Result<T>? value)
         {
-            throw new NotImplementedException();
+            // FIXME: Add anchor to Leader or its anchor?
+            this.Leader.Step();
         }
 
         protected override void InnerReset()

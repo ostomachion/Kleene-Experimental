@@ -6,18 +6,18 @@ namespace Kleene
 {
     public class AnyExpression<T> : Expression<T> where T : notnull
     {
-        protected override bool InnerStep(out Result<T>? value, Expression<T> anchor)
+        protected override bool InnerStep(out Result<T>? value)
         {
-            if (anchor is AnyExpression<T>)
+            if (this.Anchor is null)
             {
                 value = new AnyResult<T>();
                 return true;
             }
             else
             {
-                anchor.Step(new AnyExpression<T>());
-                value = anchor.Result;
-                return anchor.Done;
+                this.Anchor.Step();
+                value = this.Anchor.Result;
+                return this.Anchor.Done;
             }
         }
 

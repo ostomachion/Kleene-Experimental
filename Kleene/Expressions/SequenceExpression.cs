@@ -24,7 +24,7 @@ namespace Kleene
             }
         }
 
-        protected override bool InnerStep(out Result<ImmutableList<T>>? value, Expression<ImmutableList<T>> anchor)
+        protected override bool InnerStep(out Result<ImmutableList<T>>? value)
         {
             // TODO: Use anchor.
 
@@ -50,7 +50,7 @@ namespace Kleene
             }
 
             var expression = this.Expressions[index];
-            expression.Step(new AnyExpression<T>());
+            expression.Step(); // TODO: Apply anchor?
             if (expression.Result is null)
             {
                 value = null;

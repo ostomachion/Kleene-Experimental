@@ -13,22 +13,30 @@ namespace Kleene
             Item = item;
         }
 
-        protected override bool InnerStep(out Result<T>? value, Expression<T> anchor)
+        protected override bool InnerStep(out Result<T>? value)
         {
-            anchor.Step(new AnyExpression<T>());
-            if (anchor.Result is AnyResult<T>)
+            if (this.Anchor is null)
             {
                 value = new LiteralResult<T>(this.Item);
-            }
-            else if (anchor.Result is LiteralResult<T> result)
-            {
-                value = result.Value.Equals(this.Item) ? result : null;
+                return true;
             }
             else
             {
-                value = null;
+                this.Anchor.Step();
+                if (this.Anchor.Result is AnyResult<T>)
+                {
+                    value = new LiteralResult<T>(this.Item);
+                }
+                else if (this.Anchor.Result is LiteralResult<T> result)
+                {
+                    value = result.Value.Equals(this.Item) ? result : null;
+                }
+                else
+                {
+                    value = null;
+                }
+                return this.Anchor.Done;
             }
-            return anchor.Done;
         }
 
         protected override void InnerReset() { }
