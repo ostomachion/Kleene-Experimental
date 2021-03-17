@@ -16,7 +16,7 @@ namespace Kleene
             else
             {
                 anchor.Step(new AnyExpression<T>());
-                value = anchor.Value;
+                value = anchor.Result;
                 return anchor.Done;
             }
         }

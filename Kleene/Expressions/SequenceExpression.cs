@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class SequenceExpression<T> : Expression<ReadOnlyCollection<T>> where T : class
+    public class SequenceExpression<T> : Expression<IEnumerable<T>> where T : class
     {
         public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
 
@@ -23,13 +23,13 @@ namespace Kleene
             }
         }
 
-        protected override bool InnerStep(out Result<ReadOnlyCollection<T>>? value, Expression<ReadOnlyCollection<T>> anchor)
+        protected override bool InnerStep(out Result<IEnumerable<T>>? value, Expression<IEnumerable<T>> anchor)
         {
             // TODO: Use anchor.
 
             if (this.Expressions.Count == 0)
             {
-                value = new RealResult<ReadOnlyCollection<T>>(new List<T>().AsReadOnly());
+                value = SequenceResult<T>.Empty;
                 return true;
             }
 
@@ -50,17 +50,14 @@ namespace Kleene
 
             var expression = this.Expressions[index];
             expression.Step(new AnyExpression<T>());
-            if (expression.Value is null)
+            if (expression.Result is null)
             {
                 value = null;
             }
             else
             {
                 this.index++;
-                value = this.index == this.Expressions.Count ?
-                // FIXME: Hmmmmm...
-                new RealResult<ReadOnlyCollection<T>>(this.Expressions.Select(x => x.Value!).ToList().AsReadOnly()) :
-                null;
+                value = this.index == this.Expressions.Count ? new SequenceResult<T>(this.Expressions.Select(x => x.Result!)) : null;
             }
 
             return false;

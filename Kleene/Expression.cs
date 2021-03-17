@@ -7,7 +7,7 @@ namespace Kleene
 {
     public abstract class Expression<T> where T : notnull
     {
-        public Result<T>? Value { get; private set; }
+        public Result<T>? Result { get; private set; }
 
         public bool Done { get; private set; }
 
@@ -17,12 +17,12 @@ namespace Kleene
                 throw new InvalidOperationException();
 
             this.Done = InnerStep(out Result<T>? value, anchor);
-            this.Value = value;
+            this.Result = value;
         }
 
         public void Reset()
         {
-            this.Value = null;
+            this.Result = null;
             this.Done = false;
             InnerReset();
         }
@@ -36,14 +36,8 @@ namespace Kleene
             while (!this.Done)
             {
                 this.Step(new AnyExpression<T>());
-                if (this.Value is RealResult<T> result)
-                {
-                    yield return result.Value;
-                }
-                else if (this.Value is AnyResult<T>)
-                {
-                    throw new InvalidOperationException();
-                }
+                if (this.Result is not null)
+                    yield return this.Result.Value;
             }
         }
     }

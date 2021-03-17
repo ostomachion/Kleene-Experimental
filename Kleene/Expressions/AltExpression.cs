@@ -32,7 +32,7 @@ namespace Kleene
 
             var expression = this.Expressions[this.index];
             expression.Step(anchor);
-            value = expression.Value;
+            value = expression.Result;
             if (expression.Done)
                 this.index++;
             return this.index == this.Expressions.Count;
