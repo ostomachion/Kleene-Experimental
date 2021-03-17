@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Kleene
 {
-    public class AltExpression<T> : Expression<T> where T : class
+    public class AltExpression<T> : Expression<T> where T : notnull
     {
         private int index = 0;
 
@@ -22,7 +22,7 @@ namespace Kleene
             this.Expressions = expressions?.ToList().AsReadOnly() ?? throw new ArgumentNullException(nameof(expressions));
         }
 
-        protected override bool InnerStep(out T? value, Expression<T> anchor)
+        protected override bool InnerStep(out Result<T>? value, Expression<T> anchor)
         {
             if (this.Expressions.Count == 0)
             {

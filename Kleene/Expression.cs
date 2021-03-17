@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Kleene
 {
-    public abstract class Expression<T> where T : class
+    public abstract class Expression<T> where T : notnull
     {
-        public T? Value { get; private set; }
+        public Result<T>? Value { get; private set; }
 
         public bool Done { get; private set; }
 
@@ -16,7 +16,7 @@ namespace Kleene
             if (this.Done)
                 throw new InvalidOperationException();
 
-            this.Done = InnerStep(out T? value, anchor);
+            this.Done = InnerStep(out Result<T>? value, anchor);
             this.Value = value;
         }
 
@@ -27,7 +27,7 @@ namespace Kleene
             InnerReset();
         }
 
-        protected abstract bool InnerStep(out T? value, Expression<T> anchor);
+        protected abstract bool InnerStep(out Result<T>? value, Expression<T> anchor);
 
         protected abstract void InnerReset();
 
@@ -36,8 +36,14 @@ namespace Kleene
             while (!this.Done)
             {
                 this.Step(new AnyExpression<T>());
-                if (this.Value is T)
-                    yield return this.Value;
+                if (this.Value is RealResult<T> result)
+                {
+                    yield return result.Value;
+                }
+                else if (this.Value is AnyResult<T>)
+                {
+                    throw new InvalidOperationException();
+                }
             }
         }
     }

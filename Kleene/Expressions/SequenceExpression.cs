@@ -23,13 +23,13 @@ namespace Kleene
             }
         }
 
-        protected override bool InnerStep(out ReadOnlyCollection<T>? value, Expression<ReadOnlyCollection<T>> anchor)
+        protected override bool InnerStep(out Result<ReadOnlyCollection<T>>? value, Expression<ReadOnlyCollection<T>> anchor)
         {
             // TODO: Use anchor.
 
             if (this.Expressions.Count == 0)
             {
-                value = new List<T>().AsReadOnly();
+                value = new RealResult<ReadOnlyCollection<T>>(new List<T>().AsReadOnly());
                 return true;
             }
 
@@ -57,7 +57,10 @@ namespace Kleene
             else
             {
                 this.index++;
-                value = this.index == this.Expressions.Count ? this.Expressions.Select(x => x.Value!).ToList().AsReadOnly() : null;
+                value = this.index == this.Expressions.Count ?
+                // FIXME: Hmmmmm...
+                new RealResult<ReadOnlyCollection<T>>(this.Expressions.Select(x => x.Value!).ToList().AsReadOnly()) :
+                null;
             }
 
             return false;
