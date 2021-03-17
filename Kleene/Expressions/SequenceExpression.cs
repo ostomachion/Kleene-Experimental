@@ -2,20 +2,21 @@ using System.Collections.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Immutable;
 
 namespace Kleene
 {
-    public class SequenceExpression<T> : Expression<IEnumerable<T>> where T : class
+    public class SequenceExpression<T> : Expression<ImmutableList<T>> where T : class
     {
         public static readonly SequenceExpression<T> Empty = new(Enumerable.Empty<Expression<T>>());
 
         private int index = 0;
 
-        public ReadOnlyCollection<Expression<T>> Expressions { get; }
+        public ImmutableList<Expression<T>> Expressions { get; }
 
         public SequenceExpression(IEnumerable<Expression<T>> expressions)
         {
-            this.Expressions = expressions?.ToList().AsReadOnly() ?? throw new ArgumentNullException(nameof(expressions));
+            this.Expressions = expressions?.ToImmutableList() ?? throw new ArgumentNullException(nameof(expressions));
 
             if (expressions.Contains(null!))
             {
@@ -23,7 +24,7 @@ namespace Kleene
             }
         }
 
-        protected override bool InnerStep(out Result<IEnumerable<T>>? value, Expression<IEnumerable<T>> anchor)
+        protected override bool InnerStep(out Result<ImmutableList<T>>? value, Expression<ImmutableList<T>> anchor)
         {
             // TODO: Use anchor.
 
