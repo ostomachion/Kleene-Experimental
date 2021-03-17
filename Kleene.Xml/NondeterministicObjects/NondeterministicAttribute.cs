@@ -7,9 +7,9 @@ namespace Kleene.Xml
         // TODO: Namespaces.
         public NondeterministicObject<ObjectSequence<Runnable<char>>> Name { get; }
 
-        public NondeterministicObject<ObjectSequence<Runnable<char>>> Value { get; }
+        public IEnumerable<NondeterministicObject<ObjectSequence<Runnable<char>>>> Value { get; }
 
-        public NondeterministicAttribute(NondeterministicObject<ObjectSequence<Runnable<char>>> name, NondeterministicObject<ObjectSequence<Runnable<char>>> value)
+        public NondeterministicAttribute(NondeterministicObject<ObjectSequence<Runnable<char>>> name, IEnumerable<NondeterministicObject<ObjectSequence<Runnable<char>>>> value)
         {
             this.Name = name;
             this.Value = value;
