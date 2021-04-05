@@ -15,7 +15,10 @@ namespace Kleene
 
         public override IEnumerable<NondeterministicObject<ObjectSet<T>>> Run()
         {
-            throw new NotImplementedException();
+            foreach (var result in this.Expression.Run())
+            {
+                yield return NondeterministicObjectSet<T>.FromNondeterministicSequence(result);
+            }
         }
     }
 }
