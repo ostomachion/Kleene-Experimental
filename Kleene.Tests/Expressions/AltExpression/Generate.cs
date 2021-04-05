@@ -19,6 +19,7 @@ namespace Kleene.Tests.AltExpression
             // Then
             Assert.Empty(results);
         }
+        
         [Fact]
         public void OneChoices_ReturnsChoice()
         {
@@ -32,6 +33,7 @@ namespace Kleene.Tests.AltExpression
             Assert.Collection(results,
                 item => Assert.Equal(1, item.Value));
         }
+
         [Fact]
         public void TwoChoices_ReturnsBoth()
         {

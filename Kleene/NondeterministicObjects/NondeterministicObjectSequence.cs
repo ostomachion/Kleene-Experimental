@@ -33,7 +33,7 @@ namespace Kleene
             {
                 foreach (var head in NondeterministicObject<T>.Overlap(this.Head, sequence.Head))
                 {
-                    yield return new NondeterministicObjectSequence<T>(head, NondeterministicObject<ObjectSequence<T>>.Overlap(this.Tail, sequence.Tail));
+                    yield return new NondeterministicObjectSequence<T>(head, Overlap(this.Tail, sequence.Tail));
                 }
             }
             else if (other is NondeterministicEmptyObjectSequence<T>)
