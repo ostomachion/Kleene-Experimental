@@ -8,6 +8,11 @@ namespace Kleene
     {
         public SequenceExpression<T> Expression { get; }
 
+        public SetExpression(IEnumerable<Expression<T>> expressions)
+        {
+            Expression = new SequenceExpression<T>(expressions);
+        }
+
         public SetExpression(SequenceExpression<T> expression)
         {
             Expression = expression;

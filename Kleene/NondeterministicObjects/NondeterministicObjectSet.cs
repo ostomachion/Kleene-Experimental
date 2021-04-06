@@ -38,7 +38,7 @@ namespace Kleene
             {
                 foreach (var tail in Tail.SelectMany(x => x.Collapse()))
                 {
-                    yield return new ObjectSet<T>(new[] { head }.Intersect(tail));
+                    yield return new ObjectSet<T>(new[] { head }.Union(tail));
                 }
             }
         }
@@ -47,19 +47,35 @@ namespace Kleene
         {
             if (other is NondeterministicObjectSet<T> set)
             {
-                throw new NotImplementedException();
-
-                // TODO:
-                // Evaluate until other.Head is found
+                // Evaluate until set.Head is found
                 // Then return head and overlap remaining???
 
-                // Try with head.
+                // this.Head and set.Head
                 foreach (var head in NondeterministicObject<T>.Overlap(this.Head, set.Head))
                 {
                     yield return new NondeterministicObjectSet<T>(head, Overlap(this.Tail, set.Tail));
                 }
 
-                // Try with next item.
+                // this.Head and set.Tail
+                foreach (var tail in set.Tail)
+                {
+                    if (tail is NondeterministicEmptyObjectSet<T>)
+                    {
+                        continue;
+                    }
+                    else if (tail is NondeterministicObjectSet<T> tailSet)
+                    {
+                        foreach (var head in NondeterministicObject<T>.Overlap(this.Head, tailSet.Head))
+                        {
+                            // Still not convinced this is always right.
+                            yield return new NondeterministicObjectSet<T>(head, Overlap(this.Tail, EnumerableExtensions.Yield(new NondeterministicObjectSet<T>(set.Head, tailSet.Tail))));
+                        }
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
+                }
             }
             else if (other is NondeterministicEmptyObjectSet<T>)
             {
