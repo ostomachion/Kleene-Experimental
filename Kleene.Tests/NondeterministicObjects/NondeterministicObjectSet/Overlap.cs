@@ -14,7 +14,7 @@ namespace Kleene.Tests.NondeterministicObjectSet
         [Fact]
         public void SingleItemOverlapEmpty_GeneratesNothing()
         {
-            // Given
+            // Given Test
             var leader = Samples.Set(1);
             var follower = Samples.EmptySet();
 
